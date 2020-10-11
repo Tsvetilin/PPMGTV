@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Contracts\Data\" />
     <Folder Include="Contracts\External\" />
+    <Folder Include="Data\" />
     <Folder Include="External\" />
   </ItemGroup>
 

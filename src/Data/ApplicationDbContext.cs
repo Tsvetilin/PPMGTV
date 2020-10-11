@@ -24,7 +24,6 @@ namespace Data
         }
 
         // <-------------------DbSets------------------->
-        public virtual DbSet<TestModel> Tests { get; set; }
         // <-------------------DbSets------------------->
 
         public override int SaveChanges() => this.SaveChanges(true);

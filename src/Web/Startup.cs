@@ -11,8 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Services.Contracts.Data;
-using Services.Data;
 using Services.Mapping;
 using System.Reflection;
 using Web.Models;
@@ -33,12 +31,11 @@ namespace Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentityCore<ApplicationUser>(
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options =>
                 {
                     options.SignIn.RequireConfirmedAccount = true;
                 })
-                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
@@ -63,7 +60,6 @@ namespace Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             // Application services
-            services.AddTransient<ITestsService, TestsService>();
 
         }
 
@@ -113,6 +109,7 @@ namespace Web
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
+                    endpoints.MapAreaControllerRoute("identity", "Identity", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 });
         }
     }
