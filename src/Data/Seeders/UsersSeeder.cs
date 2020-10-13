@@ -18,7 +18,7 @@ namespace Data.Seeders
             }
 
             var username = "Admin";
-            var email = "Email";
+            var email = "email@mail.com";
             var user = new ApplicationUser
             {
                 Email = email,

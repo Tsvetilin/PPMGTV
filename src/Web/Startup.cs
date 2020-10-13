@@ -5,12 +5,15 @@ using Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services.Contracts.External;
+using Services.External;
 using Services.Mapping;
 using System.Reflection;
 using Web.Models;
@@ -60,7 +63,21 @@ namespace Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             // Application services
-
+            services.AddTransient<ISendGridEmailSender>(x =>
+            {
+                var config = Configuration.GetSection("SendGridEmailSender");
+                return new SendGridEmailSender(config["APIKey"], config["Sender"], config["SenderName"]);
+            });
+            services.AddTransient<IEmailSender>(x =>
+            {
+                var config = Configuration.GetSection("SendGridEmailSender");
+                return new SendGridEmailSender(config["APIKey"], config["Sender"], config["SenderName"]);
+            });
+            services.AddTransient<ICloudinary>(x =>
+            {
+                var config = Configuration.GetSection("Cloudinary");
+                return new Cloudinary(config["CloudName"], config["APIKey"], config["APISecret"]);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

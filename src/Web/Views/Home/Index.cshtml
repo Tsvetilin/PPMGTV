@@ -2,7 +2,30 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="m-auto text-center">
+    <h1 class="font-weight-bold">
+        Logo
+    </h1>
 </div>
+
+<div class="row">
+    <iframe id="video-frame"
+            src="https://www.youtube.com/embed/K-cgrTMcmsQ"
+            frameborder="0"
+            allowfullscreen></iframe>
+</div>
+
+@section Scripts {
+    <script defer>
+        var frame = document.getElementById("video-frame");
+        const vhPercent = 0.80;
+        if (document.documentElement.clientHeight * vhPercent > document.documentElement.clientWidth) {
+            frame.setAttribute("height", `${frame.parentElement.clientWidth * 9 / 16}`);
+            frame.setAttribute( "width", `${frame.parentElement.clientWidth}`);
+        }
+        else {
+            frame.setAttribute("height", `${document.documentElement.clientHeight * vhPercent}`);
+            frame.setAttribute("width", `${document.documentElement.clientHeight * vhPercent * 16 / 9}`);
+        }
+    </script>
+}
