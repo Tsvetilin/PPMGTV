@@ -22,6 +22,7 @@ namespace Data.Seeders
             var rolesNames = new List<string>
             {
                 ApplicationRolesNames.AdminRole,
+                ApplicationRolesNames.EditorRole,
             };
 
             foreach (var roleName in rolesNames)

@@ -3,6 +3,7 @@ using Data.Contracts.Models;
 using Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -23,8 +24,9 @@ namespace Data
         {
         }
 
-        // <-------------------DbSets------------------->
-        // <-------------------DbSets------------------->
+        public virtual DbSet<Video> Videos { get; set; }
+        public virtual DbSet<TeamMember> TeamMembers { get; set; }
+        public virtual DbSet<ContactLetter> ContactLetters { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

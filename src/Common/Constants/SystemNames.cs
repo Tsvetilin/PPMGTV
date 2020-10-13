@@ -2,6 +2,6 @@
 {
     public class SystemNames
     {
-        public const string SystemName = "Web";
+        public const string SystemName = "PPMG TV";
     }
 }
