@@ -1,5 +1,6 @@
 ﻿using Data.Contracts.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models
 {
@@ -10,8 +11,12 @@ namespace Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
+        [Required]
         public string Descrtiption { get; set; }
+
+        [Required]
         public string PhotoUrl { get; set; }
     }
 }

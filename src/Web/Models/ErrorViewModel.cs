@@ -1,7 +1,3 @@
-using AutoMapper;
-using Services.Contracts.Mapping;
-using System;
-
 namespace Web.Models
 {
     public class ErrorViewModel

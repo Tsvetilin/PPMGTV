@@ -1,5 +1,6 @@
 ﻿using Data.Contracts.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models
 {
@@ -11,12 +12,28 @@ namespace Data.Models
         }
 
         //https://img.youtube.com/vi/<videoId>/hqdefault.jpg
-        //
+
+        [Required]
+        [MaxLength(20)]
         public string YouTubeId { get; set; }
-        public string Url { get; set; }
+
+        [Required]
+        public string VideoUrl { get; set; }
+
+        [Required]
         public string Title { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
         public string ThumbnailUrl { get; set; }
-        public ApplicationUser AddedBy { get; set; }
+
+        public virtual ApplicationUser AddedBy { get; set; }
+
         public bool IsVisible { get; set; }
+
+        [Required]
+        public DateTime PremiredOn { get; set; }
     }
 }

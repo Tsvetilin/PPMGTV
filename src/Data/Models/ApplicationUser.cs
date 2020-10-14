@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models
 {
@@ -14,6 +15,10 @@ namespace Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        [Required]
+        [MaxLength(50)]
+        public string FullName { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

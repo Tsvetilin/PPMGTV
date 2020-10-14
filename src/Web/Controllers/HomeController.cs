@@ -1,18 +1,26 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Services.Contracts.Data;
+using Services.Data;
 using Web.Models;
+using Web.Models.Index;
 
 namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly IVideosService videosService;
+
+        public HomeController(IVideosService videosService)
         {
+            this.videosService = videosService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return this.View();
+            var viewModel = await videosService.GetLatestVideo<HomeIndexViewModel>();
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

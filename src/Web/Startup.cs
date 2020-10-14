@@ -12,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services.Contracts.Data;
 using Services.Contracts.External;
+using Services.Data;
 using Services.External;
 using Services.Mapping;
 using System.Reflection;
@@ -78,6 +80,8 @@ namespace Web
                 var config = Configuration.GetSection("Cloudinary");
                 return new Cloudinary(config["CloudName"], config["APIKey"], config["APISecret"]);
             });
+
+            services.AddTransient<IVideosService, VideosService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

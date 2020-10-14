@@ -12,7 +12,7 @@ namespace Data.Seeders
 
         public async Task SeedAsync(ApplicationDbContext dbContext)
         {
-            if(dbContext.Users.Any())
+            if (dbContext.Users.Any())
             {
                 return;
             }
@@ -25,7 +25,8 @@ namespace Data.Seeders
                 EmailConfirmed = true,
                 NormalizedEmail = email.ToUpper(),
                 NormalizedUserName = username.ToUpper(),
-                UserName=username
+                UserName = username,
+                FullName = $"{username} {username}"
             };
             var passwordHasher = new PasswordHasher<ApplicationUser>();
             user.PasswordHash = passwordHasher.HashPassword(user, "Pass");
