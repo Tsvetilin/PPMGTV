@@ -1,4 +1,5 @@
-﻿using Data.Contracts.Seeders;
+﻿using Common.Constants;
+using Data.Contracts.Seeders;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
@@ -28,9 +29,16 @@ namespace Data.Seeders
                 UserName = username,
                 FullName = $"{username} {username}"
             };
+
             var passwordHasher = new PasswordHasher<ApplicationUser>();
             user.PasswordHash = passwordHasher.HashPassword(user, "Pass");
             await dbContext.Users.AddAsync(user);
+
+            await dbContext.UserRoles.AddAsync(new IdentityUserRole<string>()
+            {
+                UserId = user.Id,
+                RoleId = dbContext.Roles.FirstOrDefault(x => x.Name == ApplicationRolesNames.AdminRole).Id
+            });
         }
     }
 }

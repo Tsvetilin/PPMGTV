@@ -17,7 +17,7 @@ namespace Data.Seeders
                 return;
             }
 
-            var id = "Ks-cgrTMcmsQ";
+            var id = "K-cgrTMcmsQ";
             var video = new Video
             {
                 AddedBy = dbContext.Users.First(),
@@ -26,7 +26,7 @@ namespace Data.Seeders
                 Title = "Test Video",
                 YouTubeId = id,
                 VideoUrl = $"https://www.youtube.com/embed/{id}",
-                ThumbnailUrl = $"https://img.youtube.com/vi/{id}<videoId>/hqdefault.jpg",
+                ThumbnailUrl = $"https://img.youtube.com/vi/{id}/hqdefault.jpg",
                 Description= "Test video description, describing the video"
             };
 

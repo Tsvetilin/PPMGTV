@@ -19,7 +19,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var viewModel = await videosService.GetLatestVideo<HomeIndexViewModel>();
+            var viewModel = await videosService.GetLatestVideoAsync<HomeIndexViewModel>();
             return this.View(viewModel);
         }
 
