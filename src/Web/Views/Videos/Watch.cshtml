@@ -1,4 +1,5 @@
 ﻿@model Web.Models.Videos.VideoViewModel
+@using static Common.Helpers.TimeZoneConverter
 @{
     ViewData["Title"] = "Watch Video";
 }
@@ -18,7 +19,7 @@
 
 <div class="col-md-6 ml-4 py-5">
     <h5>@Model.Description</h5>
-    <p>Излъчено на: @Model.PremiredOn.ToLocalTime()</p>
+    <p>Излъчено на: @Model.PremiredOn.ConvertToLocal()</p>
 </div>
 
 

@@ -73,7 +73,7 @@ namespace Web.Controllers
             }
 
             var user = await userManager.GetUserAsync(User);
-            await videosService.CreateAsync(
+            var video = await videosService.CreateAsync(
                 inputModel.YouTubeId,
                 inputModel.Title,
                 inputModel.Description,
@@ -81,7 +81,7 @@ namespace Web.Controllers
                 inputModel.IsVisible,
                 user);
 
-            return this.RedirectToAction("Watch", "Videos", new { Id = "0" });
+            return this.RedirectToAction("Watch", "Videos", new { video.Id });
         }
 
         public async Task<IActionResult> Watch(string id)
@@ -93,6 +93,52 @@ namespace Web.Controllers
             }
 
             return this.View(viewModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
+            {
+                return this.RedirectToAction("Index", "Videos");
+            }
+
+            var inputModel = await videosService.GetVideoByIdAsync<VideoInputModel>(id);
+
+            if(inputModel==null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(inputModel);
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(VideoInputModel inputModel)
+        {
+            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
+            {
+                return this.RedirectToAction("Index", "Videos");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            var user = await userManager.GetUserAsync(User);
+            await videosService.CreateAsync(
+                inputModel.YouTubeId,
+                inputModel.Title,
+                inputModel.Description,
+                inputModel.PremiredOn.ConvertToUtc(),
+                inputModel.IsVisible,
+                user);
+
+            return this.RedirectToAction("Watch", "Videos", new { Id = "0" });
         }
     }
 }

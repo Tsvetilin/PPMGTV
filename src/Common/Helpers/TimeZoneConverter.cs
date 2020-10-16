@@ -9,7 +9,7 @@ namespace Common.Helpers
         {
             TimeZoneInfo zone = TimeZoneInfo.FindSystemTimeZoneById(SystemNames.LocalTimeZone);
             DateTime local = TimeZoneInfo.ConvertTimeFromUtc(utc, zone);
-            return $"{local.ToShortDateString()} {local.ToShortTimeString()}";
+            return local.ToString("dd/MM/yyyy HH:mm");
         }
 
         public static DateTime ConvertToUtc(this DateTime local)

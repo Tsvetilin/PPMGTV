@@ -1,4 +1,5 @@
 ﻿@model Web.Models.Videos.VideosIndexViewModel
+@using static Common.Helpers.TimeZoneConverter
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,14 +13,14 @@
 <ul class="list-inline text-dark">
     @foreach (var videoCard in Model?.Videos)
     {
-        <li class="pb-3">
+        <li class="pb-3 text-decoration-none">
             <a asp-controller="Videos" asp-action="Watch" asp-route-id="@videoCard.Id"
                class="content-heading clearfix media box-hover text-decoration-none">
                 <img class="rounded float-left h-25 w-25 ml-auto" src="@videoCard.ThumbnailUrl" alt="Video Thumbnail">
                 <div class="col-md-6 ml-4">
                     <h3>@videoCard.Title</h3>
                     <p>@videoCard.Description</p>
-                    <p>Излъчено на: @videoCard.PremiredOn.ToLocalTime()</p>
+                    <p>Излъчено на: @videoCard.PremiredOn.ConvertToLocal()</p>
                 </div>
             </a>
         </li>
