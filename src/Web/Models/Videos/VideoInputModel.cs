@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.Videos
 {
-    public class VideoInputModel : IMapTo<Video>
+    public class VideoInputModel : IMapTo<Video>, IMapFrom<Video>
     {
         [Required]
         [MaxLength(20)]
@@ -27,6 +27,7 @@ namespace Web.Models.Videos
 
         [Required]
         [DisplayName("Премиера")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime PremiredOn { get; set; }
     }
 }

@@ -1,15 +1,19 @@
 ﻿@model int
 
 @{
-    ViewData["Title"] = "Status Code Error";
+    ViewData["Title"] = "Error";
 }
-<h1>@ViewData["Title"]</h1>
+<h1>Възникна грешка :(</h1>
 <br />
 <h3>Error @Model</h3>
 <p>
-    200-300-400
-    You can try to find what u searched for here :
-    ....
+    @if (Model == 404)
+    {
+        <h3>Изгрежда, че не успяхме да намерим това, което търсите.</h3>
+    }
 
-    etc.
+    <h5>Може да продължите да гледате нашите емисии: </h5>
+    <a asp-action="Index" asp-controller="Videos"> Всички видеа</a>
+    <h5>Или да подадете сигнал към нашия екип: </h5>
+    <a asp-action="Index" asp-controller="Contact">Подаване на сигнал</a>
 </p>

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
-using Services.Mapping;
 using Web.Models.Videos;
 
 namespace Web.Controllers
@@ -20,7 +19,7 @@ namespace Web.Controllers
         private readonly IVideosService videosService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public VideosController(IVideosService videosService , UserManager<ApplicationUser> userManager)
+        public VideosController(IVideosService videosService, UserManager<ApplicationUser> userManager)
         {
             this.videosService = videosService;
             this.userManager = userManager;
@@ -46,7 +45,6 @@ namespace Web.Controllers
         }
 
         [Authorize]
-        [HttpGet]
         public IActionResult Create()
         {
             if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
@@ -96,7 +94,6 @@ namespace Web.Controllers
         }
 
         [Authorize]
-        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
@@ -106,7 +103,7 @@ namespace Web.Controllers
 
             var inputModel = await videosService.GetVideoByIdAsync<VideoInputModel>(id);
 
-            if(inputModel==null)
+            if (inputModel == null)
             {
                 return this.NotFound();
             }
@@ -117,7 +114,7 @@ namespace Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Edit(VideoInputModel inputModel)
+        public async Task<IActionResult> Edit(VideoInputModel inputModel, string id)
         {
             if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
             {
@@ -129,8 +126,15 @@ namespace Web.Controllers
                 return this.View(inputModel);
             }
 
+            var video = await videosService.GetVideoByIdAsync<VideoInputModel>(id);
+            if (video == null)
+            {
+                return this.NotFound();
+            }
+
             var user = await userManager.GetUserAsync(User);
-            await videosService.CreateAsync(
+            await videosService.UpdateAsync(
+                id,
                 inputModel.YouTubeId,
                 inputModel.Title,
                 inputModel.Description,
@@ -138,7 +142,25 @@ namespace Web.Controllers
                 inputModel.IsVisible,
                 user);
 
-            return this.RedirectToAction("Watch", "Videos", new { Id = "0" });
+            return this.RedirectToAction("Watch", "Videos", new { id });
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
+            {
+                return this.RedirectToAction("Index", "Videos");
+            }
+
+            if (!await videosService.DeleteAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction("Index", "Videos");
+        }
+
     }
 }

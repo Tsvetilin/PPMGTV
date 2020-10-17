@@ -1,5 +1,4 @@
 ﻿using Data.Contracts.Repositories;
-using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

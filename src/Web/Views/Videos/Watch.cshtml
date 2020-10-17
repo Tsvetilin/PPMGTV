@@ -1,8 +1,23 @@
 ﻿@model Web.Models.Videos.VideoViewModel
 @using static Common.Helpers.TimeZoneConverter
+@using Common.Constants
+
 @{
     ViewData["Title"] = "Watch Video";
 }
+
+@if (User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole))
+{
+<div class="d-flex">
+    <form class="mx-5" method="get" asp-controller="Videos" asp-action="Edit" asp-route-id="@Model.Id">
+        <input class="btn btn-primary" value="Редактирай" type="submit" />
+    </form>
+    <form class="mx-5" method="post" asp-controller="Videos" asp-action="Delete" asp-route-id="@Model.Id">
+        <input type="submit" class="btn btn-danger" value="Изтрий" onclick="return confirm('Сигурен ли си, че искаш да изтриеш това видео?');"/>
+    </form>
+</div>
+}
+
 <div class="m-auto text-center">
     <h1 class="font-weight-bold">
         @Model.Title
