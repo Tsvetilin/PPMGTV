@@ -17,6 +17,7 @@ namespace Data.Models
         }
 
         [Required]
+        [PersonalData]
         [MaxLength(50)]
         public string FullName { get; set; }
 

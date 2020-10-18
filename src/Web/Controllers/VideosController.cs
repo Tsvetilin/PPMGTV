@@ -14,7 +14,7 @@ namespace Web.Controllers
 {
     public class VideosController : Controller
     {
-        private const int videosOnPage = 10;
+        private const int videosOnPage = 2;
 
         private readonly IVideosService videosService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -37,7 +37,7 @@ namespace Web.Controllers
             var viewModel = new VideosIndexViewModel
             {
                 Videos = videos.ToList(),
-                CurrentPage = 1,
+                CurrentPage = id,
                 PagesCount = pageCount
             };
 

@@ -6,10 +6,11 @@
 }
 
 <div class="m-auto text-center mb-5">
-    <h1 class="font-weight-bold">
+    <h1 class="font-weight-bold mb-5">
         Всички излъчвани емисии
     </h1>
 </div>
+<hr />
 
 @if (User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole))
 {
@@ -37,9 +38,7 @@
 </ul>
 
 <nav>
-    <h1>@Model.CurrentPage</h1>
     <ul class="pagination justify-content-center" style="padding-top:30px; margin-bottom:0px;">
-
         @if (this.Model.CurrentPage > 1)
         {
             <li class="page-item">
@@ -83,7 +82,7 @@
             {
                 <li class="page-item @className"><a class="page-link" asp-controller="Videos" asp-action="Index" asp-route-id="@(pagesToShow[i - 1] + 1)">...</a></li>
             }
-            <li class="page-item @className"><a class="page-link" asp-controller="Videos" asp-action="Index" asp-route-id="@pageNumber" >@pageNumber</a></li>
+            <li class="page-item @className"><a class="page-link" asp-controller="Videos" asp-action="Index" asp-route-id="@pageNumber">@pageNumber</a></li>
         }
         @if (this.Model.CurrentPage < this.Model.PagesCount)
         {
@@ -94,41 +93,5 @@
             </li>
         }
 
-
-        @if (this.Model.CurrentPage == 1)
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#">«</a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-route="filmsList" asp-route-id="@(this.Model.CurrentPage - 1)">«</a>
-            </li>
-        }
-@{ /*
-        @for (int i = 1; i <= this.Model.PagesCount; i++)
-        {
-            var active = i == this.Model.CurrentPage ? "active" : String.Empty;
-            <li class="page-item @active">
-                <a class="page-link" asp-route-id="@i">@i</a>
-            </li>
-        }
-
-        @if (this.Model.CurrentPage == this.Model.PagesCount)
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#">»</a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a class="page-link" asp-route-id="@(this.Model.CurrentPage + 1)">»</a>
-            </li>
-        }*/
-    }
     </ul>
 </nav>

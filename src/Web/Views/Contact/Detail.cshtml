@@ -1,0 +1,58 @@
+﻿@model Web.Models.Contact.ContactViewModel
+@using static Common.Helpers.TimeZoneConverter
+@{
+    ViewData["Title"] = "Letter Details";
+    var fromLoggedUser = Model.UserUserName == null ? "" : $"от регистрирания потребител {Model.UserUserName}";
+}
+
+<div class="m-auto text-center pb-3">
+    <h1 class="font-weight-bold">
+        Преглед на сигнал
+    </h1>
+</div>
+
+
+<div class="my-3">
+    <h3>@Model.About</h3>
+    <div class="d-flex">
+
+    </div>
+    <p class="">@Model.Description</p>
+    <p>Създадено на @Model.CreatedOn.ConvertToLocal() от @Model.SenderName</p>
+    <p>Допълнителна информация: @Model.OtherContactInfo @fromLoggedUser</p>
+</div>
+
+<div class="border-success border col-md-4 mx-auto">
+    <form asp-action="Detail" asp-controller="Contact" method="post" class="m-3" id="form">
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsPinned" /> @Html.DisplayNameFor(model => model.IsPinned)
+            </label>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsViewed" /> @Html.DisplayNameFor(model => model.IsViewed)
+            </label>
+        </div>
+        <input type="hidden" name="isDeleted" value="false" id="deleteField"/>
+        <div class="d-flex">
+            <input type="submit" class="btn btn-success my-3 mx-3" value="Запази" />
+            <input type="submit" class="btn btn-danger my-3 mx-3" value="Изтрий"  id="deleteButton"/>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        var button = document.getElementById("deleteButton");
+        var field = document.getElementById("deleteField");
+        var form = document.getElementById("form");
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            if (confirm("Сигурен ли си, че искаиш да изтриеш този сигнал?")) {
+                field.value = "true";
+                form.submit();
+            }
+        })
+    </script>
+}

@@ -6,6 +6,11 @@ namespace Web.Models.Contact
     public class ContactInputModel 
     {
         [Required]
+        [MaxLength(100)]
+        [DisplayName("Относно")]
+        public string About { get; set; }
+
+        [Required]
         [DisplayName("Описание")]
         public string Description { get; set; }
 
@@ -16,6 +21,7 @@ namespace Web.Models.Contact
 
         [Required]
         [MaxLength(50)]
+        [EmailAddress]
         [DisplayName("Имейл за връзка")]
         public string SenderEmail { get; set; }
 

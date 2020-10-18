@@ -12,6 +12,10 @@ namespace Data.Models
         }
 
         [Required]
+        [MaxLength(100)]
+        public string About { get; set; }
+
+        [Required]
         public string Description { get; set; }
 
         [Required]

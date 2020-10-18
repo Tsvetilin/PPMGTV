@@ -1,5 +1,5 @@
 ﻿@model Web.Models.Contact.ContactInputModel
-
+@using Common.Constants
 @{
     ViewData["Title"] = "Contact";
 }
@@ -11,38 +11,66 @@
     <p>Подай сигнал или изкажи мнение за подобряване на качеството на услугата.</p>
 </div>
 
-<hr />
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <form asp-controller="Contact" asp-action="Send"  method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SenderName" class="control-label"></label>
-                <input asp-for="SenderName" class="form-control" />
-                <span asp-validation-for="SenderName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SenderEmail" class="control-label"></label>
-                <input asp-for="SenderEmail" class="form-control" />
-                <span asp-validation-for="SenderEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"> </textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OtherContactInfo" class="control-label"></label>
-                <input asp-for="OtherContactInfo" class="form-control" />
-                <span asp-validation-for="OtherContactInfo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Изпращане" class="btn btn-primary" />
-            </div>
+@if (User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole))
+{
+    <div class="d-flex">
+        <form class="mx-5" method="get" asp-controller="Contact" asp-action="AdminView">
+            <input class="btn btn-primary" value="Преглед" type="submit" />
         </form>
     </div>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+    @if ((bool?)ViewData["Success"] == true)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            Успешно изпратихте вашия сигнал!
+            <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">Затвори</span>
+            </button>
+        </div>
+    }
+    <hr />
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <form asp-controller="Contact" asp-action="Send" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="SenderName" class="control-label"></label>
+                    <input asp-for="SenderName" class="form-control" />
+                    <span asp-validation-for="SenderName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SenderEmail" class="control-label"></label>
+                    <input asp-for="SenderEmail" class="form-control" />
+                    <span asp-validation-for="SenderEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="About" class="control-label"></label>
+                    <input asp-for="About" class="form-control" />
+                    <span asp-validation-for="About" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"> </textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OtherContactInfo" class="control-label"></label>
+                    <input asp-for="OtherContactInfo" class="form-control" />
+                    <span asp-validation-for="OtherContactInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Изпращане" class="btn btn-primary" />
+                    <br />
+                    <small>
+                        Натискайки бутона "Изпращане", вие потвърждавате, че сте запознати и съгласни с нашата
+                        <a asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
+                    </small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

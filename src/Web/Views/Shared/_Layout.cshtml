@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @SystemName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" />
 </head>
 <body>
     <header>
@@ -48,10 +48,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            @{ var finalYear = DateTime.UtcNow.Year > 2020 ? $" - {DateTime.UtcNow.Year}" : "";
+            @{ var currentYear = DateTime.UtcNow.Year > 2020 ? $" - {DateTime.UtcNow.Year}" : "";
 
             }
-            &copy; @DateTime.UtcNow.Year@finalYear - @SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
+            &copy; @DateTime.UtcNow.Year@currentYear - @SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"  asp-append-version="true"></script>

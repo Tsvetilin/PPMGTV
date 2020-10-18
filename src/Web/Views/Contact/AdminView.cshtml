@@ -1,0 +1,36 @@
+﻿@model Web.Models.Contact.ContactAdminViewViewModel
+@using static Common.Helpers.TimeZoneConverter
+@{
+    ViewData["Title"] = "All Contact Letters";
+}
+
+<div class="m-auto text-center pb-3">
+    <h1 class="font-weight-bold">
+        Преглед на подадените сигнали
+    </h1>
+</div>
+
+<ul class="list-unstyled">
+    @foreach (var letter in Model.contactLetters)
+    {
+        <li class="pb-3">
+            <a asp-controller="Contact" asp-action="Detail" asp-route-id="@letter.Id" class="color-inherit content-heading clearfix text-decoration-none">
+                <div class="box-hover">
+                    <h3>@letter.About</h3>
+                    <div class="d-flex">
+                        @if (letter.IsPinned)
+                        {
+                            <h5 class="mx-2">Закачено</h5>
+                        }
+                        @if (letter.IsViewed)
+                        {
+                            <h5 class="mx-2">Прегледано</h5>
+                        }
+                    </div>
+                    <p class="pb-0 m-0">@letter.Description</p>
+                    <small>Създадено на @letter.CreatedOn.ConvertToLocal() от @letter.SenderName</small>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

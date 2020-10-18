@@ -89,3 +89,12 @@ body {
     width: 100%;
     height: 100%;
 }
+
+
+.box-hover:hover {
+    background-color: lavender !important;
+}
+
+.color-inherit {
+    color: inherit !important;
+}
