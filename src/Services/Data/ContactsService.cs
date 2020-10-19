@@ -40,9 +40,9 @@ namespace Services.Data
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await repository.All().
-                OrderBy(x => x.IsPinned).
+                OrderByDescending(x => x.IsPinned).
                 ThenBy(x => x.IsViewed).
-                ThenBy(x => x.CreatedOn).
+                ThenByDescending(x => x.CreatedOn).
                 To<T>().
                 ToListAsync();
         }

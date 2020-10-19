@@ -20,7 +20,7 @@
     </div>
 }
 
-    @if ((bool?)ViewData["Success"] == true)
+    @if ((bool?)TempData["ContactSendSuccess"] == true)
     {
         <div class="alert alert-info alert-dismissible fade show" role="alert">
             Успешно изпратихте вашия сигнал!

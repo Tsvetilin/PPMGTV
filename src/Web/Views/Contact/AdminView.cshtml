@@ -20,11 +20,11 @@
                     <div class="d-flex">
                         @if (letter.IsPinned)
                         {
-                            <h5 class="mx-2">Закачено</h5>
+                            <h5 class="mx-2 text-danger">Закачено</h5>
                         }
                         @if (letter.IsViewed)
                         {
-                            <h5 class="mx-2">Прегледано</h5>
+                            <h5 class="mx-2 text-primary">Прегледано</h5>
                         }
                     </div>
                     <p class="pb-0 m-0">@letter.Description</p>

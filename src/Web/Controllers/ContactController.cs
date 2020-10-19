@@ -12,7 +12,7 @@ namespace Web.Controllers
 {
     public class ContactController : Controller
     {
-        private const string SuccessParam = "Success";
+        private const string SuccessParamName = "ContactSendSuccess";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IContactsService contactsService;
 
@@ -24,10 +24,6 @@ namespace Web.Controllers
 
         public IActionResult Index(string id)
         {
-            if(id?.Equals(SuccessParam) ?? false)
-            {
-                this.ViewData[SuccessParam] = true;
-            }
             return this.View();
         }
 
@@ -60,7 +56,8 @@ namespace Web.Controllers
              * Add email news letter and cron job respectively
              */
 
-            return this.RedirectToAction("Index","Contact",new {id="Success"});
+            this.TempData[SuccessParamName] = true;
+            return this.RedirectToAction("Index","Contact");
         }
 
         [Authorize]
