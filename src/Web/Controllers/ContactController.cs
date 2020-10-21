@@ -22,7 +22,7 @@ namespace Web.Controllers
             this.contactsService = contactsService;
         }
 
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
             return this.View();
         }
@@ -72,7 +72,7 @@ namespace Web.Controllers
 
             var viewModel = new ContactAdminViewViewModel
             {
-                contactLetters = letters.ToList()
+                ContactLetters = letters.ToList()
             };
 
             return this.View(viewModel);

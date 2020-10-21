@@ -11,7 +11,7 @@
 </div>
 
 <ul class="list-unstyled">
-    @foreach (var letter in Model.contactLetters)
+    @foreach (var letter in Model.ContactLetters)
     {
         <li class="pb-3">
             <a asp-controller="Contact" asp-action="Detail" asp-route-id="@letter.Id" class="color-inherit content-heading clearfix text-decoration-none">

@@ -11,15 +11,19 @@
 <div class="alert alert-warning" role="alert">
     <p>
         <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>If you reset your authenticator key your authenticator app will not work until you reconfigure it.</strong>
+        <strong>Ако нулирате вашият автентикационен ключ, вашето автентикационна приложение ще спре да работи докато не го пренастроите.</strong>
     </p>
     <p>
-        This process disables 2FA until you verify your authenticator app.
-        If you do not complete your authenticator app configuration you may lose access to your account.
+        Този процеса спира двуфакторната автентикация докато не удостоверите вашето автентикационно приложение.
+        Ако не завършите конфигурацията на вашето приложение за двуфакторна автентикация може да загубите достъп до акаунта си.
     </p>
 </div>
 <div>
     <form id="reset-authenticator-form" method="post" class="form-group">
-        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Reset authenticator key</button>
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Нулирай автентикационния ключ</button>
     </form>
 </div>
+
+@section Scripts{ 
+
+}

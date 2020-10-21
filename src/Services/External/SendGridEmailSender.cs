@@ -51,8 +51,7 @@ namespace Services.External
             var from = new EmailAddress(sender, senderName);
             var to = new EmailAddress(reciever);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlMessage);
-            var response = await client.SendEmailAsync(msg);
-            System.Console.WriteLine(response.StatusCode);
+            await client.SendEmailAsync(msg);
         }
 
     }
