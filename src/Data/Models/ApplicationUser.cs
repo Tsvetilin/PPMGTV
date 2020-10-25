@@ -21,6 +21,9 @@ namespace Data.Models
         [MaxLength(50)]
         public string FullName { get; set; }
 
+        [Required]
+        public bool IsNewsLetterSubscriber { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }

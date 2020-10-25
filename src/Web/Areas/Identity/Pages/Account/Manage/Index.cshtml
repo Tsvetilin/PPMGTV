@@ -6,7 +6,7 @@
     Layout = "/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
 }
 
-<h4>@ViewData["Title"]</h4>
+<h4>Профил</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
     <div class="col-md-6">
@@ -21,6 +21,17 @@
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
+            @if (!string.IsNullOrEmpty(Model.Email))
+            {
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.IsNewsLetterSubscribed">
+                            <input asp-for="Input.IsNewsLetterSubscribed" />
+                            @Html.DisplayNameFor(m => m.Input.IsNewsLetterSubscribed)
+                        </label>
+                    </div>
+                </div>
+            }
             <button id="update-profile-button" type="submit" class="btn btn-primary">Запази</button>
         </form>
     </div>

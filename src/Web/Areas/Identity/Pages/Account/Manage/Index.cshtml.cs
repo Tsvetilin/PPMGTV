@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +21,10 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+       
+        [DisplayName("Потребителско име")]
         public string Username { get; set; }
+        public string Email { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -34,20 +35,25 @@ namespace Web.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
+
+            [DisplayName("Искам да получавам известия с актуалната информация по имейл")]
+            public bool IsNewsLetterSubscribed { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
 
             Username = userName;
-
+            Email = email;
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                IsNewsLetterSubscribed = user.IsNewsLetterSubscriber
             };
         }
 
@@ -84,6 +90,18 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
+                    return RedirectToPage();
+                }
+            }
+
+            var isSub = user.IsNewsLetterSubscriber;
+            if (Input.IsNewsLetterSubscribed != isSub)
+            {
+                user.IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed;
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set news letter subscription preference.";
                     return RedirectToPage();
                 }
             }

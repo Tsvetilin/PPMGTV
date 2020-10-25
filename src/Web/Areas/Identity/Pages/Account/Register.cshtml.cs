@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -67,6 +66,10 @@ namespace Web.Areas.Identity.Pages.Account
             [MaxLength(50)]
             [DisplayName("Име")]
             public string FullName { get; set; }
+
+            [Required]
+            [DisplayName("Искам да получавам известия с актуалната информация по имейл (може да се промени по-късно)")]
+            public bool IsNewsLetterSubscribed { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -81,7 +84,13 @@ namespace Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Email = Input.Email, FullName=Input.FullName, UserName= Input.FullName};
+                var user = new ApplicationUser 
+                { 
+                    Email = Input.Email,
+                    FullName=Input.FullName, 
+                    UserName= Input.FullName,
+                    IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

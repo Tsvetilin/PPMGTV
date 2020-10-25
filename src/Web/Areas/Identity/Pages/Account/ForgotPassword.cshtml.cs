@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.ComponentModel;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -33,6 +34,7 @@ namespace Web.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [DisplayName("Имейл")]
             public string Email { get; set; }
         }
 

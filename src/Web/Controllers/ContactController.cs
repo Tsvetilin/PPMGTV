@@ -5,6 +5,7 @@ using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Services.CronJobs;
 using Services.Data;
 using Web.Models.Contact;
 
@@ -51,7 +52,9 @@ namespace Web.Controllers
 
             /*
              * Start a cron job sending emails
+              
              */
+            JobManager.SendContactLetterJob(letter);
             /*
              * Add email news letter and cron job respectively
              */

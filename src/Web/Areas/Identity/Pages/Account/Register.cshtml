@@ -35,6 +35,22 @@
                     <input asp-for="Input.ConfirmPassword" class="form-control" />
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.IsNewsLetterSubscribed">
+                            <input asp-for="Input.IsNewsLetterSubscribed" />
+                            @Html.DisplayNameFor(m => m.Input.IsNewsLetterSubscribed)
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <div style="line-height:1;" class="mb-3">
+                        <small>
+                            Натискайки бутона "Регистрация", вие потвърждавате, че сте запознати и съгласни с нашата
+                            <a asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
+                        </small>
+                    </div>
+                </div>
                 <div class="m-auto">
                     <button type="submit" class="btn btn-primary w-100">Регистрация</button>
                 </div>

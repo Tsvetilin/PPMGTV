@@ -1,7 +1,15 @@
+using Common.Constants;
+
 using Data;
 using Data.Contracts.Repositories;
 using Data.Models;
 using Data.Repositories;
+
+using Hangfire;
+using Hangfire.Console;
+using Hangfire.Dashboard;
+using Hangfire.SqlServer;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,12 +21,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Services.Contracts.Data;
 using Services.Contracts.External;
+using Services.CronJobs;
 using Services.Data;
 using Services.External;
 using Services.Mapping;
+
+using System;
 using System.Reflection;
+
 using Web.Models;
 
 namespace Web
@@ -45,6 +58,27 @@ namespace Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddHangfire(config =>
+                    config.
+                    SetDataCompatibilityLevel(CompatibilityLevel.Version_170).
+                    UseSimpleAssemblyNameTypeSerializer().
+                    UseRecommendedSerializerSettings().
+                    UseSqlServerStorage(
+                        this.Configuration.GetConnectionString("HangfireConnection"),
+                        new SqlServerStorageOptions
+                        {
+                            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            QueuePollInterval = TimeSpan.Zero,
+                            UseRecommendedIsolationLevel = true,
+                            UsePageLocksOnDequeue = true,
+                            DisableGlobalLocks = true,
+                        }
+                    ).
+                    UseConsole());
+
+            services.AddHangfireServer();
+
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
@@ -59,6 +93,7 @@ namespace Web
                 });
             services.AddRazorPages();
 
+            // Authentication
             services.AddAuthentication().
                 AddFacebook(facebookOptions =>
                 {
@@ -141,6 +176,24 @@ namespace Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //if (env.IsProduction())
+            {
+                app.UseHangfireServer(new BackgroundJobServerOptions { WorkerCount = 2 });
+                app.UseHangfireDashboard(
+                    "/hangfire",
+                    new DashboardOptions
+                    {
+                        Authorization = new[] 
+                        {
+                            new HangfireAuthorizationFilter()
+                        }
+                    });
+
+                using var serviceScope = app.ApplicationServices.CreateScope();
+                var recurringJobManager = serviceScope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+                JobManager.SeedHangfireJobs(recurringJobManager);
+            }
+
             app.UseEndpoints(
                 endpoints =>
                 {
@@ -149,6 +202,15 @@ namespace Web
                     endpoints.MapRazorPages();
                     endpoints.MapAreaControllerRoute("identity", "Identity", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 });
+        }
+
+        private class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
+        {
+            public bool Authorize(DashboardContext context)
+            {
+                var httpContext = context.GetHttpContext();
+                return httpContext.User.IsInRole(ApplicationRolesNames.AdminRole);
+            }
         }
     }
 }

@@ -35,7 +35,8 @@ namespace Services.External
             var from = new EmailAddress(sender, senderName);
             var to = new EmailAddress(reciever);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlMessage);
-            await client.SendEmailAsync(msg);
+            var result = await client.SendEmailAsync(msg);
+            System.Console.WriteLine(result.StatusCode);
         }
 
         /// <summary>
@@ -51,7 +52,8 @@ namespace Services.External
             var from = new EmailAddress(sender, senderName);
             var to = new EmailAddress(reciever);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlMessage);
-            await client.SendEmailAsync(msg);
+            var result =  await client.SendEmailAsync(msg);
+            System.Console.WriteLine(result.StatusCode);
         }
 
     }
