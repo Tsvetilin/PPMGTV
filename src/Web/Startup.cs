@@ -1,4 +1,4 @@
-using Common.Constants;
+using Common.Helpers;
 
 using Data;
 using Data.Contracts.Repositories;
@@ -7,7 +7,6 @@ using Data.Repositories;
 
 using Hangfire;
 using Hangfire.Console;
-using Hangfire.Dashboard;
 using Hangfire.SqlServer;
 
 using Microsoft.AspNetCore.Builder;
@@ -103,7 +102,6 @@ namespace Web
                 AddGoogle(options =>
                 {
                     var googleAuthNSection = Configuration.GetSection("Authentication:Google");
-
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
@@ -183,7 +181,7 @@ namespace Web
                     "/hangfire",
                     new DashboardOptions
                     {
-                        Authorization = new[] 
+                        Authorization = new[]
                         {
                             new HangfireAuthorizationFilter()
                         }
@@ -197,20 +195,14 @@ namespace Web
             app.UseEndpoints(
                 endpoints =>
                 {
-                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
-                    endpoints.MapAreaControllerRoute("identity", "Identity", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 });
-        }
-
-        private class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
-        {
-            public bool Authorize(DashboardContext context)
-            {
-                var httpContext = context.GetHttpContext();
-                return httpContext.User.IsInRole(ApplicationRolesNames.AdminRole);
-            }
         }
     }
 }

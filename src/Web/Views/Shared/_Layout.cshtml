@@ -8,7 +8,7 @@
     <title>@ViewData["Title"] - @SystemName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.min.css" />
-    <link rel="stylesheet" href="~/lib/fontawsome/css/all.min.css"/>
+    <link rel="stylesheet" href="~/lib/fontawsome/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -20,6 +20,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial.cshtml" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
@@ -36,7 +37,6 @@
                     </ul>
                 </div>
             </div>
-            <partial name="_LoginPartial.cshtml" />
         </nav>
     </header>
 
@@ -55,8 +55,8 @@
             &copy; @DateTime.UtcNow.Year@currentYear - @SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"  asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"  asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Common.Helpers;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.Contact
@@ -27,5 +28,8 @@ namespace Web.Models.Contact
 
         [DisplayName("Други контакти за връзка (социална мрежа, телефонен номер и др.)")]
         public string OtherContactInfo { get; set; }
+
+        [GoogleReCaptchaValidation]
+        public string RecaptchaValue { get; set; }
     }
 }
