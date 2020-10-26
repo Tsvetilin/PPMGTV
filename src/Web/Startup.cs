@@ -187,17 +187,15 @@ namespace Web
                         }
                     });
 
-                using var serviceScope = app.ApplicationServices.CreateScope();
-                var recurringJobManager = serviceScope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-                JobManager.SeedHangfireJobs(recurringJobManager);
+                JobManager.StartVideoUpdaterJob();
             }
 
             app.UseEndpoints(
                 endpoints =>
                 {
                     endpoints.MapControllerRoute(
-                    name: "areaRoute",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        name: "areaRoute",
+                        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}");

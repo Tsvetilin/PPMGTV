@@ -1,13 +1,27 @@
-﻿using Data.Models;
+﻿using Common.Constants;
+using Data.Models;
 using Hangfire;
 
 namespace Services.CronJobs
 {
     public static class JobManager
     {
-        public static void SeedHangfireJobs(IRecurringJobManager recurringJobManager)
+        private const string cronJobExpressionLength = "*/2 * * * *";
+
+        public static void StartVideoUpdaterJob()
         {
-            recurringJobManager.AddOrUpdate<MakeVisibleVideosJob>($"UpdateVideoVisibility", x => x.Work(null), "*/2 * * * *");
+           RecurringJob.AddOrUpdate<MakeVisibleVideosJob>(CronJobsNames.MakeVisibleVideoJobName, x => x.Work(null), cronJobExpressionLength);
+        }
+
+        public static void TriggerVideoUpdaterJob()
+        {
+            StartVideoUpdaterJob();
+            RecurringJob.Trigger(CronJobsNames.MakeVisibleVideoJobName);
+        }
+
+        public static void StopVideoUpdaterJob()
+        {
+            RecurringJob.RemoveIfExists(CronJobsNames.MakeVisibleVideoJobName);
         }
 
         public static void StartSubscriptionEmailJob(string htmlText)
@@ -20,7 +34,7 @@ namespace Services.CronJobs
             BackgroundJob.Enqueue<SendSubscribersEmailJob>(x => x.Work(video, null));
         }
 
-        public static void SendContactLetterJob(ContactLetter letter)
+        public static void StartContactLetterJob(ContactLetter letter)
         {
             BackgroundJob.Enqueue<SendAdminsContactEmailJob>(x => x.Work(letter, null));
         }

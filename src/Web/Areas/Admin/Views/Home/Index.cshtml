@@ -2,4 +2,46 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Admin Section is working so far :))</h1>
+<h1 class="mb-5">Admin Section</h1>
+
+<div class="d-flex flex-column">
+
+    @if ((bool?)TempData["UpdatedVideos"] == true)
+    {
+        TempData["UpdatedVideos"] = false;
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            Successfully updated videos' visibility status!
+            <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">OK</span>
+            </button>
+        </div>
+    }
+
+    <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">Hangfire</button>
+    </form>
+
+    <form asp-action="UpdateVideos" asp-controller="Home" asp-area="Admin" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">Auto Update Videos Visibility Status</button>
+    </form>
+
+    <form asp-action="Unlisted" asp-controller="Videos" asp-area="Admin" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">View Unlisted Videos</button>
+    </form>
+
+    <form asp-action="Permissions" asp-controller="Users" asp-area="Admin" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">Manage Users Permissions</button>
+    </form>
+
+    <form asp-action="AdminView" asp-controller="Contact" asp-area="" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">View Contact Letters</button>
+    </form>
+
+    <form asp-action="Index" asp-controller="Videos" asp-area="" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">View All Videos</button>
+    </form>
+
+    <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">Manage Team</button>
+    </form>
+</div>

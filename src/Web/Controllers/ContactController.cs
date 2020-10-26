@@ -54,7 +54,7 @@ namespace Web.Controllers
              * Start a cron job sending emails
               
              */
-            JobManager.SendContactLetterJob(letter);
+            JobManager.StartContactLetterJob(letter);
             /*
              * Add email news letter and cron job respectively
              */

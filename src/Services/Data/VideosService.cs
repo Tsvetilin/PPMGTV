@@ -1,9 +1,9 @@
 ﻿using Common.Constants;
-using Data;
 using Data.Contracts.Repositories;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
+using Services.CronJobs;
 using Services.Mapping;
 using System;
 using System.Collections.Generic;
@@ -69,6 +69,7 @@ namespace Services.Data
             await repository.AddAsync(video);
             await repository.SaveChangesAsync();
 
+            JobManager.StartVideoUpdaterJob();
             return video;
         }
 
@@ -114,6 +115,7 @@ namespace Services.Data
 
             repository.Update(video);
             await repository.SaveChangesAsync();
+            JobManager.StartVideoUpdaterJob();
         }
     }
 }

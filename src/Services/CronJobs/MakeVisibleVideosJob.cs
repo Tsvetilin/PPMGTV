@@ -3,8 +3,9 @@ using Data.Models;
 using Hangfire;
 using Hangfire.Console;
 using Hangfire.Server;
-using Services.Contracts.CronJobs;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services.CronJobs
@@ -23,6 +24,10 @@ namespace Services.CronJobs
         public async Task Work(PerformContext context)
         {
             var videos = repository.All();
+            if(!videos.Any(x =>!x.IsVisible))
+            {
+                JobManager.StopVideoUpdaterJob();
+            }
             foreach (var video in videos)
             {
                 if(!video.IsVisible && video.PremiredOn<=DateTime.UtcNow)
