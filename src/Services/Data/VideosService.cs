@@ -23,7 +23,7 @@ namespace Services.Data
 
         public async Task<T> GetLatestVideoAsync<T>()
         {
-            return await repository.All().
+            return await this.repository.All().
                 Where(x => x.IsVisible).
                 OrderByDescending(x => x.PremiredOn).
                 To<T>().
@@ -32,12 +32,12 @@ namespace Services.Data
 
         public double CountAllFilms()
         {
-            return repository.All().Count();
+            return this.repository.All().Count();
         }
 
         public async Task<IEnumerable<T>> GetVideosOnPageAsync<T>(int currentPage = 1, int videosOnPage = 10)
         {
-            return await repository.All().
+            return await this.repository.All().
                 Where(x => x.IsVisible).
                 OrderByDescending(x => x.PremiredOn).
                 Skip((currentPage - 1) * videosOnPage).
@@ -66,8 +66,8 @@ namespace Services.Data
                 Description = desc,
             };
 
-            await repository.AddAsync(video);
-            await repository.SaveChangesAsync();
+            await this.repository.AddAsync(video);
+            await this.repository.SaveChangesAsync();
 
             JobManager.StartVideoUpdaterJob();
             return video;
@@ -75,18 +75,18 @@ namespace Services.Data
 
         public async Task<T> GetVideoByIdAsync<T>(string id)
         {
-            return await repository.All().Where(x => x.Id == id).To<T>().FirstOrDefaultAsync();
+            return await this.repository.All().Where(x => x.Id == id).To<T>().FirstOrDefaultAsync();
         }
 
         public async Task<bool> DeleteAsync(string id)
         {
-            var video = await repository.GetByIdWithDeletedAsync(id);
+            var video = await this.repository.GetByIdWithDeletedAsync(id);
             if(video == null)
             {
                 return false;
             }
 
-            repository.Delete(video);
+            this.repository.Delete(video);
             await repository.SaveChangesAsync();
             return true;
         }
@@ -113,9 +113,20 @@ namespace Services.Data
                 Description = desc,
             };
 
-            repository.Update(video);
+            this.repository.Update(video);
             await repository.SaveChangesAsync();
             JobManager.StartVideoUpdaterJob();
+        }
+
+        public async Task<IEnumerable<T>> GetUnlistedVideosOnPageAsync<T>(int currentPage, int videosOnPage)
+        {
+            return await this.repository.All().
+               Where(x => !x.IsVisible).
+               OrderByDescending(x => x.PremiredOn).
+               Skip((currentPage - 1) * videosOnPage).
+               Take(videosOnPage).
+               To<T>().
+               ToListAsync();
         }
     }
 }

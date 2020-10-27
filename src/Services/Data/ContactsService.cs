@@ -31,15 +31,15 @@ namespace Services.Data
                 IsViewed=false
             };
 
-            await repository.AddAsync(letter);
-            await repository.SaveChangesAsync();
+            await this.repository.AddAsync(letter);
+            await this.repository.SaveChangesAsync();
 
             return letter;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
-            return await repository.All().
+            return await this.repository.All().
                 OrderByDescending(x => x.IsPinned).
                 ThenBy(x => x.IsViewed).
                 ThenByDescending(x => x.CreatedOn).
@@ -49,7 +49,7 @@ namespace Services.Data
 
         public async Task<T> GetByIdAsync<T>(string id)
         {
-            return await repository.All().
+            return await this.repository.All().
                 Where(x => x.Id == id).
                 To<T>().
                 FirstOrDefaultAsync();
@@ -57,7 +57,7 @@ namespace Services.Data
 
         public async Task UpdateAsync(string id, bool isDeleted, bool isPinned, bool isViewed)
         {
-            var letter = await repository.GetByIdWithDeletedAsync(id);
+            var letter = await this.repository.GetByIdWithDeletedAsync(id);
             if(letter == null)
             {
                 return;
@@ -67,10 +67,10 @@ namespace Services.Data
             letter.IsViewed = isViewed;
             if(isDeleted)
             {
-                repository.Delete(letter);
+                this.repository.Delete(letter);
             }
 
-            await repository.SaveChangesAsync();
+            await this.repository.SaveChangesAsync();
         }
     }
 }

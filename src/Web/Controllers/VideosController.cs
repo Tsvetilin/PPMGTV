@@ -14,8 +14,6 @@ namespace Web.Controllers
 {
     public class VideosController : Controller
     {
-        private const int videosOnPage = 2;
-
         private readonly IVideosService videosService;
         private readonly UserManager<ApplicationUser> userManager;
 
@@ -27,13 +25,13 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index(int id = 1)
         {
-            var pageCount = (int)Math.Ceiling((double)videosService.CountAllFilms() / videosOnPage);
+            var pageCount = (int)Math.Ceiling((double)videosService.CountAllFilms() / PaginationItemsCount.VideosOnPage);
             if (id > pageCount || id < 1)
             {
                 id = 1;
             }
 
-            var videos = await videosService.GetVideosOnPageAsync<VideoViewModel>(id, videosOnPage);
+            var videos = await videosService.GetVideosOnPageAsync<VideoViewModel>(id, PaginationItemsCount.VideosOnPage);
             var viewModel = new VideosIndexViewModel
             {
                 Videos = videos.ToList(),

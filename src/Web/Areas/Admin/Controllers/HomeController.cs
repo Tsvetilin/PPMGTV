@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common.Constants;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.CronJobs;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = ApplicationRolesNames.AdminRole)]
     public class HomeController : Controller
     {
-        private const string UpdatedVideos= "UpdatedVideos";
+        private const string UpdatedVideos = "UpdatedVideos";
 
 
         [Route("Admin/[controller]/[action]")]

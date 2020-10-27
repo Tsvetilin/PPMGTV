@@ -132,6 +132,7 @@ namespace Web
 
             services.AddTransient<IVideosService, VideosService>();
             services.AddTransient<IContactsService, ContactsService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

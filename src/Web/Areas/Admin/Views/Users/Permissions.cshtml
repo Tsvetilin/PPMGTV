@@ -1,0 +1,31 @@
+﻿@model Web.Areas.Admin.Models.Users.UserIndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="mb-5">All Users</h1>
+<ul class="list-inline text-dark">
+    @foreach (var user in Model?.Users)
+    {
+        <li class="pb-3">
+            <a asp-area="Admin" asp-controller="Users" asp-action="ManagePermissions" asp-route-id="@user.Id" class="color-inherit content-heading clearfix text-decoration-none">
+                <div class="box-hover">
+                    <h3>@user.UserName</h3>
+                    <div class="d-flex">
+                        @if (user.IsAdmin)
+                        {
+                            <h5 class="mx-2 text-danger">Admin</h5>
+                        }
+                        @if (user.IsEditor)
+                        {
+                            <h5 class="mx-2 text-primary">Editor</h5>
+                        }
+                    </div>
+                    <p class="pb-0 m-0">@user.Email</p>
+                    <small>@user.Id</small>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

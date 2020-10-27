@@ -21,13 +21,21 @@
     <script defer>
         var frame = document.getElementById("video-frame");
         const vhPercent = 0.80;
-        if (document.documentElement.clientHeight * vhPercent > document.documentElement.clientWidth) {
-            frame.setAttribute("height", `${frame.parentElement.clientWidth * 9 / 16}`);
-            frame.setAttribute( "width", `${frame.parentElement.clientWidth}`);
+
+        recalculateFrame();
+
+        window.onresize(recalculateFrame());
+
+        function recalculateFrame() {
+            if (document.documentElement.clientHeight * vhPercent > document.documentElement.clientWidth) {
+                frame.setAttribute("height", `${frame.parentElement.clientWidth * 9 / 16}`);
+                frame.setAttribute("width", `${frame.parentElement.clientWidth}`);
+            }
+            else {
+                frame.setAttribute("height", `${document.documentElement.clientHeight * vhPercent}`);
+                frame.setAttribute("width", `${document.documentElement.clientHeight * vhPercent * 16 / 9}`);
+            }
         }
-        else {
-            frame.setAttribute("height", `${document.documentElement.clientHeight * vhPercent}`);
-            frame.setAttribute("width", `${document.documentElement.clientHeight * vhPercent * 16 / 9}`);
-        }
+
     </script>
 }

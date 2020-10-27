@@ -22,7 +22,7 @@
     </div>
 }
 
-@if ((bool?)TempData["ContactSendSuccess"] == true)
+@if ((bool?)TempData[TempDataParams.ContactLetterSendSuccessDataParam] == true)
 {
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         Успешно изпратихте вашия сигнал!
