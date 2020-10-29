@@ -1,5 +1,6 @@
 ﻿using Data.Contracts.Repositories;
 using Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
 using Services.Mapping;
@@ -28,7 +29,7 @@ namespace Services.Data
         public async Task<T> GetUserByIdAsync<T>(string id)
         {
             return await this.repository.All().
-                Where(x=>x.Id==id).
+                Where(x => x.Id == id).
                 To<T>().
                 FirstOrDefaultAsync();
         }

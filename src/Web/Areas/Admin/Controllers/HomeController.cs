@@ -1,12 +1,11 @@
-﻿using Common.Constants;
-using Microsoft.AspNetCore.Authorization;
+﻿using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Services.CronJobs;
 
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+    [EditorAuthorization]
     public class HomeController : Controller
     {
         private const string UpdatedVideos = "UpdatedVideos";
@@ -23,7 +22,7 @@ namespace Web.Areas.Admin.Controllers
         {
             JobManager.TriggerVideoUpdaterJob();
             this.TempData[UpdatedVideos] = true;
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction(nameof(Index));
         }
     }
 }

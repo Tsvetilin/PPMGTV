@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Common.Constants;
+using Common.Helpers;
 using Data.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.CronJobs;
@@ -32,7 +32,7 @@ namespace Web.Controllers
         {
             if(!ModelState.IsValid)
             {
-                return this.View("Index", inputModel);
+                return this.View(nameof(Index), inputModel);
             }
 
             ApplicationUser user = null;
@@ -49,27 +49,15 @@ namespace Web.Controllers
                 inputModel.OtherContactInfo,
                 user);
 
-            /*
-             * Start a cron job sending emails
-              
-             */
             JobManager.StartContactLetterJob(letter);
-            /*
-             * Add email news letter and cron job respectively
-             */
 
             this.TempData[TempDataParams.ContactLetterSendSuccessDataParam] = true;
-            return this.RedirectToAction("Index","Contact");
+            return this.RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+        [EditorAuthorization]
         public async Task<IActionResult> AdminView()
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Contact");
-            }
-
             var letters = await contactsService.GetAllAsync<ContactViewModel>();
 
             var viewModel = new ContactAdminViewViewModel
@@ -80,14 +68,9 @@ namespace Web.Controllers
             return this.View(viewModel);
         }
 
-        [Authorize]
+        [EditorAuthorization]
         public async Task<IActionResult> Detail(string id)
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Contact");
-            }
-
             var viewModel = await contactsService.GetByIdAsync<ContactViewModel>(id);
             if(viewModel == null)
             {
@@ -97,18 +80,13 @@ namespace Web.Controllers
             return this.View(viewModel);
         }
 
-        [Authorize]
+        [EditorAuthorization]
         [HttpPost]
         public async Task<IActionResult> Detail([Bind("IsViewed","IsPinned")] ContactViewModel input, bool? isDeleted, string id)
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Contact");
-            }
-
             await contactsService.UpdateAsync(id,isDeleted??false,input.IsPinned,input.IsViewed);
 
-            return this.RedirectToAction("AdminView", "Contact");
+            return this.RedirectToAction(nameof(AdminView));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
@@ -10,7 +11,7 @@ using Web.Models.Videos;
 namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+    [EditorAuthorization]
     public class VideosController : Controller
     {
         private readonly IVideosService videosService;

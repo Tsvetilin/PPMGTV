@@ -1,7 +1,10 @@
-﻿using Common.Constants;
+﻿using AutoMapper;
+using Common.Constants;
 using Data.Models;
 using Services.Contracts.Mapping;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Web.Areas.Admin.Models.Users
@@ -14,22 +17,12 @@ namespace Web.Areas.Admin.Models.Users
 
         public string Email { get; set; }
 
-        public IEnumerable<ApplicationRole> Roles { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
 
-        public bool IsAdmin
-        {
-            get
-            {
-                return Roles.Any(x => x.Name.Equals(ApplicationRolesNames.AdminRole));
-            }
-        }
+        [DisplayName("Администратор")]
+        public bool IsAdmin { get; set; }
 
-        public bool IsEditor
-        {
-            get
-            {
-                return Roles.Any(x => x.Name.Equals(ApplicationRolesNames.EditorRole));
-            }
-        }
+        [DisplayName("Редактор")]
+        public bool IsEditor { get; set; }
     }
 }

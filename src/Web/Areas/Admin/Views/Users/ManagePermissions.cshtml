@@ -1,31 +1,63 @@
-﻿@model Web.Areas.Admin.Models.Users.UserIndexModel
+﻿@model Web.Areas.Admin.Models.Users.UserPermissionsModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1 class="mb-5">All Users</h1>
-<ul class="list-inline text-dark">
-    @foreach (var user in Model?.Users)
-    {
-        <li class="pb-3">
-            <a asp-area="Admin" asp-controller="Users" asp-action="ManagePermissions" asp-route-id="@user.Id" class="color-inherit content-heading clearfix text-decoration-none">
-                <div class="box-hover">
-                    <h3>@user.UserName</h3>
-                    <div class="d-flex">
-                        @if (user.IsAdmin)
-                        {
-                            <h5 class="mx-2 text-danger">Admin</h5>
-                        }
-                        @if (user.IsEditor)
-                        {
-                            <h5 class="mx-2 text-primary">Editor</h5>
-                        }
+<h1 class="mb-5">@Model.UserName</h1>
+<div class="mx-auto">
+    <div>
+        <h3>@Model.UserName</h3>
+        <div class="d-flex">
+            @if (Model.IsAdmin)
+            {
+                <h5 class="mx-2 text-danger">@Html.DisplayNameFor(x => Model.IsAdmin)</h5>
+            }
+            @if (Model.IsEditor)
+            {
+                <h5 class="mx-2 text-primary">@Html.DisplayNameFor(x => Model.IsEditor)</h5>
+            }
+        </div>
+        <p class="pb-0 m-0">@Model.Email</p>
+        <small>@Model.Id</small>
+    </div>
+    <div class="border-success border col-md-4 mx-auto">
+        <form asp-action="ManagePermissions" asp-controller="Users" asp-area="Admin" method="post" class="m-3">
+            <div class="d-flex justify-content-around">
+                <div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsEditor"/> @Html.DisplayNameFor(model => model.IsEditor)
+                        </label>
                     </div>
-                    <p class="pb-0 m-0">@user.Email</p>
-                    <small>@user.Id</small>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                        </label>
+                    </div>
                 </div>
-            </a>
-        </li>
-    }
-</ul>
+                <div class="d-flex">
+                    <input type="submit" class="btn btn-success my-3 mx-3" value="Запази" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="border-success border col-md-4 mx-auto">
+        <div class="d-flex justify-content-around align-items-center">
+            @if (Model.LockoutEnd == null || Model.LockoutEnd < DateTime.UtcNow)
+            {
+                <p>Заключи акаунт</p>
+                <a class="btn btn-success text-white" asp-action="Lock" asp-route-id="@Model.Id">
+                    <i class="fas fa-lock-open"></i>
+                </a>
+            }
+            else
+            {
+                <p>Отключи акаунт</p>
+                <a class="btn btn-danger text-white" asp-action="Unlock" asp-route-id="@Model.Id">
+                    <i class="fas fa-lock"></i>
+                </a>
+            }
+        </div>
+    </div>
+</div>

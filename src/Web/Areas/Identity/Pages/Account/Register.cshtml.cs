@@ -84,12 +84,13 @@ namespace Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser 
-                { 
+                var user = new ApplicationUser
+                {
                     Email = Input.Email,
-                    FullName=Input.FullName, 
-                    UserName= Input.FullName,
-                    IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed
+                    FullName = Input.FullName,
+                    UserName = Input.FullName,
+                    IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed,
+                    LockoutEnabled = true
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

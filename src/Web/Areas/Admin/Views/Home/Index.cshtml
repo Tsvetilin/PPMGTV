@@ -10,38 +10,40 @@
     {
         TempData["UpdatedVideos"] = false;
         <div class="alert alert-info alert-dismissible fade show" role="alert">
-            Successfully updated videos' visibility status!
+            Успешно обновихте автоматичната видимост на видеата!
             <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">OK</span>
             </button>
         </div>
     }
 
-    <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">Hangfire</button>
-    </form>
+    @if (User.IsInRole(Common.Constants.ApplicationRolesNames.AdminRole))
+    {
+        <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
+            <button class="btn btn-primary" type="submit">Hangfire</button>
+        </form>
 
+        <form asp-action="Permissions" asp-controller="Users" asp-area="Admin" method="get" class="m-3">
+            <button class="btn btn-primary" type="submit">Права на потребители</button>
+        </form>
+    }
     <form asp-action="UpdateVideos" asp-controller="Home" asp-area="Admin" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">Auto Update Videos Visibility Status</button>
+        <button class="btn btn-primary" type="submit">Обнови видимостта на видеата</button>
     </form>
 
     <form asp-action="Unlisted" asp-controller="Videos" asp-area="Admin" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">View Unlisted Videos</button>
-    </form>
-
-    <form asp-action="Permissions" asp-controller="Users" asp-area="Admin" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">Manage Users Permissions</button>
+        <button class="btn btn-primary" type="submit">Преглед на непубличните видеа</button>
     </form>
 
     <form asp-action="AdminView" asp-controller="Contact" asp-area="" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">View Contact Letters</button>
+        <button class="btn btn-primary" type="submit">Преглед на получените контактни форми</button>
     </form>
 
     <form asp-action="Index" asp-controller="Videos" asp-area="" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">View All Videos</button>
+        <button class="btn btn-primary" type="submit">Преглед на всички видеа</button>
     </form>
 
     <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
-        <button class="btn btn-primary" type="submit">Manage Team</button>
+        <button class="btn btn-primary" type="submit">Управлявай екипа</button>
     </form>
 </div>

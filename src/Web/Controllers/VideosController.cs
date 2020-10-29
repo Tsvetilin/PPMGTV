@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Common.Constants;
 using Common.Helpers;
 using Data.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
@@ -42,27 +41,17 @@ namespace Web.Controllers
             return this.View(viewModel);
         }
 
-        [Authorize]
+        [EditorAuthorization]
         public IActionResult Create()
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Videos");
-            }
-
             return this.View();
         }
 
 
-        [Authorize]
+        [EditorAuthorization]
         [HttpPost]
         public async Task<IActionResult> Create(VideoInputModel inputModel)
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Videos");
-            }
-
             if (!ModelState.IsValid)
             {
                 return this.View(inputModel);
@@ -77,7 +66,7 @@ namespace Web.Controllers
                 inputModel.IsVisible,
                 user);
 
-            return this.RedirectToAction("Watch", "Videos", new { video.Id });
+            return this.RedirectToAction(nameof(Watch), "Videos", new { video.Id });
         }
 
         public async Task<IActionResult> Watch(string id)
@@ -91,14 +80,9 @@ namespace Web.Controllers
             return this.View(viewModel);
         }
 
-        [Authorize]
+        [EditorAuthorization]
         public async Task<IActionResult> Edit(string id)
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Videos");
-            }
-
             var inputModel = await videosService.GetVideoByIdAsync<VideoInputModel>(id);
 
             if (inputModel == null)
@@ -110,15 +94,10 @@ namespace Web.Controllers
         }
 
 
-        [Authorize]
+        [EditorAuthorization]
         [HttpPost]
         public async Task<IActionResult> Edit(VideoInputModel inputModel, string id)
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Videos");
-            }
-
             if (!ModelState.IsValid)
             {
                 return this.View(inputModel);
@@ -140,24 +119,19 @@ namespace Web.Controllers
                 inputModel.IsVisible,
                 user);
 
-            return this.RedirectToAction("Watch", "Videos", new { id });
+            return this.RedirectToAction(nameof(Watch), "Videos", new { id });
         }
 
-        [Authorize]
+        [EditorAuthorization]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            if (!(User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole)))
-            {
-                return this.RedirectToAction("Index", "Videos");
-            }
-
             if (!await videosService.DeleteAsync(id))
             {
                 return this.NotFound();
             }
 
-            return this.RedirectToAction("Index", "Videos");
+            return this.RedirectToAction(nameof(Index));
         }
 
     }
