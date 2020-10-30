@@ -1,4 +1,5 @@
-﻿using Data.Contracts.Models;
+﻿using Common.Helpers;
+using Data.Contracts.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +9,7 @@ namespace Data.Models
     {
         public Video()
         {
-            this.Id = Guid.NewGuid().ToString();
+            this.Id = Guid.NewGuid().GenerateShortId();
         }
 
         //https://img.youtube.com/vi/<videoId>/hqdefault.jpg

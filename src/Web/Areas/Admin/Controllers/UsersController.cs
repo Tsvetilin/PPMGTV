@@ -95,7 +95,7 @@ namespace Web.Areas.Admin.Controllers
                 return this.NotFound();
             }
 
-            await userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddYears(DetailsConstants.YearsToAdd));
+            await userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddYears(DetailsConstants.YearsToAddToInfinity));
 
             return this.RedirectToAction(nameof(ManagePermissions), new { id });
         }

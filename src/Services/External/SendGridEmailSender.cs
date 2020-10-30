@@ -1,4 +1,5 @@
-﻿using SendGrid;
+﻿using Common.Constants;
+using SendGrid;
 using SendGrid.Helpers.Mail;
 using Services.Contracts.External;
 using System.Threading.Tasks;
@@ -8,14 +9,10 @@ namespace Services.External
     public class SendGridEmailSender : ISendGridEmailSender
     {
         private readonly SendGridClient client;
-        private readonly string sender;
-        private readonly string senderName;
 
-        public SendGridEmailSender(string APIKey, string sender, string senderName)
+        public SendGridEmailSender(string APIKey)
         {
             this.client = new SendGridClient(APIKey);
-            this.sender = sender;
-            this.senderName = senderName;
         }
 
         /// <summary>
@@ -49,7 +46,7 @@ namespace Services.External
                                          string subject,
                                          string htmlMessage)
         {
-            var from = new EmailAddress(sender, senderName);
+            var from = new EmailAddress(SystemNames.SystemEmail, SystemNames.SystemAdminName);
             var to = new EmailAddress(reciever);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlMessage);
             var result =  await client.SendEmailAsync(msg);

@@ -2,6 +2,8 @@
 {
     public static class DetailsConstants
     {
-        public const int YearsToAdd = 100;
+        public const int YearsToAddToInfinity = 1000;
+        public const string VideosControllerName = "Videos";
+        public const string VideoWatchActionName = "Watch";
     }
 }

@@ -1,3 +1,4 @@
+using AspNetCore.SEOHelper;
 using Common.Helpers;
 
 using Data;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,6 +79,7 @@ namespace Web
                     UseConsole());
 
             services.AddHangfireServer();
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -117,12 +120,12 @@ namespace Web
             services.AddTransient<ISendGridEmailSender>(x =>
             {
                 var config = Configuration.GetSection("SendGridEmailSender");
-                return new SendGridEmailSender(config["APIKey"], config["Sender"], config["SenderName"]);
+                return new SendGridEmailSender(config["APIKey"]);
             });
             services.AddTransient<IEmailSender>(x =>
             {
                 var config = Configuration.GetSection("SendGridEmailSender");
-                return new SendGridEmailSender(config["APIKey"], config["Sender"], config["SenderName"]);
+                return new SendGridEmailSender(config["APIKey"]);
             });
             services.AddTransient<ICloudinary>(x =>
             {
@@ -154,6 +157,14 @@ namespace Web
                     .GetResult();
             }
 
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var repository = serviceScope.ServiceProvider.GetRequiredService<IDeletableEntityRepository<Video>>();
+                SitemapFactory.Create(env);
+                new VideosService(repository).AddVideosToSitemap().GetAwaiter().GetResult();
+                SitemapFactory.UpdateSitemap();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -164,10 +175,23 @@ namespace Web
                 app.UseHsts();
             }
 
+            app.Use(async (context, next) =>
+            {
+                var url = context.Request.Path.Value;
+                if (url.Contains("sitemap"))
+                {
+                    context.Request.Path = "/sitemap.xml";
+                }
+
+                await next();
+            });
+
             app.UseStatusCodePagesWithRedirects("/Home/StatusError/{0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseXMLSitemap(env.ContentRootPath);
+            app.UseRobotsTxt(env.ContentRootPath);
             app.UseCookiePolicy();
 
             app.UseRouting();
@@ -190,6 +214,12 @@ namespace Web
 
                 JobManager.StartVideoUpdaterJob();
             }
+
+            app.UseRewriter(
+                new RewriteOptions().
+                Add(new RedirectLowerCaseRule()).
+                Add(new RedirectEndingSlashCaseRule())
+                );
 
             app.UseEndpoints(
                 endpoints =>

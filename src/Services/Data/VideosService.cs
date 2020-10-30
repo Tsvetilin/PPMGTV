@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.Helpers;
 using Data.Contracts.Repositories;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace Services.Data
 
         public async Task<T> GetLatestVideoAsync<T>()
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                 Where(x => x.IsVisible).
                 OrderByDescending(x => x.PremiredOn).
                 To<T>().
@@ -32,12 +33,12 @@ namespace Services.Data
 
         public double CountAllFilms()
         {
-            return this.repository.All().Count();
+            return this.repository.AllAsNoTracking().Count();
         }
 
         public async Task<IEnumerable<T>> GetVideosOnPageAsync<T>(int currentPage = 1, int videosOnPage = 10)
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                 Where(x => x.IsVisible).
                 OrderByDescending(x => x.PremiredOn).
                 Skip((currentPage - 1) * videosOnPage).
@@ -75,13 +76,16 @@ namespace Services.Data
 
         public async Task<T> GetVideoByIdAsync<T>(string id)
         {
-            return await this.repository.All().Where(x => x.Id == id).To<T>().FirstOrDefaultAsync();
+            return await this.repository.AllAsNoTracking().
+                Where(x => x.Id == id).
+                To<T>()
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> DeleteAsync(string id)
         {
             var video = await this.repository.GetByIdWithDeletedAsync(id);
-            if(video == null)
+            if (video == null)
             {
                 return false;
             }
@@ -120,13 +124,22 @@ namespace Services.Data
 
         public async Task<IEnumerable<T>> GetUnlistedVideosOnPageAsync<T>(int currentPage, int videosOnPage)
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                Where(x => !x.IsVisible).
                OrderByDescending(x => x.PremiredOn).
                Skip((currentPage - 1) * videosOnPage).
                Take(videosOnPage).
                To<T>().
                ToListAsync();
+        }
+
+        public async Task AddVideosToSitemap()
+        {
+            var videos = await this.repository.AllAsNoTracking().ToListAsync();
+            foreach (var video in videos)
+            {
+                SitemapFactory.AppendSitemapNode(UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)), video.ModifiedOn ?? video.CreatedOn);
+            }
         }
     }
 }

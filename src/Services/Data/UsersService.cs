@@ -21,14 +21,14 @@ namespace Services.Data
 
         public async Task<IEnumerable<T>> GetUsersAsync<T>()
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                 To<T>().
                 ToListAsync();
         }
 
         public async Task<T> GetUserByIdAsync<T>(string id)
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                 Where(x => x.Id == id).
                 To<T>().
                 FirstOrDefaultAsync();

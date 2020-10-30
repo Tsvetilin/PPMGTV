@@ -39,7 +39,7 @@ namespace Services.Data
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                 OrderByDescending(x => x.IsPinned).
                 ThenBy(x => x.IsViewed).
                 ThenByDescending(x => x.CreatedOn).
@@ -49,7 +49,7 @@ namespace Services.Data
 
         public async Task<T> GetByIdAsync<T>(string id)
         {
-            return await this.repository.All().
+            return await this.repository.AllAsNoTracking().
                 Where(x => x.Id == id).
                 To<T>().
                 FirstOrDefaultAsync();

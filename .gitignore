@@ -351,3 +351,4 @@ MigrationBackup/
 **/wwwroot/lib
 **/appsettings.Production.json
 **/appsettings.Development.json
+**/sitemap.xml

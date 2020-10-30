@@ -24,13 +24,13 @@ namespace Services.CronJobs
         public async Task Work(PerformContext context)
         {
             var videos = repository.All();
-            if(!videos.Any(x =>!x.IsVisible))
+            if (!videos.Any(x => !x.IsVisible))
             {
                 JobManager.StopVideoUpdaterJob();
             }
             foreach (var video in videos)
             {
-                if(!video.IsVisible && video.PremiredOn<=DateTime.UtcNow)
+                if (!video.IsVisible && video.PremiredOn <= DateTime.UtcNow)
                 {
                     video.IsVisible = true;
                     JobManager.StartSubscriptionEmailJob(video);
