@@ -16,11 +16,11 @@
                         <div class="d-flex">
                             @if (user.IsAdmin)
                             {
-                                <h5 class="mx-2 text-danger">@Html.DisplayNameFor(x=>user.IsAdmin)</h5>
+                                <h5 class="mx-2 text-danger">@Html.DisplayNameFor(x => user.IsAdmin)</h5>
                             }
                             @if (user.IsEditor)
                             {
-                        <h5 class="mx-2 text-primary">@Html.DisplayNameFor(x => user.IsEditor)</h5>
+                                <h5 class="mx-2 text-primary">@Html.DisplayNameFor(x => user.IsEditor)</h5>
                             }
                         </div>
                         <p class="pb-0 m-0">@user.Email</p>

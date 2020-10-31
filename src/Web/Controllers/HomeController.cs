@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
-using Services.Data;
 using Web.Models;
 using Web.Models.Index;
 

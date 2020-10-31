@@ -72,7 +72,7 @@ namespace Web.Controllers
             return this.RedirectToAction(nameof(Watch), "Videos", new { video.Id });
         }
 
-        public async Task<IActionResult> Watch(string id)
+        public async Task<IActionResult> Watch(string id, string slug)
         {
             var viewModel = await videosService.GetVideoByIdAsync<VideoViewModel>(id);
             if (viewModel == null)

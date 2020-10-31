@@ -1,4 +1,5 @@
 using AspNetCore.SEOHelper;
+
 using Common.Helpers;
 
 using Data;
@@ -25,12 +26,12 @@ using Microsoft.Extensions.Logging;
 
 using Services.Contracts.Data;
 using Services.Contracts.External;
-using Services.CronJobs;
 using Services.Data;
 using Services.External;
 using Services.Mapping;
 
 using System;
+using System.Net;
 using System.Reflection;
 
 using Web.Models;
@@ -79,7 +80,11 @@ namespace Web
                     UseConsole());
 
             services.AddHangfireServer();
-            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+                options.AppendTrailingSlash = false;
+            });
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -157,11 +162,12 @@ namespace Web
                     .GetResult();
             }
 
+            // Generate Sitemap
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var repository = serviceScope.ServiceProvider.GetRequiredService<IDeletableEntityRepository<Video>>();
+                var videosService = serviceScope.ServiceProvider.GetRequiredService<IVideosService>();
                 SitemapFactory.Create(env);
-                new VideosService(repository).AddVideosToSitemap().GetAwaiter().GetResult();
+                videosService.AddVideosToSitemapAsync().GetAwaiter().GetResult();
                 SitemapFactory.UpdateSitemap();
             }
 
@@ -211,8 +217,6 @@ namespace Web
                             new HangfireAuthorizationFilter()
                         }
                     });
-
-                JobManager.StartVideoUpdaterJob();
             }
 
             app.UseRewriter(
@@ -229,7 +233,10 @@ namespace Web
                         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute(
                         name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                        pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
+                    /*endpoints.MapControllerRoute(
+                        name: "videoRoute",
+                        pattern: "{controller=Videos}/{action=Watch}/{id}/{slug}");*/
                     endpoints.MapRazorPages();
                 });
         }

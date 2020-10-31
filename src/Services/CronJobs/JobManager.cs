@@ -1,18 +1,23 @@
 ﻿using Common.Constants;
 using Data.Models;
 using Hangfire;
+using System;
 
 namespace Services.CronJobs
 {
     public static class JobManager
     {
-        private const string cronJobExpressionLength = "*/2 * * * *";
+        private const string cronJobExpressionLength = "*/1 * * * *";
 
         public static void StartVideoUpdaterJob()
         {
            RecurringJob.AddOrUpdate<MakeVisibleVideosJob>(CronJobsNames.MakeVisibleVideoJobName, x => x.Work(null), cronJobExpressionLength);
         }
 
+        public static void ScheduleVideoUpdaterJob(DateTime jobStartTime)
+        {
+            BackgroundJob.Schedule<MakeVisibleVideosJob>(x => x.Work(null),jobStartTime);
+        }
         public static void TriggerVideoUpdaterJob()
         {
             StartVideoUpdaterJob();

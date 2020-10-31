@@ -1,4 +1,5 @@
-﻿using Data.Models;
+﻿using Common.Helpers;
+using Data.Models;
 using Services.Contracts.Mapping;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -15,5 +16,13 @@ namespace Web.Models.Videos
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime PremiredOn { get; set; }
+
+        public string Slug
+        {
+            get
+            {
+                return SlugGenerator.GenerateSlug(this.Title);
+            }
+        }
     }
 }

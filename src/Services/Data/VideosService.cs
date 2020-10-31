@@ -70,7 +70,7 @@ namespace Services.Data
             await this.repository.AddAsync(video);
             await this.repository.SaveChangesAsync();
 
-            JobManager.StartVideoUpdaterJob();
+            JobManager.ScheduleVideoUpdaterJob(premiredOn);
             return video;
         }
 
@@ -119,7 +119,7 @@ namespace Services.Data
 
             this.repository.Update(video);
             await repository.SaveChangesAsync();
-            JobManager.StartVideoUpdaterJob();
+            JobManager.ScheduleVideoUpdaterJob(premiredOn);
         }
 
         public async Task<IEnumerable<T>> GetUnlistedVideosOnPageAsync<T>(int currentPage, int videosOnPage)
@@ -133,12 +133,15 @@ namespace Services.Data
                ToListAsync();
         }
 
-        public async Task AddVideosToSitemap()
+        public async Task AddVideosToSitemapAsync()
         {
             var videos = await this.repository.AllAsNoTracking().ToListAsync();
             foreach (var video in videos)
             {
-                SitemapFactory.AppendSitemapNode(UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)), video.ModifiedOn ?? video.CreatedOn);
+                SitemapFactory.AppendSitemapNode(
+                    UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)), 
+                    video.ModifiedOn ?? video.CreatedOn
+                    );
             }
         }
     }

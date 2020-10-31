@@ -10,7 +10,6 @@
         Всички излъчвани емисии
     </h1>
 </div>
-<hr />
 
 @if (User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole))
 {
@@ -20,11 +19,14 @@
         </form>
     </div>
 }
+
+<hr />
+
 <ul class="list-inline text-dark">
     @foreach (var videoCard in Model?.Videos)
     {
         <li class="pb-3 text-decoration-none">
-            <a asp-controller="Videos" asp-action="Watch" asp-route-id="@videoCard.Id"
+            <a asp-controller="Videos" asp-action="Watch" asp-route-id="@videoCard.Id" asp-route-slug="@videoCard.Slug"
                class="content-heading clearfix media box-hover text-decoration-none">
                 <img class="rounded float-left h-25 w-25 ml-auto" src="@videoCard.ThumbnailUrl" alt="Video Thumbnail">
                 <div class="col-md-6 ml-4">

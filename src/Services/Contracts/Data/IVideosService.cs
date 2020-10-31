@@ -22,5 +22,7 @@ namespace Services.Contracts.Data
         public Task<bool> DeleteAsync(string id);
 
         public Task UpdateAsync(string id, string youtubeId, string title, string desc, DateTime premiredOn, bool isVisible, ApplicationUser user);
+        
+        public Task AddVideosToSitemapAsync();
     }
 }
