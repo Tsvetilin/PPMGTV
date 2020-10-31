@@ -1,14 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@using static Common.Constants.DataParams
+@using static Common.Constants.ApplicationRolesNames
+
+@{
+    ViewData[TitleViewDataParam] = "Администраторска секция";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1 class="mb-5">Администраторска секция</h1>
 
 <div class="d-flex flex-column">
 
-    @if ((bool?)TempData["UpdatedVideos"] == true)
+    @if ((bool?)TempData[UpdatedVideosSuccessTempDataParam] == true)
     {
-        TempData["UpdatedVideos"] = false;
+        TempData[UpdatedVideosSuccessTempDataParam] = false;
         <div class="alert alert-info alert-dismissible fade show" role="alert">
             Успешно обновихте автоматичната видимост на видеата!
             <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
@@ -17,7 +20,7 @@
         </div>
     }
 
-    @if (User.IsInRole(Common.Constants.ApplicationRolesNames.AdminRole))
+    @if (User.IsInRole(AdminRole))
     {
         <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
             <button class="btn btn-primary" type="submit">Hangfire</button>

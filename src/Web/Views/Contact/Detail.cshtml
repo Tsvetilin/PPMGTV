@@ -1,7 +1,9 @@
 ﻿@model Web.Models.Contact.ContactViewModel
 @using static Common.Helpers.TimeZoneConverter
+@using static Common.Constants.DataParams
+
 @{
-    ViewData["Title"] = "Letter Details";
+    ViewData[TitleViewDataParam] = "Letter Details";
     var fromLoggedUser = Model.UserUserName == null ? "" : $"от регистрирания потребител {Model.UserUserName}";
 }
 
@@ -34,10 +36,10 @@
                 <input class="form-check-input" asp-for="IsViewed" /> @Html.DisplayNameFor(model => model.IsViewed)
             </label>
         </div>
-        <input type="hidden" name="isDeleted" value="false" id="deleteField"/>
+        <input type="hidden" name="isDeleted" value="false" id="deleteField" />
         <div class="d-flex">
             <input type="submit" class="btn btn-success my-3 mx-3" value="Запази" />
-            <input type="submit" class="btn btn-danger my-3 mx-3" value="Изтрий"  id="deleteButton"/>
+            <input type="submit" class="btn btn-danger my-3 mx-3" value="Изтрий" id="deleteButton" />
         </div>
     </form>
 </div>

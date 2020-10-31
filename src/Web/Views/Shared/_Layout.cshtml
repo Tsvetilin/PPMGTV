@@ -1,14 +1,14 @@
 ﻿@using static Common.Constants.SystemNames
-
+@using static Common.Constants.DataParams
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta lang="bg" />
-    @if (ViewData["MetaDescription"] != null && !ViewData["MetaDescription"].Equals(""))
+    @if (ViewData[MetaDescriptionViewDataParam] != null && !ViewData[MetaDescriptionViewDataParam].Equals(""))
     {
-        <meta name="description" content="@ViewData["MetaDescription"]" />
+        <meta name="description" content="@ViewData[MetaDescriptionViewDataParam]" />
     }
     else
     {
@@ -17,9 +17,9 @@
     <meta name="keywords" content="Училищна телевизия, SchoolTV, ППМГ Сливен">
     <meta name="author" content="ППМГ Сливен">
 
-    @if (ViewData["Title"] != null && !ViewData["Title"].Equals(""))
+    @if (ViewData[TitleViewDataParam] != null && !ViewData[TitleViewDataParam].Equals(""))
     {
-        <title>@ViewData["Title"] - @SystemName</title>
+        <title>@ViewData[TitleViewDataParam] - @SystemName</title>
     }
     else
     {

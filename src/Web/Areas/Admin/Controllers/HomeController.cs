@@ -1,4 +1,5 @@
-﻿using Common.Helpers;
+﻿using Common.Constants;
+using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Services.CronJobs;
 
@@ -8,9 +9,6 @@ namespace Web.Areas.Admin.Controllers
     [EditorAuthorization]
     public class HomeController : Controller
     {
-        private const string UpdatedVideos = "UpdatedVideos";
-
-
         [Route("Admin/[controller]/[action]")]
 
         public IActionResult Index()
@@ -21,7 +19,7 @@ namespace Web.Areas.Admin.Controllers
         public IActionResult UpdateVideos()
         {
             JobManager.TriggerVideoUpdaterJob();
-            this.TempData[UpdatedVideos] = true;
+            this.TempData[DataParams.UpdatedVideosSuccessTempDataParam] = true;
             return this.RedirectToAction(nameof(Index));
         }
     }

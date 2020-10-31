@@ -1,5 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Team";
+﻿@model Web.Models.Team.TeamIndexViewModel
+@using static Common.Constants.ApplicationRolesNames
+@using static Common.Constants.DataParams
+
+@{
+    ViewData[TitleViewDataParam] = "Екип";
+    var isEditorUser = User.IsInRole(EditorRole) || User.IsInRole(AdminRole);
 }
 
 <div class="m-auto text-center">
@@ -7,3 +12,56 @@
         Нашият екип
     </h1>
 </div>
+
+@if (isEditorUser)
+{
+    <div class="d-flex">
+        <form class="mx-5" method="get" asp-controller="Team" asp-action="Create">
+            <input class="btn btn-primary" value="Добави" type="submit" />
+        </form>
+    </div>
+}
+
+<hr />
+
+<ul>
+    @foreach (var member in Model.ActiveMembers)
+    {
+        <li>
+            <div class="col-md-4 col-sm-12">
+                <img src="@member.PhotoUrl" />
+                <h5>@member.UserUserName</h5>
+                <p>@member.Descrtiption</p>
+                @if (isEditorUser)
+                {
+                    <a asp-action="Edit" asp-controller="Team" asp-route-id="@member.UserId">
+                        Редактирай
+                    </a>
+                }
+            </div>
+        </li>
+    }
+</ul>
+
+@if (Model.InactiveMembers?.Any() ?? false)
+{
+    <br />
+    <div class="m-auto text-center">
+        <h3 class="font-weight-bold">
+            Бивши членове на екипа
+        </h3>
+    </div>
+    <hr />
+    <ul>
+        @foreach (var member in Model.InactiveMembers)
+        {
+            <li>
+                <div class="col-md-4 col-sm-12">
+                    <img src="@member.PhotoUrl" />
+                </div>
+                <h5>@member.UserUserName</h5>
+                <p>@member.Descrtiption</p>
+            </li>
+        }
+    </ul>
+}

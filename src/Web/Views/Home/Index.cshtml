@@ -1,7 +1,9 @@
-﻿@using Common.Constants
+﻿@using static Common.Constants.SystemNames
+@using static Common.Constants.DataParams
+
 @model Web.Models.Index.HomeIndexViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData[TitleViewDataParam] = "Home Page";
 }
 
 <div class="m-auto text-center">
@@ -9,7 +11,7 @@
         Logo
     </h1>
     <h3>
-        @SystemNames.SystemSlogan
+        @SystemSlogan
     </h3>
 </div>
 

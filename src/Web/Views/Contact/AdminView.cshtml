@@ -1,7 +1,9 @@
 ﻿@model Web.Models.Contact.ContactAdminViewViewModel
 @using static Common.Helpers.TimeZoneConverter
+@using static Common.Constants.DataParams
+
 @{
-    ViewData["Title"] = "All Contact Letters";
+    ViewData[TitleViewDataParam] = "All Contact Letters";
 }
 
 <div class="m-auto text-center pb-3">

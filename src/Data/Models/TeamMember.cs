@@ -18,5 +18,7 @@ namespace Data.Models
 
         [Required]
         public string PhotoUrl { get; set; }
+
+        public bool IsActiveMember { get; set; }
     }
 }

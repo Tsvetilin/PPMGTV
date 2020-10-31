@@ -23,21 +23,21 @@ namespace Common.Helpers
 
         private static string ConvertCyrillicToLatinLetters(string input)
         {
-            var bulgarianLetters = new[]
+            var cyrilicLetters = new[]
                                    {
                                        "а", "б", "в", "г", "д", "е", "ж", "з", "и", "й", "к", "л", "м", "н", "о", "п",
                                        "р", "с", "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ъ", "ь", "ю", "я",
                                    };
-            var latinRepresentationsOfBulgarianLetters = new[]
+            var latinRepresentationsOfCyrilicLetters = new[]
                                                          {
                                                              "a", "b", "v", "g", "d", "e", "j", "z", "i", "y", "k",
                                                              "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h",
                                                              "c", "ch", "sh", "sht", "u", "i", "yu", "ya",
                                                          };
-            for (var i = 0; i < bulgarianLetters.Length; i++)
+            for (var i = 0; i < cyrilicLetters.Length; i++)
             {
-                input = input.Replace(bulgarianLetters[i], latinRepresentationsOfBulgarianLetters[i]);
-                input = input.Replace(bulgarianLetters[i].ToUpper(), CapitalizeFirstLetter(latinRepresentationsOfBulgarianLetters[i]));
+                input = input.Replace(cyrilicLetters[i], latinRepresentationsOfCyrilicLetters[i]);
+                input = input.Replace(cyrilicLetters[i].ToUpper(), CapitalizeFirstLetter(latinRepresentationsOfCyrilicLetters[i]));
             }
 
             return input;

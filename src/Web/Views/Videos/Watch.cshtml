@@ -1,21 +1,22 @@
 ﻿@model Web.Models.Videos.VideoViewModel
 @using static Common.Helpers.TimeZoneConverter
-@using Common.Constants
+@using static Common.Constants.ApplicationRolesNames
+@using static Common.Constants.DataParams
 
 @{
-    ViewData["Title"] = "Watch Video";
+    ViewData[TitleViewDataParam] = "Гледай видео";
 }
 
-@if (User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole))
+@if (User.IsInRole(EditorRole) || User.IsInRole(AdminRole))
 {
-<div class="d-flex">
-    <form class="mx-2" method="get" asp-controller="Videos" asp-action="Edit" asp-route-id="@Model.Id">
-        <input class="btn btn-primary" value="Редактирай" type="submit" />
-    </form>
-    <form class="mx-2" method="post" asp-controller="Videos" asp-action="Delete" asp-route-id="@Model.Id">
-        <input type="submit" class="btn btn-danger" value="Изтрий" onclick="return confirm('Сигурен ли си, че искаш да изтриеш това видео?');"/>
-    </form>
-</div>
+    <div class="d-flex">
+        <form class="mx-2" method="get" asp-controller="Videos" asp-action="Edit" asp-route-id="@Model.Id">
+            <input class="btn btn-primary" value="Редактирай" type="submit" />
+        </form>
+        <form class="mx-2" method="post" asp-controller="Videos" asp-action="Delete" asp-route-id="@Model.Id">
+            <input type="submit" class="btn btn-danger" value="Изтрий" onclick="return confirm('Сигурен ли си, че искаш да изтриеш това видео?');" />
+        </form>
+    </div>
 }
 
 <div class="m-auto text-center">

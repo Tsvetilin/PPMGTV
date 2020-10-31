@@ -1,7 +1,8 @@
 ﻿@model Web.Areas.Admin.Models.Users.UserPermissionsModel
+@using static Common.Constants.DataParams
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData[TitleViewDataParam] = "Права на потребителя";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1 class="mb-5">@Model.UserName</h1>

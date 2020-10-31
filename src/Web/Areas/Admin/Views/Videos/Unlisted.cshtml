@@ -1,8 +1,9 @@
 ﻿@model Web.Models.Videos.VideosIndexViewModel
 @using static Common.Helpers.TimeZoneConverter
+@using static Common.Constants.DataParams
 
 @{
-    ViewData["Title"] = "Unlisted Videos";
+    ViewData[TitleViewDataParam] = "Непублични видеа";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1 class="mb-5">Непублични видеа</h1>

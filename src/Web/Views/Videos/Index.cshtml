@@ -1,8 +1,10 @@
 ﻿@model Web.Models.Videos.VideosIndexViewModel
 @using static Common.Helpers.TimeZoneConverter
-@using Common.Constants
+@using static Common.Constants.ApplicationRolesNames
+@using static Common.Constants.DataParams
+
 @{
-    ViewData["Title"] = "Videos";
+    ViewData[TitleViewDataParam] = "Видеа";
 }
 
 <div class="m-auto text-center mb-5">
@@ -11,7 +13,7 @@
     </h1>
 </div>
 
-@if (User.IsInRole(ApplicationRolesNames.EditorRole) || User.IsInRole(ApplicationRolesNames.AdminRole))
+@if (User.IsInRole(EditorRole) || User.IsInRole(AdminRole))
 {
     <div class="d-flex">
         <form class="mx-5" method="get" asp-controller="Videos" asp-action="Create">

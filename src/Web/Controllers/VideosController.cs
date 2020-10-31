@@ -74,6 +74,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Watch(string id, string slug)
         {
+            // TODO: Consider whether is necessary to forbid non-permited users to be able to see the video, even it is unlisted
             var viewModel = await videosService.GetVideoByIdAsync<VideoViewModel>(id);
             if (viewModel == null)
             {

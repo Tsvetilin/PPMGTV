@@ -51,7 +51,7 @@ namespace Web.Controllers
 
             JobManager.StartContactLetterJob(letter);
 
-            this.TempData[TempDataParams.ContactLetterSendSuccessDataParam] = true;
+            this.TempData[DataParams.ContactLetterSendSuccessTempDataParam] = true;
             return this.RedirectToAction(nameof(Index));
         }
 

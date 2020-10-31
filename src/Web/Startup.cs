@@ -31,7 +31,6 @@ using Services.External;
 using Services.Mapping;
 
 using System;
-using System.Net;
 using System.Reflection;
 
 using Web.Models;
@@ -109,9 +108,9 @@ namespace Web
                 }).
                 AddGoogle(options =>
                 {
-                    var googleAuthNSection = Configuration.GetSection("Authentication:Google");
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    var googleAuthSection = Configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthSection["ClientId"];
+                    options.ClientSecret = googleAuthSection["ClientSecret"];
                 });
 
             // Configuration
@@ -141,6 +140,7 @@ namespace Web
             services.AddTransient<IVideosService, VideosService>();
             services.AddTransient<IContactsService, ContactsService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<ITeamService, TeamService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -234,9 +234,6 @@ namespace Web
                     endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}/{slug?}");
-                    /*endpoints.MapControllerRoute(
-                        name: "videoRoute",
-                        pattern: "{controller=Videos}/{action=Watch}/{id}/{slug}");*/
                     endpoints.MapRazorPages();
                 });
         }
