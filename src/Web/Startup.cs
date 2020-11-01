@@ -12,6 +12,7 @@ using Hangfire.Console;
 using Hangfire.SqlServer;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -54,6 +55,9 @@ namespace Web
             services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options =>
                 {
+                    options.Lockout.AllowedForNewUsers = true;
+                    options.Lockout.MaxFailedAccessAttempts = 15;
+                    options.User.RequireUniqueEmail = true;
                     options.SignIn.RequireConfirmedAccount = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -78,9 +82,10 @@ namespace Web
                     ).
                     UseConsole());
 
-            services.AddHangfireServer();
+            services.AddHangfireServer(options => options.WorkerCount = 2);
             services.AddRouting(options =>
             {
+                options.LowercaseQueryStrings = true;
                 options.LowercaseUrls = true;
                 options.AppendTrailingSlash = false;
             });
@@ -88,6 +93,8 @@ namespace Web
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
+                    options.HttpOnly = HttpOnlyPolicy.Always;
+                    options.Secure = CookieSecurePolicy.Always;
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
@@ -181,6 +188,8 @@ namespace Web
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithRedirects("/Home/StatusError/{0}");
+
             app.Use(async (context, next) =>
             {
                 var url = context.Request.Path.Value;
@@ -192,32 +201,28 @@ namespace Web
                 await next();
             });
 
-            app.UseStatusCodePagesWithRedirects("/Home/StatusError/{0}");
-
             app.UseHttpsRedirection();
+            app.UseCookiePolicy();
+
             app.UseStaticFiles();
             app.UseXMLSitemap(env.ContentRootPath);
             app.UseRobotsTxt(env.ContentRootPath);
-            app.UseCookiePolicy();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //if (env.IsProduction())
-            {
-                app.UseHangfireServer(new BackgroundJobServerOptions { WorkerCount = 2 });
-                app.UseHangfireDashboard(
-                    "/hangfire",
-                    new DashboardOptions
+            app.UseHangfireServer(new BackgroundJobServerOptions { WorkerCount = 2 });
+            app.UseHangfireDashboard(
+                "/hangfire",
+                new DashboardOptions
+                {
+                    Authorization = new[]
                     {
-                        Authorization = new[]
-                        {
                             new HangfireAuthorizationFilter()
-                        }
-                    });
-            }
+                    }
+                });
 
             app.UseRewriter(
                 new RewriteOptions().

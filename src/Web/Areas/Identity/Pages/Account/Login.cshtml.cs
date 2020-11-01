@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
+using Common.Helpers;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -57,6 +58,9 @@ namespace Web.Areas.Identity.Pages.Account
 
             [Display(Name = "Запомни ме")]
             public bool RememberMe { get; set; }
+
+            [GoogleReCaptchaValidation]
+            public string RecaptchaValue { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)

@@ -1,11 +1,7 @@
-﻿@model Web.Models.Contact.ContactInputModel
-@using static Common.Constants.ApplicationRolesNames
-@using static Common.Constants.DataParams
-
-@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+﻿@model ContactInputModel
 
 @{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = "Контакти";
 }
 
 <div class="m-auto text-center">
@@ -15,7 +11,7 @@
     <p>Подай сигнал или изкажи мнение за подобряване на качеството на услугата.</p>
 </div>
 
-@if (User.IsInRole(EditorRole) || User.IsInRole(AdminRole))
+@if (User.IsEditor())
 {
     <div class="d-flex">
         <form class="mx-5" method="get" asp-controller="Contact" asp-action="AdminView">
@@ -63,7 +59,7 @@
                 <input asp-for="OtherContactInfo" class="form-control" />
                 <span asp-validation-for="OtherContactInfo" class="text-danger"></span>
             </div>
-            <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
+            <input type="hidden" id="RecaptchaValue" asp-for="RecaptchaValue" />
             <div class="form-group">
                 <input type="submit" value="Изпращане" class="btn btn-primary" />
                 <br />
@@ -78,13 +74,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
-    <script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'contact_form' }).then(function (token) {
-                document.getElementById("RecaptchaValue").value = token;
-            });
-        });
-    </script>
+    @{await Html.RenderPartialAsync("_GoogleReCaptchaPartial");}
 }

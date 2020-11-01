@@ -1,9 +1,7 @@
-﻿@model Web.Models.Contact.ContactViewModel
-@using static Common.Helpers.TimeZoneConverter
-@using static Common.Constants.DataParams
+﻿@model ContactViewModel
 
 @{
-    ViewData[TitleViewDataParam] = "Letter Details";
+    ViewData[TitleViewDataParam] = "Детайли за сигнал";
     var fromLoggedUser = Model.UserUserName == null ? "" : $"от регистрирания потребител {Model.UserUserName}";
 }
 

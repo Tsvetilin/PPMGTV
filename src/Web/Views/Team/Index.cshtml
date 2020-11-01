@@ -1,10 +1,8 @@
-﻿@model Web.Models.Team.TeamIndexViewModel
-@using static Common.Constants.ApplicationRolesNames
-@using static Common.Constants.DataParams
+﻿@model TeamIndexViewModel
 
 @{
     ViewData[TitleViewDataParam] = "Екип";
-    var isEditorUser = User.IsInRole(EditorRole) || User.IsInRole(AdminRole);
+    var isEditorUser = User.IsEditor();
 }
 
 <div class="m-auto text-center">
@@ -17,7 +15,7 @@
 {
     <div class="d-flex">
         <form class="mx-5" method="get" asp-controller="Team" asp-action="Create">
-            <input class="btn btn-primary" value="Добави" type="submit" />
+            <input class="btn btn-primary" value="Добавяне" type="submit" />
         </form>
     </div>
 }
@@ -29,7 +27,9 @@
     {
         <li>
             <div class="col-md-4 col-sm-12">
-                <img src="@member.PhotoUrl" />
+                <div>
+                    <img src="@member.PhotoUrl" />
+                </div>
                 <h5>@member.UserUserName</h5>
                 <p>@member.Descrtiption</p>
                 @if (isEditorUser)
@@ -57,10 +57,18 @@
         {
             <li>
                 <div class="col-md-4 col-sm-12">
-                    <img src="@member.PhotoUrl" />
+                    <div>
+                        <img src="@member.PhotoUrl" />
+                    </div>
+                    <h5>@member.UserUserName</h5>
+                    <p>@member.Descrtiption</p>
+                    @if (isEditorUser)
+                    {
+                        <a asp-action="Edit" asp-controller="Team" asp-route-id="@member.UserId">
+                            Редактирай
+                        </a>
+                    }
                 </div>
-                <h5>@member.UserUserName</h5>
-                <p>@member.Descrtiption</p>
             </li>
         }
     </ul>

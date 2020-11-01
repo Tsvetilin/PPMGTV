@@ -1,0 +1,21 @@
+﻿<script defer>
+
+    var frame = document.getElementById("video-frame");
+    const vhPercent = 0.80;
+
+    recalculateFrame();
+
+    window.onresize = recalculateFrame;
+
+    function recalculateFrame() {
+        if (document.documentElement.clientHeight  > document.documentElement.clientWidth) {
+            frame.setAttribute("height", `${frame.parentElement.clientWidth * 9 / 16}px`);
+            frame.setAttribute("width", `${frame.parentElement.clientWidth}px`);
+        }
+        else {
+            frame.setAttribute("height", `${document.documentElement.clientHeight * vhPercent}px`);
+            frame.setAttribute("width", `${document.documentElement.clientHeight * vhPercent * 16 / 9}px`);
+        }
+    }
+
+</script>
