@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Common.Helpers;
 using Services.Contracts.External;
 using System;
 using System.IO;
@@ -31,7 +32,7 @@ namespace Services.External
             imageMemoryStream.Position = 0;
             var cloudinaryAccount = new Account(cloudName, apiKey, apiSecret);
             var cloudinary = new CloudinaryDotNet.Cloudinary(cloudinaryAccount);
-            string publicId = Guid.NewGuid().ToString() + fileName;
+            string publicId = Guid.NewGuid().GenerateShortId() + fileName;
             var file = new FileDescription(fileName, imageMemoryStream);
             var uploadParams = new ImageUploadParams
             {

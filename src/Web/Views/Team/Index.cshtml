@@ -34,7 +34,7 @@
                 <p>@member.Descrtiption</p>
                 @if (isEditorUser)
                 {
-                    <a asp-action="Edit" asp-controller="Team" asp-route-id="@member.UserId">
+                    <a asp-action="Edit" asp-controller="Team" asp-route-id="@member.Id">
                         Редактирай
                     </a>
                 }
@@ -64,7 +64,7 @@
                     <p>@member.Descrtiption</p>
                     @if (isEditorUser)
                     {
-                        <a asp-action="Edit" asp-controller="Team" asp-route-id="@member.UserId">
+                        <a asp-action="Edit" asp-controller="Team" asp-route-id="@member.Id">
                             Редактирай
                         </a>
                     }

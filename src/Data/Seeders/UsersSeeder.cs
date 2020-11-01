@@ -24,6 +24,7 @@ namespace Data.Seeders
             {
                 Email = email,
                 EmailConfirmed = true,
+                LockoutEnabled=false,
                 NormalizedEmail = email.ToUpper(),
                 NormalizedUserName = username.ToUpper(),
                 UserName = username,

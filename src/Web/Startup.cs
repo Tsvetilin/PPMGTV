@@ -1,5 +1,5 @@
 using AspNetCore.SEOHelper;
-
+using Common.Constants;
 using Common.Helpers;
 
 using Data;
@@ -99,12 +99,23 @@ namespace Web
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
+            services.AddResponseCaching();
+            services.AddResponseCompression(options =>
+                {
+                    options.EnableForHttps = true;
+                });
+
             services.AddControllersWithViews(
                 options =>
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 });
             services.AddRazorPages();
+
+            services.AddAntiforgery(options =>
+                {
+                    options.HeaderName = DetailsConstants.CSRFCookieHeaderName;
+                });
 
             // Authentication
             services.AddAuthentication().
@@ -203,6 +214,9 @@ namespace Web
 
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
+
+            app.UseResponseCompression();
+            app.UseResponseCaching();
 
             app.UseStaticFiles();
             app.UseXMLSitemap(env.ContentRootPath);

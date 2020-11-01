@@ -1,7 +1,6 @@
 ﻿using Data.Contracts.Repositories;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using Services.Contracts.Data;
 using Services.Mapping;
 using System.Collections.Generic;

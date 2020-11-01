@@ -1,0 +1,139 @@
+﻿@model TeamMemberInputModel
+
+@{
+    var imgSource = Model?.PhotoUrl ?? "";
+}
+<div class="m-auto text-center">
+    <h1 class="font-weight-bold">
+        Добави член на екипа
+    </h1>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form id="createForm" enctype="multipart/form-data" asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserUserName" class="control-label"></label>
+                <input asp-for="UserUserName" id="autocomplete" class="form-control" />
+                <span asp-validation-for="UserUserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descrtiption" class="control-label"></label>
+                <input asp-for="Descrtiption" class="form-control" />
+                <span asp-validation-for="Descrtiption" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActiveMember" /> @Html.DisplayNameFor(model => model.IsActiveMember)
+                </label>
+            </div>
+            <div id="photo-url" class="form-group">
+                <label asp-for="PhotoUrl" class="control-label"></label>
+                <input id="photo-url-field" asp-for="PhotoUrl" class="form-control" />
+                <div><small class="text-dark">Note: Should specify poster URL. If poster preview is not working, url is invalid</small></div>
+                <div><img id="url-preview" src="@imgSource" style="height:200px;" alt="Photo preview" /></div>
+                <div><span asp-validation-for="@Model.PhotoUrl" class="text-danger"></span></div>
+                <button id="upload-img" type="button" class="btn btn-primary my-4">Upload image instead</button>
+            </div>
+            <div id="photo-img" class="form-group">
+                <label asp-for="@Model.PhotoUpload"></label>
+                <input asp-for="@Model.PhotoUpload" />
+                <button id="upload-url" type="button" class="btn btn-primary my-4">Specify poster URL instead </button>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавяне" class="btn btn-primary" />
+            </div>
+            <div>
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад към екипа</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+            const uploadImgBut = "#upload-img";
+            const uploadImgSection = "#photo-img";
+            const uploadUrlBut = "#upload-url";
+            const uploadUrlSection = "#photo-url";
+            const urlField = "#photo-url-field";
+            const urlImgPreview = "#url-preview";
+            const spinner = ".spinner-border";
+            const fetchBut = ".submit-but";
+            const imgFieldEmptyValue = "@Guid.NewGuid().ToString()";
+            const fetchUrlResult = "@imgSource";
+
+            $(uploadImgSection).hide();
+            $(spinner).hide();
+
+            $(uploadImgBut).click(function () {
+                $(uploadUrlSection).hide();
+                $(uploadImgSection).show();
+                $(urlField).val(imgFieldEmptyValue);
+            });
+
+            $(uploadUrlBut).click(function () {
+                $(uploadUrlSection).show();
+                $(uploadImgSection).hide();
+                $(urlField).val(fetchUrlResult);
+            });
+
+            $(urlField).on("input",function () {
+                $(urlImgPreview).attr("src", $(urlField).val());
+            });
+
+            $(fetchBut).click(function () {
+                $(spinner).show();
+            });
+
+        })
+    </script>
+
+    <script defer>
+            var token = $("#createForm input[name=__RequestVerificationToken]").val();
+
+        $('#autocomplete').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    headers: {
+                        '@CSRFCookieHeaderName': token,
+                        '@AuthenticationCookieHeaderName': '@ViewData[AuthenticationCookieViewDataParam]'
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    type: 'POST',
+                    url: `/team/suggestuserusername?part=${$("#autocomplete").val()}`,
+                    success: function (data) {
+                         $('input.suggest-user').removeClass('ui-autocomplete-loading');
+                    },
+                    error: function (data) {
+                        console.log(data);
+
+                        $('input.suggest-user').removeClass('ui-autocomplete-loading');
+                        }
+                });
+             },
+        onSelect: function (suggestion) {
+            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        }
+    });
+
+    </script>
+}

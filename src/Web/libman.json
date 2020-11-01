@@ -38,6 +38,14 @@
         "webfonts/fa-solid-900.woff",
         "webfonts/fa-solid-900.woff2"
       ]
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "files": [
+        "jquery-ui.min.js",
+        "jquery-ui.min.css"
+      ],
+      "destination": "wwwroot/lib/jquery-ui/"
     }
   ]
 }
