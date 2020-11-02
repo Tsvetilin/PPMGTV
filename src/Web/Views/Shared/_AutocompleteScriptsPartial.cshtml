@@ -1,0 +1,26 @@
+﻿<script defer>
+            var token = $("#Form input[name=__RequestVerificationToken]").val();
+
+        $('#autocomplete').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    headers: {
+                        '@CSRFCookieHeaderName': token,
+                        '@AuthenticationCookieHeaderName': '@ViewData[AuthenticationCookieViewDataParam]'
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    type: 'POST',
+                    url: `/admin/users/suggestuserusername?part=${$("#autocomplete").val()}`,
+                    success: function (data) {
+                        response(data.suggestions);
+                         $('input.suggest-user').removeClass('ui-autocomplete-loading');
+                    },
+                    error: function (data) {
+                        $('input.suggest-user').removeClass('ui-autocomplete-loading');
+                    }
+                });
+             }
+    });
+
+</script>

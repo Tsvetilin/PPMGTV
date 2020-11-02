@@ -6,6 +6,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1 class="mb-5">Всички потребители</h1>
+<hr />
+
+<form id="Form" asp-action="Permissions" method="get">
+    <div class="form-group">
+        <label> Търси потребител по име</label>
+        <input name="userSearch" id="autocomplete" class="form-control" />
+    </div>
+</form>
+
+<br />
 <ul class="list-inline text-dark">
     @foreach (var user in Model?.Users)
     {
@@ -46,3 +56,7 @@
         </li>
     }
 </ul>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_AutocompleteScriptsPartial");}
+}

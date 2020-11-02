@@ -10,5 +10,7 @@ namespace Services.Contracts.Data
         public Task<T> GetUserByIdAsync<T>(string id);
 
         public string GetNameSuggestions(string part);
+
+        public IEnumerable<T> GetSearchResultsUsers<T>(string part);
     }
 }

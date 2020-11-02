@@ -1,4 +1,5 @@
-﻿using Data.Contracts.Repositories;
+﻿using Common.Helpers;
+using Data.Contracts.Repositories;
 using Data.Models;
 using EllipticCurve;
 using Microsoft.EntityFrameworkCore;
@@ -38,61 +39,21 @@ namespace Services.Data
 
         public string GetNameSuggestions(string part)
         {
-            List<string> names = new List<string>();
-            var allNames = this.repository.AllAsNoTracking().Select(x => x.UserName.ToLower()).ToList();
-            var search = part.ToLower();
-
-            names.AddRange(allNames.Where(x => x.StartsWith(search)));
-
-            for (int startIndex = 0; startIndex < search.Length; startIndex++)
-            {
-                for (int endIndex = 0; endIndex < search.Length; endIndex++)
-                {
-                    if (endIndex + 1 - startIndex > 0)
-                    {
-                        names.AddRange(allNames.Where(x => x.Contains(search.Substring(startIndex, endIndex + 1 - startIndex))));
-
-                    }
-                }
-            }
-
-            allNames = allNames.Distinct().ToList();
-
-            var suggestions = allNames.
-                Select(x =>
-                    new Suggestion
-                    {
-                        Data = x,
-                        Value = x
-                    }).
-                 ToArray();
-
-            var suggestionResponse = new SuggestionResponse
-            {
-                Suggestions = suggestions
-            };
-
-            var response = JsonSerializer.Serialize(suggestionResponse);
-
-            return response.ToLower();
+            return this.repository.AllAsNoTracking().
+                Select(x => x.UserName).
+                GetSearchSuggestionsResult(part).
+                ToSuggestionJsonResult();
         }
 
-        private class SuggestionResponse
+        public IEnumerable<T> GetSearchResultsUsers<T>(string part)
         {
-            public Suggestion[] Suggestions { get; set; }
+            return this.repository.AllAsNoTracking().
+                Select(x => x.UserName).
+                GetSearchSuggestionsResult(part).
+                Select(x => this.repository.AllAsNoTracking().FirstOrDefault(user => user.UserName == x)).
+                To<T>().
+                ToList();
         }
 
-        private class Suggestion
-        {
-            public string Value { get; set; }
-            public string Data { get; set; }
-        }
-        /*
-         "suggestions": [
-        { "value": "United Arab Emirates", "data": "AE" },
-        { "value": "United Kingdom",       "data": "UK" },
-        { "value": "United States",        "data": "US" }
-    ]
-        */
     }
 }

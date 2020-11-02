@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common.Constants;
@@ -6,7 +8,6 @@ using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Services.Contracts.Data;
 using Web.Areas.Admin.Models.Users;
 
@@ -25,15 +26,27 @@ namespace Web.Areas.Admin.Controllers
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Permissions()
+        public async Task<IActionResult> Permissions(string userSearch = null)
         {
-            var users = await usersService.GetUsersAsync<UserPermissionsModel>();
+            IEnumerable<UserPermissionsModel> users;
+
+            ViewData[DataParams.AuthenticationCookieViewDataParam] = this.HttpContext.Request.Cookies[DetailsConstants.AuthenticationCookieHeaderName];
+            if (!string.IsNullOrWhiteSpace(userSearch))
+            {
+                users =  usersService.GetSearchResultsUsers<UserPermissionsModel>(userSearch);
+            }
+            else
+            {
+                users = await usersService.GetUsersAsync<UserPermissionsModel>();
+            }
+
             foreach (var user in users)
             {
                 var rolesNames = await userManager.GetRolesAsync(await userManager.FindByIdAsync(user.Id));
                 user.IsEditor = rolesNames?.Any(x => x.Equals(ApplicationRolesNames.EditorRole)) ?? false;
                 user.IsAdmin = rolesNames?.Any(x => x.Equals(ApplicationRolesNames.AdminRole)) ?? false;
             }
+
             var viewModel = new UserIndexModel
             {
                 Users = users.ToList()
@@ -111,6 +124,20 @@ namespace Web.Areas.Admin.Controllers
             await userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
 
             return this.RedirectToAction(nameof(ManagePermissions), new { id });
+        }
+
+        [HttpPost]
+        [Produces("application/json")]
+        public IActionResult SuggestUserUserName(string part)
+        {
+            if (string.IsNullOrWhiteSpace(part))
+            {
+                this.BadRequest();
+            }
+
+            var suggestions = usersService.GetNameSuggestions(part);
+
+            return this.Content(suggestions);
         }
     }
 }

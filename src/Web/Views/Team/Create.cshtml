@@ -12,12 +12,13 @@
 <hr />
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <form id="createForm" enctype="multipart/form-data" asp-action="Create" method="post">
+        <form id="Form" enctype="multipart/form-data" asp-action="Create" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
                 <input asp-for="UserId" class="form-control" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
+                <div><small class="text-dark">Забележка: Уникалният идентификационен номер на потребителя може да намерите в <a asp-area="Admin" asp-controller="Users" asp-action="Permissions">Администраторската секция.</a></small></div>
             </div>
             <div class="form-group">
                 <label asp-for="UserUserName" class="control-label"></label>
@@ -37,22 +38,22 @@
             <div id="photo-url" class="form-group">
                 <label asp-for="PhotoUrl" class="control-label"></label>
                 <input id="photo-url-field" asp-for="PhotoUrl" class="form-control" />
-                <div><small class="text-dark">Note: Should specify poster URL. If poster preview is not working, url is invalid</small></div>
+                <div><small class="text-dark">Забележка: Трябва да напишете връзка към съществуващ адрес. Ако визуализацията не работи, адресът е невалиден.</small></div>
                 <div><img id="url-preview" src="@imgSource" style="height:200px;" alt="Photo preview" /></div>
                 <div><span asp-validation-for="@Model.PhotoUrl" class="text-danger"></span></div>
-                <button id="upload-img" type="button" class="btn btn-primary my-4">Upload image instead</button>
+                <button id="upload-img" type="button" class="btn btn-primary my-4">Качете снимка вместо това</button>
             </div>
             <div id="photo-img" class="form-group">
                 <label asp-for="@Model.PhotoUpload"></label>
                 <input asp-for="@Model.PhotoUpload" />
-                <button id="upload-url" type="button" class="btn btn-primary my-4">Specify poster URL instead </button>
+                <button id="upload-url" type="button" class="btn btn-primary my-4">Напишете връзка към съществуваш адрес вместо това </button>
             </div>
             <div class="form-group">
                 <input type="submit" value="Добавяне" class="btn btn-primary" />
             </div>
             <div>
                 <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+                    <span class="sr-only">Зареждане...</span>
                 </div>
             </div>
         </form>
@@ -106,34 +107,6 @@
         })
     </script>
 
-    <script defer>
-            var token = $("#createForm input[name=__RequestVerificationToken]").val();
+    @{await Html.RenderPartialAsync("_AutocompleteScriptsPartial");}
 
-        $('#autocomplete').autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    headers: {
-                        '@CSRFCookieHeaderName': token,
-                        '@AuthenticationCookieHeaderName': '@ViewData[AuthenticationCookieViewDataParam]'
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    type: 'POST',
-                    url: `/team/suggestuserusername?part=${$("#autocomplete").val()}`,
-                    success: function (data) {
-                         $('input.suggest-user').removeClass('ui-autocomplete-loading');
-                    },
-                    error: function (data) {
-                        console.log(data);
-
-                        $('input.suggest-user').removeClass('ui-autocomplete-loading');
-                        }
-                });
-             },
-        onSelect: function (suggestion) {
-            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-        }
-    });
-
-    </script>
 }

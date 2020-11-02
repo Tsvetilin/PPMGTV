@@ -49,24 +49,8 @@ namespace Web.Controllers
         public IActionResult Create()
         {
             ViewData[DataParams.AuthenticationCookieViewDataParam] = this.HttpContext.Request.Cookies[DetailsConstants.AuthenticationCookieHeaderName];
-            //var cookies = HttpContext.Request.Headers[HeaderNames.Cookie];
-            //ViewData[DataParams.AuthenticationCookieViewDataParam] = [".AspNetCore.Identity.Application"];
+
             return this.View();
-        }
-
-        [Authorize(Roles = ApplicationRolesNames.AdminRole)]
-        [HttpPost]
-        [Produces("application/json")]
-        public IActionResult SuggestUserUserName(string part)
-        {
-            if(string.IsNullOrWhiteSpace(part))
-            {
-                this.BadRequest();
-            }
-
-            var suggestions = usersService.GetNameSuggestions(part);
-
-            return this.Content(suggestions);
         }
 
         [HttpPost]
