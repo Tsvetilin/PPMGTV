@@ -22,15 +22,19 @@
 
 <hr />
 
-<ul>
+<ul class="list-unstyled">
     @foreach (var member in Model.ActiveMembers)
     {
-        <li>
-            <div class="col-md-4 col-sm-12">
+        <li class="col-md-4 col-sm-12 mb-4">
+            <div>
                 <div>
-                    <img src="@member.PhotoUrl" />
+                    <img class="w-100" src="@member.PhotoUrl" />
                 </div>
-                <h5>@member.UserUserName</h5>
+                <div class="d-flex justify-content-center">
+                    <h5>
+                        @member.UserUserName
+                    </h5>
+                </div>
                 <p>@member.Descrtiption</p>
                 @if (isEditorUser)
                 {

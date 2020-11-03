@@ -130,6 +130,7 @@ namespace Web.Areas.Admin.Controllers
         [Produces("application/json")]
         public IActionResult SuggestUserUserName(string part)
         {
+            Console.WriteLine(part);
             if (string.IsNullOrWhiteSpace(part))
             {
                 this.BadRequest();

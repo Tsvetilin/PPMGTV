@@ -8,10 +8,11 @@
 <h1 class="mb-5">Всички потребители</h1>
 <hr />
 
-<form id="Form" asp-action="Permissions" method="get">
+<form id="Form" asp-action="Permissions" method="get" class="col-md-4 col-sm-12">
     <div class="form-group">
         <label> Търси потребител по име</label>
         <input name="userSearch" id="autocomplete" class="form-control" />
+        @Html.AntiForgeryToken()
     </div>
 </form>
 

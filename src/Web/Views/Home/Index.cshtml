@@ -12,13 +12,18 @@
     </h3>
 </div>
 
-<div class="row">
+<div class="row mb-5">
     <iframe id="video-frame"
             class="m-auto"
             src="@Model.VideoUrl"
             frameborder="0"
             allowfullscreen></iframe>
 </div>
+
+<h3>За ППМГ ТВ</h3>
+<p class="my-3">........</p>
+
+<p class="my-3"><a asp-area="Identity" asp-page="/Account/Register">Регистрирайте се</a>, за да получавате известия при наличието на ново излъчване.</p>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_FrameResizeScriptsParial");}

@@ -1,5 +1,5 @@
 ﻿<script defer>
-            var token = $("#Form input[name=__RequestVerificationToken]").val();
+        var token = $("#Form input[name=__RequestVerificationToken]").val();
 
         $('#autocomplete').autocomplete({
             source: function (request, response) {
@@ -14,9 +14,12 @@
                     url: `/admin/users/suggestuserusername?part=${$("#autocomplete").val()}`,
                     success: function (data) {
                         response(data.suggestions);
+                        console.log(data);
                          $('input.suggest-user').removeClass('ui-autocomplete-loading');
                     },
                     error: function (data) {
+                        console.log(data);
+
                         $('input.suggest-user').removeClass('ui-autocomplete-loading');
                     }
                 });
