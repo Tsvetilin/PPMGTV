@@ -4,14 +4,14 @@
     ViewData[TitleViewDataParam] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">Грешка</h1>
+<h2 class="text-danger">Възникна грешка докато обработвахме заявката ви.</h2>
 
 @if (Model.ShowRequestId)
 {
     <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        <strong>Идентификатор на заявката:</strong> <code>@Model.RequestId</code>
     </p>
 }
 
-<h5>For more information, please contact the administrator</h5>
+<h5>За повече информация, моля свържете се с администратор.</h5>

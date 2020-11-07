@@ -8,6 +8,7 @@
         public const string SystemSlogan = "";
 
         public const string LocalTimeZone = "FLE Standard Time";
-        public const string BaseUrl = "https://ppmgtv.com";
+        //public const string BaseUrl = "https://ppmgtv.com";
+        public const string BaseUrl = "https://ppmgtv.azurewebsites.net";
     }
 }

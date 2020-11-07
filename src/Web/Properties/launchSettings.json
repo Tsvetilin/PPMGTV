@@ -20,6 +20,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "VaultUri": "https://ppmgtvvault.vault.azure.net/",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
       },

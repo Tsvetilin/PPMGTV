@@ -352,3 +352,5 @@ MigrationBackup/
 **/appsettings.Production.json
 **/appsettings.Development.json
 **/sitemap.xml
+ServiceDependencies/
+**/serviceDependencies.*

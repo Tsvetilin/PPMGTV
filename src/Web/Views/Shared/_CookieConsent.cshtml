@@ -1,23 +1,23 @@
 ﻿@{
     var consentFeature = this.Context.Features.Get<ITrackingConsentFeature>();
     var showBanner = !consentFeature?.CanTrack ?? false;
-    var cookieString = consentFeature?.CreateConsentCookie();
 }
 
 @if (showBanner)
 {
-<div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-    Използваме бисквитки за да разберем как използваш сайта и да подобрим преживяването. <a asp-area="" asp-controller="Home" asp-action="Privacy">Научи повече</a>.
-    <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-        <span aria-hidden="true">Приемам</span>
-    </button>
-</div>
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+        Използваме бисквитки за да разберем как използваш сайта и да подобрим преживяването. <a asp-area="" asp-controller="Home" asp-action="Privacy">Научи повече</a>.
+        <button id="cookieConsentBut" type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">Приемам</span>
+        </button>
+    </div>
 
 
-    <script defer>
-        var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+    <script>
+        var button = document.getElementById("cookieConsentBut");
+        console.log(button);
         button.addEventListener("click", function () {
-            document.cookie = button.dataset.cookieString;
+            document.location.href = `@CookieConsentRedirect/${document.location.pathname}`;
         }, false);
     </script>
 }
