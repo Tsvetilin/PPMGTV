@@ -7,7 +7,7 @@
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h4>@ViewData["Title"]</h4>
+<h4>Конфигурирай приложението за двустепенна автентикация</h4>
 <div>
     <p>За да използвате приложение за автентикация трябва:</p>
     <ol class="list">
@@ -23,7 +23,6 @@
         </li>
         <li>
             <p>Сканирайте QR кода или въведете следният слюч <kbd>@Model.SharedKey</kbd> във вашето приложение за двуфакторна автентикация. Главни и малки букви, както и разстояние, нямт значение</p>
-            <div class="alert alert-info">Разбери как да <a href="https://go.microsoft.com/fwlink/?Linkid=852423">пуснеш QR code генерирането</a>.</div>
             <div id="qrCode"></div>
             <div id="qrCodeData" data-url="@Html.Raw(@Model.AuthenticatorUri)"></div>
         </li>
@@ -49,6 +48,19 @@
     </ol>
 </div>
 
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="~/lib/qrcodejs/qrcode.min.js" asp-append-version="true"></script>
+
+    <script>
+        console.log("HEree!!!");
+        new QRCode(document.getElementById("qrCode"),
+            {
+                text: "@Html.Raw(Model.AuthenticatorUri)",
+                width: 150,
+                height: 150
+            });
+    </script>
 }

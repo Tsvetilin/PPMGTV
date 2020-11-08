@@ -46,6 +46,15 @@
         "jquery-ui.min.css"
       ],
       "destination": "wwwroot/lib/jquery-ui/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "qrcodejs@1.0.0",
+      "files": [
+        "qrcode.js",
+        "qrcode.min.js"
+      ],
+      "destination": "wwwroot/lib/qrcodejs/"
     }
   ]
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Linq;
@@ -11,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Common.Constants;
 
 namespace Web.Areas.Identity.Pages.Account.Manage
 {
@@ -124,8 +122,8 @@ namespace Web.Areas.Identity.Pages.Account.Manage
 
             SharedKey = FormatKey(unformattedKey);
 
-            var email = await _userManager.GetEmailAsync(user);
-            AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
+            var username = await _userManager.GetUserNameAsync(user);
+            AuthenticatorUri = GenerateQrCodeUri(username, unformattedKey);
         }
 
         private string FormatKey(string unformattedKey)
@@ -145,12 +143,12 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             return result.ToString().ToLowerInvariant();
         }
 
-        private string GenerateQrCodeUri(string email, string unformattedKey)
+        private string GenerateQrCodeUri(string username, string unformattedKey)
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("Web"),
-                _urlEncoder.Encode(email),
+                _urlEncoder.Encode(SystemNames.SystemName),
+                _urlEncoder.Encode(username),
                 unformattedKey);
         }
     }

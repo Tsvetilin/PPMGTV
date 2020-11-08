@@ -20,8 +20,8 @@ namespace Web
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                   // var env = Environment.GetEnvironmentVariable(AspNetEnviramentVariableName) ?? ProductionEnvironmentName;
-                   // if (env == ProductionEnvironmentName)
+                    var env = Environment.GetEnvironmentVariable(AspNetEnviramentVariableName) ?? ProductionEnvironmentName;
+                    if (env == ProductionEnvironmentName)
                     {
                         var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable(VaultUri));
                         config.AddAzureKeyVault(

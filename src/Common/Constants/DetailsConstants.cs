@@ -9,6 +9,7 @@
         public const string CSRFCookieHeaderName = "X-CSRF-TOKEN";
         public const string AspNetEnviramentVariableName = "ASPNETCORE_ENVIRONMENT";
         public const string ProductionEnvironmentName = "Production";
+        public const string DevelopmentEnvironmentName = "Development";
         public const string VaultUri = "VaultUri";
 
         public static string CookieConsentRedirect => $"{SystemNames.BaseUrl}/home/setconsentcookie";
