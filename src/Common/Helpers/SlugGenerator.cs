@@ -50,7 +50,7 @@ namespace Common.Helpers
                 return input;
             }
 
-            return input.Substring(0, 1).ToUpper(CultureInfo.CurrentCulture) + input.Substring(1);
+            return input.Substring(0, 1).ToUpper(CultureInfo.CurrentCulture) + input[1..];
         }
     }
 }

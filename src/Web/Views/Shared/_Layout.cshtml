@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="bg">
 <head>
+    <partial name="_GoogleAnalyticsPartial" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta lang="bg" />
@@ -12,7 +13,7 @@
     {
         <meta name="description" content="Училищна телевизия към ППМГ&quot;Добр Чинтулов&quot; Сливен">
     }
-    <meta name="keywords" content="Училищна телевизия, SchoolTV, ППМГ Сливен">
+    <meta name="keywords" content="Училищна телевизия, ППМГТВ, ППМГ ТВ, PPMGTV, PPMG TV, SchoolTV, ППМГ Сливен">
     <meta name="author" content="ППМГ Сливен">
 
     @if (ViewData[TitleViewDataParam] != null && !ViewData[TitleViewDataParam].Equals(""))
@@ -26,7 +27,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/fontawsome/css/all.min.css" />
-        <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" />
     </environment>
     <environment exclude="Development">
@@ -34,9 +35,9 @@
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
               integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
               crossorigin="anonymous">
-        <link rel="stylesheet" 
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
-              integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" 
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+              integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
               crossorigin="anonymous" />
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
@@ -84,10 +85,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            @{ var currentYear = DateTime.UtcNow.Year > 2020 ? $" - {DateTime.UtcNow.Year}" : "";
+            @{ var currentYear = DateTime.UtcNow.Year > 2020 ? $"- {DateTime.UtcNow.Year}" : "";
 
             }
-            &copy; @DateTime.UtcNow.Year@currentYear - @SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
+            &copy; 2020 @currentYear - @SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Политика за поверителност</a>
         </div>
     </footer>
     <environment include="Development">

@@ -57,7 +57,7 @@ namespace Common.Helpers
                 new SitemapNode
                 {
                     LastModified = DateTime.UtcNow,
-                    Priority = 0.5,
+                    Priority = 0.3,
                     Url = $"{SystemNames.BaseUrl}/identity/account/login",
                     Frequency = SitemapFrequency.Never
                 },

@@ -79,7 +79,6 @@ namespace Web.Controllers
             }
 
             return RedirectToAction(action ?? "Index", controller ?? "Home", new { Id = args });
-            //".AspNet.Consent=yes; expires={datetime}; path=/; secure; samesite=none; httponly"
         }
     }
 }
