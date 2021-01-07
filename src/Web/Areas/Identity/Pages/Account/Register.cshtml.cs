@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using Common.Helpers;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -70,6 +71,9 @@ namespace Web.Areas.Identity.Pages.Account
             [Required]
             [DisplayName("Искам да получавам известия с актуалната информация по имейл (може да се промени по-късно)")]
             public bool IsNewsLetterSubscribed { get; set; }
+
+            [GoogleReCaptchaValidation]
+            public string RecaptchaValue { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)

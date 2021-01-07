@@ -16,6 +16,7 @@ namespace Web.Models.Team
 
         [Required]
         [DisplayName("Описание")]
+        [DataType(DataType.Html)]
         public string Descrtiption { get; set; }
 
         [Required]
