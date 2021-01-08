@@ -2,6 +2,7 @@
 <html lang="bg">
 <head>
     <partial name="_GoogleAnalyticsPartial" />
+    <partial name="_GoogleTagManagerPartial" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta lang="bg" />
@@ -47,6 +48,7 @@
     </environment>
 </head>
 <body>
+    <partial name="_GoogleTagManagerNoScriptPartial" />
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -77,7 +79,7 @@
     </header>
 
     <div class="container">
-        <partial name="_CookieConsent" />
+        <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
