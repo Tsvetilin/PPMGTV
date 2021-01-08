@@ -1,4 +1,5 @@
-﻿using Data.Contracts.Repositories;
+﻿using Common.Helpers;
+using Data.Contracts.Repositories;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
@@ -11,44 +12,52 @@ namespace Services.Data
 {
     public class TeamService : ITeamService
     {
-        private readonly IDeletableEntityRepository<TeamMember> repository;
+        private readonly IDeletableEntityRepository<Team> repository;
 
-        public TeamService(IDeletableEntityRepository<TeamMember> repository)
+        public TeamService(IDeletableEntityRepository<Team> repository)
         {
             this.repository = repository;
+        }
+
+        public async Task<Team> CreateAsync(string title, string years, string photoUrl, string preDesc, string desc)
+        {
+            var team = new Team
+            {
+                TeamTitle=title,
+                TeamYears=years,
+                PhotoUrl=photoUrl,
+                PreDescription=preDesc,
+                Descrtiption=desc.SanitizeHtml(),
+            };
+
+            await this.repository.AddAsync(team);
+            await this.repository.SaveChangesAsync();
+
+            return team;
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            var team = await this.repository.GetByIdWithDeletedAsync(id);
+            if (team == null)
+            {
+                return false;
+            }
+
+            this.repository.Delete(team);
+            await repository.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await this.repository.AllAsNoTracking().
-                OrderBy(x => x.IsActiveMember).
-                ThenBy(x => x.CreatedOn).
+                OrderByDescending(x => x.CreatedOn).
                 To<T>().
                 ToListAsync();
         }
 
-        public async Task<TeamMember> CreateAsync(
-            ApplicationUser user,
-            bool isActive,
-            string photoUrl,
-            string desc
-            )
-        {
-            var member = new TeamMember
-            {
-                IsActiveMember = isActive,
-                User = user,
-                PhotoUrl = photoUrl,
-                Descrtiption = desc
-            };
-
-            await this.repository.AddAsync(member);
-            await this.repository.SaveChangesAsync();
-
-            return member;
-        }
-
-        public async Task<T> GetTeamMemberByIdAsync<T>(string id)
+        public async Task<T> GetTeamByIdAsync<T>(string id)
         {
             return await this.repository.AllAsNoTracking().
                 Where(x => x.Id == id).
@@ -56,36 +65,19 @@ namespace Services.Data
                 FirstOrDefaultAsync();
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task UpdateAsync(string id, string title, string years, string photoUrl, string preDesc, string desc)
         {
-            var member = await this.repository.GetByIdWithDeletedAsync(id);
-            if (member == null)
+            var team = new Team
             {
-                return false;
-            }
-
-            this.repository.Delete(member);
-            await repository.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task UpdateAsync(
-            string id,
-            ApplicationUser user,
-            bool isActive,
-            string photoUrl,
-            string desc)
-        {
-            var member = new TeamMember
-            {
-                Id = id,
-                IsActiveMember = isActive,
-                User = user,
+                Id=id,
+                TeamTitle = title,
+                TeamYears = years,
                 PhotoUrl = photoUrl,
-                Descrtiption = desc
+                PreDescription = preDesc,
+                Descrtiption = desc.SanitizeHtml(),
             };
 
-            this.repository.Update(member);
+            this.repository.Update(team);
             await repository.SaveChangesAsync();
         }
     }

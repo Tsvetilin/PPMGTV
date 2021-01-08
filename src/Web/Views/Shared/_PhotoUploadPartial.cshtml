@@ -1,0 +1,41 @@
+﻿@model string
+
+<script>
+        $(document).ready(function () {
+
+            const uploadImgBut = "#upload-img";
+            const uploadImgSection = "#photo-img";
+            const uploadUrlBut = "#upload-url";
+            const uploadUrlSection = "#photo-url";
+            const urlField = "#photo-url-field";
+            const urlImgPreview = "#url-preview";
+            const spinner = ".spinner-border";
+            const fetchBut = ".submit-but";
+            const imgFieldEmptyValue = "@Guid.NewGuid().ToString()";
+            const fetchUrlResult = "@Model";
+
+            $(uploadImgSection).hide();
+            $(spinner).hide();
+
+            $(uploadImgBut).click(function () {
+                $(uploadUrlSection).hide();
+                $(uploadImgSection).show();
+                $(urlField).val(imgFieldEmptyValue);
+            });
+
+            $(uploadUrlBut).click(function () {
+                $(uploadUrlSection).show();
+                $(uploadImgSection).hide();
+                $(urlField).val(fetchUrlResult);
+            });
+
+            $(urlField).on("input",function () {
+                $(urlImgPreview).attr("src", $(urlField).val());
+            });
+
+            $(fetchBut).click(function () {
+                $(spinner).show();
+            });
+
+        })
+</script>

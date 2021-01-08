@@ -159,6 +159,7 @@ namespace Web
             services.AddTransient<IContactsService, ContactsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<ITeamMemberService, TeamMemberService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

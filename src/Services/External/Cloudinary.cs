@@ -26,7 +26,7 @@ namespace Services.External
         /// </summary>
         /// <param name="fileName">Name of the file to upload</param>
         /// <param name="imageMemoryStream">Memory stream containing the image data</param>
-        /// <returns>Image uri</returns>
+        /// <returns>Image uri / Error string, starting with "Error: "</returns>
         public async Task<string> UploadImageAsync(MemoryStream imageMemoryStream, string fileName)
         {
             imageMemoryStream.Position = 0;
@@ -43,6 +43,11 @@ namespace Services.External
             };
             uploadParams.Check();
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
+            if((uploadResult?.Error?.Message ?? "") != "")
+            {
+                return $"Error: {uploadResult.Error.Message}";
+            }
+
             var uri = uploadResult.SecureUrl.AbsoluteUri;
             return uri;
         }

@@ -4,29 +4,26 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts.Data
 {
-    public interface ITeamService
+    public interface ITeamMemberService
     {
         public Task<IEnumerable<T>> GetAllAsync<T>();
 
-        public Task<Team> CreateAsync(
-            string title,
-            string years,
+        public Task<TeamMember> CreateAsync(
+            ApplicationUser user,
+            bool isActive,
             string photoUrl,
-            string preDesc,
             string desc
             );
 
-        public Task<T> GetTeamByIdAsync<T>(string id);
+        public Task<T> GetTeamMemberByIdAsync<T>(string id);
 
         public Task<bool> DeleteAsync(string id);
 
         public Task UpdateAsync(
             string id,
-            string title,
-            string years,
+            ApplicationUser user,
+            bool isActive,
             string photoUrl,
-            string preDesc,
-            string desc
-            );
-    }
+            string desc);
+        }
 }

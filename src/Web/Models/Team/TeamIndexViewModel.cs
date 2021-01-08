@@ -4,8 +4,7 @@ namespace Web.Models.Team
 {
     public class TeamIndexViewModel
     {
-        public IEnumerable<TeamMemberViewModel> ActiveMembers { get; set; }
-        public IEnumerable<TeamMemberViewModel> InactiveMembers { get; set; }
+        public IEnumerable<TeamViewModel> Teams { get; set; }
 
     }
 }

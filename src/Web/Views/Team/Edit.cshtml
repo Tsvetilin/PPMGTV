@@ -5,10 +5,12 @@
 }
 <div class="m-auto text-center">
     <h1 class="font-weight-bold">
-        Добави екип
+        Редактирай екип
     </h1>
 </div>
-
+<form class="m-2" method="post" asp-controller="Team" asp-action="Delete" asp-route-id="@TempData["VideoId"]">
+    <input type="submit" class="btn btn-danger" value="Изтрий" onclick="return confirm('Сигурен ли си, че искаш да изтриеш този екип?');" />
+</form>
 <hr />
 <div class="row">
     <div class="col-md-6 mx-auto">
@@ -49,7 +51,7 @@
                 <button id="upload-url" type="button" class="btn btn-primary my-4">Напишете връзка към съществуваш адрес вместо това </button>
             </div>
             <div class="form-group">
-                <input type="submit" value="Добавяне" class="btn btn-primary" />
+                <input type="submit" value="Запази" class="btn btn-primary" />
             </div>
             <div>
                 <div class="spinner-border" role="status">
@@ -61,7 +63,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Назад към екипа</a>
+    <a asp-action="Index">Назад към екипите</a>
 </div>
 
 @section Scripts {

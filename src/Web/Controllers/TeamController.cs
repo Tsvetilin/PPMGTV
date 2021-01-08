@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.Helpers;
 using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +17,20 @@ namespace Web.Controllers
 {
     public class TeamController : Controller
     {
+        private readonly ITeamMemberService teamMemberService;
         private readonly ITeamService teamService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICloudinary cloudinary;
         private readonly IUsersService usersService;
 
-        public TeamController(ITeamService teamService, UserManager<ApplicationUser> userManager, ICloudinary cloudinary, IUsersService usersService)
+        public TeamController(
+            ITeamMemberService teamMemberService,
+            ITeamService teamService,
+            UserManager<ApplicationUser> userManager,
+            ICloudinary cloudinary,
+            IUsersService usersService)
         {
+            this.teamMemberService = teamMemberService;
             this.teamService = teamService;
             this.userManager = userManager;
             this.cloudinary = cloudinary;
@@ -31,11 +39,10 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var members = await teamService.GetAllAsync<TeamMemberViewModel>();
+            var teams = await teamService.GetAllAsync<TeamViewModel>();
             var viewModel = new TeamIndexViewModel
             {
-                ActiveMembers = members.Where(x => x.IsActiveMember).ToList(),
-                InactiveMembers = members.Where(x => !x.IsActiveMember).ToList(),
+                Teams = teams.ToList()
             };
 
             return this.View(viewModel);
@@ -50,13 +57,121 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles =ApplicationRolesNames.AdminRole)]
-        public async Task<IActionResult> Create(TeamMemberInputModel inputModel)
+        [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+        public async Task<IActionResult> Create(TeamInputModel inputModel)
+        {
+            if (Guid.TryParse(inputModel.PhotoUrl, out _))
+            {
+                if (inputModel.PhotoUpload != null)
+                {
+                    var fileName = $"_{inputModel.TeamTitle}_TeamPhoto";
+
+                    IFormFile file = inputModel.PhotoUpload;
+
+                    using var stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    var photoUrl = await cloudinary.UploadImageAsync(stream, fileName);
+                    if (photoUrl.StartsWith("Error"))
+                    {
+                        ModelState.AddModelError("Снимка", $"Възникна грешка при качване на снимката: {photoUrl}. Ако не може да я разрешите, свържете се с администратор.");
+                    }
+                    else
+                    {
+                        inputModel.PhotoUrl = photoUrl;
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Снимка", "Снимката е задължителна! Въведете връзка към снимка или качете такава.");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            await teamService.CreateAsync(
+                inputModel.TeamTitle,
+                inputModel.TeamYears,
+                inputModel.PhotoUrl,
+                inputModel.PreDescription,
+                inputModel.Descrtiption);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [EditorAuthorization]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var inputModel = await teamService.GetTeamByIdAsync<TeamInputModel>(id);
+
+            if (inputModel == null)
+            {
+                return this.NotFound();
+            }
+
+            TempData["VideoId"] = id;
+            return this.View(inputModel);
+        }
+
+
+        [EditorAuthorization]
+        [HttpPost]
+        public async Task<IActionResult> Edit(TeamInputModel inputModel, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["VideoId"] = id;
+                return this.View(inputModel);
+            }
+
+            var video = await teamService.GetTeamByIdAsync<TeamInputModel>(id);
+            if (video == null)
+            {
+                return this.NotFound();
+            }
+
+            var user = await userManager.GetUserAsync(User);
+            await teamService.UpdateAsync(
+                id,
+                inputModel.TeamTitle,
+                inputModel.TeamYears,
+                inputModel.PhotoUrl,
+                inputModel.PreDescription,
+                inputModel.Descrtiption);
+
+            return this.RedirectToAction(nameof(Index));
+        }
+
+        [EditorAuthorization]
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (!await teamService.DeleteAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+        public IActionResult AddMember()
+        {
+            ViewData[DataParams.AuthenticationCookieViewDataParam] = this.HttpContext.Request.Cookies[DetailsConstants.AuthenticationCookieHeaderName];
+
+            return this.View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+        public async Task<IActionResult> AddMember(TeamMemberInputModel inputModel)
         {
             var userById = await userManager.FindByNameAsync(inputModel.UserUserName);
             var userByUserName = await userManager.FindByIdAsync(inputModel.UserId);
 
-            if (!(userById != null && userByUserName != null && userByUserName.Id==inputModel.UserId))
+            if (!(userById != null && userByUserName != null && userByUserName.Id == inputModel.UserId))
             {
                 ModelState.AddModelError("Потребител", "Посочените потребителски идентификационен номер и потребителско име не съвпадат.");
             }
@@ -70,8 +185,15 @@ namespace Web.Controllers
 
                     using var stream = new MemoryStream();
                     await file.CopyToAsync(stream);
-                    var posterUrl = await cloudinary.UploadImageAsync(stream, fileName);
-                    inputModel.PhotoUrl = posterUrl;
+                    var photoUrl = await cloudinary.UploadImageAsync(stream, fileName);
+                    if (photoUrl.StartsWith("Error"))
+                    {
+                        ModelState.AddModelError("Снимка", $"Възникна грешка при качване на снимката: {photoUrl}. Ако не може да я разрешите, свържете се с администратор.");
+                    }
+                    else
+                    {
+                        inputModel.PhotoUrl = photoUrl;
+                    }
                 }
                 else
                 {
@@ -84,7 +206,7 @@ namespace Web.Controllers
                 return this.View(inputModel);
             }
 
-            await teamService.CreateAsync(userById, inputModel.IsActiveMember, inputModel.PhotoUrl, inputModel.Descrtiption);
+            await teamMemberService.CreateAsync(userById, inputModel.IsActiveMember, inputModel.PhotoUrl, inputModel.Descrtiption);
 
             return RedirectToAction(nameof(Index));
         }

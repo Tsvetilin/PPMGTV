@@ -1,7 +1,7 @@
 ﻿@{
     var consentFeature = this.Context.Features.Get<ITrackingConsentFeature>();
     var showBanner = !consentFeature?.CanTrack ?? false;
-    var cookieString = consentFeature?.CreateConsentCookie().Replace("httponly", "");
+    var cookieString = consentFeature?.CreateConsentCookie();//.Replace("httponly", "");
 }
 
 @if (showBanner)

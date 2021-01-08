@@ -25,6 +25,7 @@ namespace Data
         }
 
         public virtual DbSet<Video> Videos { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
         public virtual DbSet<ContactLetter> ContactLetters { get; set; }
 
