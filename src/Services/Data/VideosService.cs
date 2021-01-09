@@ -74,7 +74,7 @@ namespace Services.Data
             {
                 JobManager.ScheduleVideoUpdaterJob(premiredOn);
             }
-            else
+            else if (video.IsVisible)
             {
                 JobManager.StartSubscriptionEmailJob(video);
             }
@@ -127,7 +127,11 @@ namespace Services.Data
 
             this.repository.Update(video);
             await repository.SaveChangesAsync();
-            JobManager.ScheduleVideoUpdaterJob(premiredOn);
+
+            if (premiredOn > DateTime.UtcNow)
+            {
+                JobManager.ScheduleVideoUpdaterJob(premiredOn);
+            }
         }
 
         public async Task<IEnumerable<T>> GetUnlistedVideosOnPageAsync<T>(int currentPage, int videosOnPage)
@@ -147,7 +151,7 @@ namespace Services.Data
             foreach (var video in videos)
             {
                 SitemapFactory.AppendSitemapNode(
-                    UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)), 
+                    UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)),
                     video.ModifiedOn ?? video.CreatedOn
                     );
             }

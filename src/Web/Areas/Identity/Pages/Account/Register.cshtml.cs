@@ -70,6 +70,11 @@ namespace Web.Areas.Identity.Pages.Account
             public string FullName { get; set; }
 
             [Required]
+            [MaxLength(50)]
+            [DisplayName("Потребителско име")]
+            public string UserName { get; set; }
+
+            [Required]
             [DisplayName("Искам да получавам известия с актуалната информация по имейл (може да се промени по-късно)")]
             public bool IsNewsLetterSubscribed { get; set; }
 
@@ -93,7 +98,7 @@ namespace Web.Areas.Identity.Pages.Account
                 {
                     Email = Input.Email,
                     FullName = Input.FullName,
-                    UserName = Input.FullName,
+                    UserName = Input.UserName,
                     IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed,
                     LockoutEnabled = true
                 };

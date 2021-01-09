@@ -95,11 +95,24 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             {
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
-                var callbackUrl = Url.Page(
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = UrlGenerator.GenerateUrl(
+                "account",
+                "confirmemailchange",
+                null, null,
+                "identity",
+                new Dictionary<string, string>
+                {
+                    { "userId", userId },
+                    { "code", code },
+                    {"email",Input.NewEmail }
+                }
+             );
+               /* var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
                     values: new { userId, email = Input.NewEmail, code },
-                    protocol: Request.Scheme);
+                    protocol: Request.Scheme);*/
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail, 
                     "Потвърдете имейла си",

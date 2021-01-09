@@ -21,7 +21,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
-       
+
         [DisplayName("Потребителско име")]
         public string Username { get; set; }
         public string Email { get; set; }
@@ -34,6 +34,12 @@ namespace Web.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "Име")]
+            [Required]
+            [MinLength(2,ErrorMessage ="Името може да бъде минимум 2 символа")]
+            [MaxLength(50, ErrorMessage = "Името може да бъде максимум 50 символа")]
+            public string FullName { get; set; }
+
             [Phone]
             [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
@@ -52,6 +58,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             Email = email;
             Input = new InputModel
             {
+                FullName = user.FullName,
                 PhoneNumber = phoneNumber,
                 IsNewsLetterSubscribed = user.IsNewsLetterSubscriber
             };
@@ -102,6 +109,18 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 if (!result.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set news letter subscription preference.";
+                    return RedirectToPage();
+                }
+            }
+
+            var fullNmae = user.FullName;
+            if(Input.FullName!=fullNmae)
+            {
+                user.FullName = Input.FullName;
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set full name.";
                     return RedirectToPage();
                 }
             }

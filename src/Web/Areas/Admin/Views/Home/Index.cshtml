@@ -12,23 +12,34 @@
     @if ((bool?)TempData[UpdatedVideosSuccessTempDataParam] == true)
     {
         TempData[UpdatedVideosSuccessTempDataParam] = false;
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            Успешно обновихте автоматичната видимост на видеата!
-            <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">OK</span>
-            </button>
-        </div>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        Успешно обновихте автоматичната видимост на видеата!
+        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">OK</span>
+        </button>
+    </div>
+    }
+
+    @if ((bool?)TempData[SendNewsLetterSuccessTempDataParam] == true)
+    {
+        TempData[SendNewsLetterSuccessTempDataParam] = false;
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        Успешно изпратихте писмо до абонатите!
+        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">OK</span>
+        </button>
+    </div>
     }
 
     @if (User.IsInRole(AdminRole))
     {
-        <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
-            <button class="btn btn-primary" type="submit">Hangfire</button>
-        </form>
+    <form asp-action="" asp-controller="hangfire" asp-area="" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">Hangfire</button>
+    </form>
 
-        <form asp-action="Permissions" asp-controller="Users" asp-area="Admin" method="get" class="m-3">
-            <button class="btn btn-primary" type="submit">Права на потребители</button>
-        </form>
+    <form asp-action="Permissions" asp-controller="Users" asp-area="Admin" method="get" class="m-3">
+        <button class="btn btn-primary" type="submit">Права на потребители</button>
+    </form>
     }
     <form asp-action="UpdateVideos" asp-controller="Home" asp-area="Admin" method="get" class="m-3">
         <button class="btn btn-primary" type="submit">Обнови видимостта на видеата</button>

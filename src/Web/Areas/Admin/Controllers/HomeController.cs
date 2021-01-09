@@ -33,6 +33,7 @@ namespace Web.Areas.Admin.Controllers
         public IActionResult NewsLetterSend(LetterInputModel inputModel)
         {
             JobManager.StartSubscriptionEmailJob(inputModel.Text);
+            this.TempData[DataParams.SendNewsLetterSuccessTempDataParam] = true;
             return this.RedirectToAction(nameof(Index));
         }
     }
