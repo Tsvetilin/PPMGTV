@@ -138,8 +138,8 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 "identity",
                 new Dictionary<string, string>
                 {
-                    { "userId",userId },
-                    { "code",code }
+                    { "userId", userId },
+                    { "code", code }
                 }
              );
             /* var callbackUrl = Url.Page(
