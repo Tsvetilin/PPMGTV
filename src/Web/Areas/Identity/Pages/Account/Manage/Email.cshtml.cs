@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Http;
+using Common.Helpers;
 
 namespace Web.Areas.Identity.Pages.Account.Manage
 {
@@ -99,15 +101,15 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                     values: new { userId, email = Input.NewEmail, code },
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    Input.NewEmail, 
+                    "Потвърдете имейла си",
+                    $"Моля потвърдете и активирайте акаунта си в PPMGTV.com като <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>натиснете тук</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Верификационен имейл е изпратен. Моля, проверете пощата си.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Имейлът не е променен.";
             return RedirectToPage();
         }
 
@@ -129,17 +131,28 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { area = "Identity", userId, code },
-                protocol: Request.Scheme);
+            var callbackUrl = UrlGenerator.GenerateUrl(
+                "account",
+                "confirmemail",
+                null, null,
+                "identity",
+                new Dictionary<string, string>
+                {
+                    { "userId",userId },
+                    { "code",code }
+                }
+             );
+            /* var callbackUrl = Url.Page(
+                 "/Account/ConfirmEmail",
+                 pageHandler: null,
+                 values: new { area = "Identity", userId, code },
+                 protocol: "https");*/
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Потвърдете имейла си",
+               $"Моля потвърдете и активирайте акаунта си в PPMGTV.com като <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>натиснете тук</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Верификационен имейл е изпратен. Моля, проверете пощата си.";
             return RedirectToPage();
         }
     }

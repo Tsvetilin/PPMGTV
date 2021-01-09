@@ -70,7 +70,15 @@ namespace Services.Data
             await this.repository.AddAsync(video);
             await this.repository.SaveChangesAsync();
 
-            JobManager.ScheduleVideoUpdaterJob(premiredOn);
+            if (premiredOn > DateTime.UtcNow)
+            {
+                JobManager.ScheduleVideoUpdaterJob(premiredOn);
+            }
+            else
+            {
+                JobManager.StartSubscriptionEmailJob(video);
+            }
+
             return video;
         }
 

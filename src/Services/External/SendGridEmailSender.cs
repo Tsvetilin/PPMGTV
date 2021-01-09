@@ -1,7 +1,9 @@
 ﻿using Common.Constants;
+using Common.Helpers;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Services.Contracts.External;
+using System;
 using System.Threading.Tasks;
 
 namespace Services.External
@@ -31,9 +33,9 @@ namespace Services.External
         {
             var from = new EmailAddress(sender, senderName);
             var to = new EmailAddress(reciever);
+            htmlMessage = htmlMessage.SanitizeHtml();
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlMessage);
             var result = await client.SendEmailAsync(msg);
-            System.Console.WriteLine(result.StatusCode);
         }
 
         /// <summary>
@@ -48,9 +50,9 @@ namespace Services.External
         {
             var from = new EmailAddress(SystemNames.SystemEmail, SystemNames.SystemAdminName);
             var to = new EmailAddress(reciever);
+            htmlMessage = htmlMessage.SanitizeHtml();
             var msg = MailHelper.CreateSingleEmail(from, to, subject, null, htmlMessage);
             var result =  await client.SendEmailAsync(msg);
-            System.Console.WriteLine(result.StatusCode);
         }
 
     }

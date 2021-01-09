@@ -19,23 +19,22 @@ namespace Common.Helpers
             var queryBuilder = new StringBuilder($"{SystemNames.BaseUrl}/");
             if (area != null)
             {
-                queryBuilder.Append($"{area}/");
+                queryBuilder.Append($"{area}/".ToLower());
             }
 
-            queryBuilder.Append($"{controller}/");
+            queryBuilder.Append($"{controller}/".ToLower());
             if (action != null)
             {
-                queryBuilder.Append($"{action}/");
+                queryBuilder.Append($"{action}/".ToLower());
             }
             if (id != null)
             {
-                queryBuilder.Append($"{id}/");
+                queryBuilder.Append($"{id}/".ToLower());
             }
             if (slug != null)
             {
-                queryBuilder.Append($"{slug}/");
+                queryBuilder.Append($"{slug}/".ToLower());
             }
-
             if (queryParams != null)
             {
                 queryBuilder.Append("?");
@@ -46,7 +45,7 @@ namespace Common.Helpers
                 queryBuilder.Remove(queryBuilder.Length - 1, 1);
             }
 
-            return queryBuilder.ToString().ToLower();
+            return queryBuilder.ToString();
         }
 
         public static string GenerateVideoUrl(string id, string slug)

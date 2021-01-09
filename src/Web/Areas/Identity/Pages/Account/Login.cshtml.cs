@@ -88,10 +88,11 @@ namespace Web.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if(user==null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password");
+                    ModelState.AddModelError(string.Empty, "Невалидни данни");
                     return Page();
                 }
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
@@ -111,7 +112,7 @@ namespace Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Невалидни данни. Проверете дали сте потвърдили имейла си.");
                     return Page();
                 }
             }

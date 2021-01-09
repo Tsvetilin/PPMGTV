@@ -1,0 +1,28 @@
+﻿@model LetterInputModel
+
+<div class="m-auto text-center">
+    <h1 class="font-weight-bold">
+        Изпрати съобщение на абонатите
+    </h1>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <textarea asp-for="Text" class="form-control edit-with-tinymce"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Изпращане" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_EditorPartial"); }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
