@@ -126,13 +126,12 @@ namespace Web.Controllers
                 return this.View(inputModel);
             }
 
-            var video = await teamService.GetTeamByIdAsync<TeamInputModel>(id);
-            if (video == null)
+            var team = await teamService.GetTeamByIdAsync<TeamInputModel>(id);
+            if (team == null)
             {
                 return this.NotFound();
             }
 
-            var user = await userManager.GetUserAsync(User);
             await teamService.UpdateAsync(
                 id,
                 inputModel.TeamTitle,

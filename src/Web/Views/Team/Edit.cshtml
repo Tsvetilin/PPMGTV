@@ -14,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-6 mx-auto">
-        <form id="Form" enctype="multipart/form-data" asp-action="Create" method="post">
+        <form id="Form" enctype="multipart/form-data" asp-action="Edit" asp-route-id="@TempData["VideoId"]" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="TeamTitle" class="control-label"></label>
