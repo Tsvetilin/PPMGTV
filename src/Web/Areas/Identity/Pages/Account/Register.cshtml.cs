@@ -128,7 +128,7 @@ namespace Web.Areas.Identity.Pages.Account
                     */
                     await _emailSender.SendEmailAsync(Input.Email, "Потвърдете имейла си",
                         $"Моля потвърдете и активирайте акаунта си в PPMGTV.com като <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>натиснете тук</a>.");
-                    Console.WriteLine(callbackUrl);
+ 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using Common.Helpers;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -142,6 +143,28 @@ namespace Web.Areas.Identity.Pages.Account
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+
+                        var callbackUrl = UrlGenerator.GenerateUrl(
+                            "account",
+                            "confirmemail",
+                            null, null,
+                            "identity",
+                            new Dictionary<string, string>
+                            {
+                                { "userId",user.Id },
+                                { "code",code }
+                            }
+                         );
+                        /*var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { area = "Identity", userId = user.Id, code, returnUrl },
+                            protocol: "https");
+                        */
+                        await _emailSender.SendEmailAsync(Input.Email, "Потвърдете имейла си",
+                            $"Моля потвърдете и активирайте акаунта си в PPMGTV.com като <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>натиснете тук</a>.");
+                        /*
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
                             pageHandler: null,
@@ -150,7 +173,7 @@ namespace Web.Areas.Identity.Pages.Account
 
                         await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
+                        */
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 
                         return LocalRedirect(returnUrl);

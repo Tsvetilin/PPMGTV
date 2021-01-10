@@ -2,7 +2,7 @@
 
 @{
     ViewData[TitleViewDataParam] = "Детайли за сигнал";
-    var fromLoggedUser = Model.UserUserName == null ? "" : $"от регистрирания потребител {Model.UserUserName}";
+    var fromLoggedUser = Model.UserUserName == null ? "" : $"От регистрирания потребител {Model.UserUserName}";
 }
 
 <div class="m-auto text-center pb-3">
@@ -19,7 +19,8 @@
     </div>
     <p class="">@Model.Description</p>
     <p>Създадено на @Model.CreatedOn.ConvertToLocal() от @Model.SenderName</p>
-    <p>Допълнителна информация: @Model.OtherContactInfo @fromLoggedUser</p>
+    <p>Допълнителна информация: @Model.OtherContactInfo</p>
+    <small>@fromLoggedUser</small>
 </div>
 
 <div class="border-success border col-md-4 mx-auto">
