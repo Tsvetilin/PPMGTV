@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/fontawsome/css/all.min.css" />
         <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.min.css" />
+        <link rel="stylesheet" href="~/lib/pure-css-loader/dist/css-loader.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" />
     </environment>
     <environment exclude="Development">
@@ -44,6 +45,10 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
               integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ=="
               crossorigin="anonymous" />
+        <link rel="stylesheet" 
+              href="https://cdn.jsdelivr.net/npm/pure-css-loader@3.3.3/dist/css-loader.css" 
+              integrity="sha256-APor1ffEkcCbfSB7MMvBCj6+itRX/blZ5h4p/gbnRgk="
+              crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/site.min.css" />
     </environment>
 </head>
@@ -84,7 +89,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             @{ var currentYear = DateTime.UtcNow.Year > 2020 ? $"- {DateTime.UtcNow.Year}" : "";
@@ -114,7 +118,7 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
+    <partial name="_SpinnerPartial" />
     @RenderSection("Scripts", required: false)
 </body>
 </html>

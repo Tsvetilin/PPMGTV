@@ -77,6 +77,14 @@
         "qrcode.min.js"
       ],
       "destination": "wwwroot/lib/qrcodejs/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "pure-css-loader@3.3.3",
+      "files": [
+        "dist/css-loader.min.css"
+      ],
+      "destination": "wwwroot/lib/pure-css-loader"
     }
   ]
 }
