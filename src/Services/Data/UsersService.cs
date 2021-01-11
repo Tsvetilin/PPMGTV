@@ -1,14 +1,11 @@
 ﻿using Common.Helpers;
 using Data.Contracts.Repositories;
 using Data.Models;
-using EllipticCurve;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Services.Contracts.Data;
 using Services.Mapping;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Services.Data

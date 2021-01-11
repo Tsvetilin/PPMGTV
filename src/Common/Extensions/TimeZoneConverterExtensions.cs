@@ -3,7 +3,7 @@ using System;
 
 namespace Common.Helpers
 {
-    public static class TimeZoneConverter
+    public static class TimeZoneConverterExtensions
     {
         public static string ConvertToLocal(this DateTime utc)
         {

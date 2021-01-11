@@ -151,7 +151,7 @@ namespace Services.Data
             foreach (var video in videos)
             {
                 SitemapFactory.AppendSitemapNode(
-                    UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)),
+                    UrlGenerator.GenerateVideoUrl(video.Id, SlugGeneratorExtensions.GenerateSlug(video.Title)),
                     video.ModifiedOn ?? video.CreatedOn
                     );
             }

@@ -66,7 +66,7 @@ namespace Web.Controllers
                 inputModel.IsVisible,
                 user);
 
-            SitemapFactory.AppendSitemapNode(UrlGenerator.GenerateVideoUrl(video.Id, SlugGenerator.GenerateSlug(video.Title)), DateTime.UtcNow);
+            SitemapFactory.AppendSitemapNode(UrlGenerator.GenerateVideoUrl(video.Id, SlugGeneratorExtensions.GenerateSlug(video.Title)), DateTime.UtcNow);
             SitemapFactory.UpdateSitemap();
 
             return this.RedirectToAction(nameof(Watch), "Videos", new { video.Id });

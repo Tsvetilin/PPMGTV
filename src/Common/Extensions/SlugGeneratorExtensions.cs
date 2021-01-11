@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Common.Helpers
 {
-    public static class SlugGenerator
+    public static class SlugGeneratorExtensions
     {
         public static string GenerateSlug(this string str)
         {

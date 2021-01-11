@@ -21,7 +21,7 @@ namespace Web.Models.Videos
         {
             get
             {
-                return SlugGenerator.GenerateSlug(this.Title);
+                return SlugGeneratorExtensions.GenerateSlug(this.Title);
             }
         }
     }

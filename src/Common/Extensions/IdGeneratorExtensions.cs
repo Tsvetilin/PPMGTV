@@ -2,7 +2,7 @@
 
 namespace Common.Helpers
 {
-    public static class IdGenerator
+    public static class IdGeneratorExtensions
     {
         public static string GenerateShortId(this Guid guid)
         {
