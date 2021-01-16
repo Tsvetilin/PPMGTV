@@ -52,5 +52,10 @@ namespace Common.Helpers
         {
             return GenerateUrl(DetailsConstants.VideosControllerName, DetailsConstants.VideoWatchActionName, id, slug);
         }
+
+        public static string GenerateGalleryUrl(string id, string slug)
+        {
+            return GenerateUrl(DetailsConstants.GalleryControllerName, DetailsConstants.GalleryWatchActionName, id, slug);
+        }
     }
 }

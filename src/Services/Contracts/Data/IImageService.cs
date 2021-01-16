@@ -13,5 +13,8 @@ namespace Services.Contracts.Data
         public Task<Image> CreateAsync(string url, ImageType category, string note, string desc);
         public Task UpdateAsync(string id, string url, ImageType category, string note, string desc);
         public Task<bool> DeleteAsync(string id);
+
+        public Task<IEnumerable<Image>> CreateImageListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc);
+        public Task<IEnumerable<Image>> UpdateImagesListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc);
     }
 }

@@ -31,12 +31,12 @@ namespace Services.Data
         public async Task<T> GetByIdAsync<T>(string Id)
         {
             return await this.repository.AllAsNoTracking().
-               Where(x=>x.Id==Id).
+               Where(x => x.Id == Id).
                To<T>().
                FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> GetByTypeAndNoteAsync<T>(ImageType type, string note=null)
+        public async Task<IEnumerable<T>> GetByTypeAndNoteAsync<T>(ImageType type, string note = null)
         {
             var all = await this.repository.AllAsNoTracking().ToListAsync();
             var fullMatch = all.Where(x => x.Category == type && x.Note == note).ToList();
@@ -48,7 +48,7 @@ namespace Services.Data
             return result;
         }
 
-        public async Task<Image> CreateAsync( string url, ImageType category, string note, string desc)
+        public async Task<Image> CreateAsync(string url, ImageType category, string note, string desc)
         {
             var image = new Image
             {
@@ -68,7 +68,7 @@ namespace Services.Data
         {
             var image = new Image
             {
-                Id=id,
+                Id = id,
                 Url = url,
                 Category = category,
                 Note = note,
@@ -90,6 +90,67 @@ namespace Services.Data
             this.repository.Delete(image);
             await repository.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<Image>> CreateImageListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc)
+        {
+            var result = new List<Image>();
+
+            foreach (var imageUrl in imagesUrls)
+            {
+                var image = new Image
+                {
+                    Url = imageUrl,
+                    Category = category,
+                    Note = note,
+                    Description = desc,
+                };
+                await this.repository.AddAsync(image);
+                result.Add(image);
+            }
+
+            await this.repository.SaveChangesAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Image>> UpdateImagesListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc)
+        {
+            var images = await this.repository.AllAsNoTracking().ToListAsync();
+            var result = new List<Image>();
+
+            foreach (var imageUrl in imagesUrls)
+            {
+                var current = images.FirstOrDefault(x => x.Url == imageUrl);
+                if (current == null)
+                {
+                    var image = new Image
+                    {
+                        Url = imageUrl,
+                        Category = category,
+                        Note = note,
+                        Description = desc,
+                    };
+
+                    await this.repository.AddAsync(image);
+                    result.Add(image);
+                }
+                else
+                {
+                    if(current.Note!=note || current.Description!=desc)
+                    {
+                        current.Note = note;
+                        current.Description = desc;
+                        this.repository.Update(current);
+                    }
+
+                    result.Add(current);
+                }
+            }
+
+            await this.repository.SaveChangesAsync();
+
+            return result;
         }
     }
 }

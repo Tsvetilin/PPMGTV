@@ -161,6 +161,7 @@ namespace Web
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<ITeamMemberService, TeamMemberService>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IGalleryService, GalleryService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

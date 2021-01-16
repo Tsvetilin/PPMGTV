@@ -42,6 +42,13 @@ namespace Common.Helpers
                 },
                 new SitemapNode
                 {
+                    LastModified=DateTime.UtcNow,
+                    Priority=0.7,
+                    Url=$"{SystemNames.BaseUrl}/gallery",
+                    Frequency=SitemapFrequency.Monthly
+                },
+                new SitemapNode
+                {
                     LastModified = DateTime.UtcNow,
                     Priority = 0.7,
                     Url = $"{SystemNames.BaseUrl}/team",
