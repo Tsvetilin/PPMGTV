@@ -1,17 +1,18 @@
 ﻿using Common.Enums;
 using Common.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
 using Services.Contracts.External;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.Models.Image;
 
 namespace Web.Controllers
 {
-    [EditorAuthorization]
     public class ImageController : Controller
     {
         private readonly ICloudinary cloudinary;
@@ -23,12 +24,14 @@ namespace Web.Controllers
             this.imageService = imageService;
         }
 
+        [EditorAuthorization]
         public IActionResult Upload()
         {
             return this.View();
         }
 
         [HttpPost]
+        [EditorAuthorization]
         public async Task<IActionResult> Upload(ImageInputModel inputModel)
         {
             if (inputModel.PhotoUpload != null)
@@ -59,10 +62,16 @@ namespace Web.Controllers
             return this.View(inputModel);
         }
 
+        [EditorAuthorization]
         public async Task<IActionResult> Preview(string id)
         {
             var viewModel = await this.imageService.GetByIdAsync<ImageViewModel>(id);
             return this.View(viewModel);
+        }
+
+        public IActionResult Show(string refer)
+        {
+            return this.View(nameof(Show), refer);
         }
     }
 }
