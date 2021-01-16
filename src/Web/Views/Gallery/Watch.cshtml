@@ -1,0 +1,47 @@
+﻿@model GalleryViewModel
+
+@{
+    ViewData[TitleViewDataParam] = $"Галерия - {Model.Title}";
+    var isEditorUser = User.IsEditor();
+}
+
+<div class="m-auto text-center">
+    <h1 class="font-weight-bold">
+        @Model.Title
+    </h1>
+</div>
+
+@if (isEditorUser)
+{
+    <div class="d-flex">
+        <form class="mx-5" method="get" asp-controller="Gallery" asp-action="Edit" asp-route-id="@Model.Id">
+            <input class="btn btn-primary" value="Редактирай" type="submit" />
+        </form>
+        <form class="mx-5" method="post" asp-controller="Gallery" asp-action="Delete">
+            <input class="btn btn-danger" value="Изтрий" type="submit" onclick="return confirm('Сигурен ли си, че искаш да изтриеш тази галерия?');" />
+        </form>
+    </div>
+}
+
+<hr />
+
+<h3 class="mt-1 mb-3 text-center">@Model.PreDescription</h3>
+<div class="m-3">
+    @Html.Raw(Model.Description)
+</div>
+<ul class="list-unstyled d-flex justify-content-around">
+    @for (int i = 0; i < Model.ImagesUrls.Count; i++)
+    {
+        <li>
+            <div class="col-md-3 mr-1">
+                <a href="@Model.ImagesUrls[i]" target="_blank" and rel="noopener noreferrer">
+                    <img class="d-block mx-auto" style="max-width:25vw; max-height:25vh;" src="@Model.ImagesUrls[i]" alt="Slide @(i+1) - ППМГ ТВ Сливен - @Model.Title">
+                </a>
+            </div>
+        </li>
+    }
+</ul>
+
+
+
+

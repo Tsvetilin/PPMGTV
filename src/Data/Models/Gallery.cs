@@ -1,4 +1,5 @@
-﻿using Data.Contracts.Models;
+﻿using Common.Helpers;
+using Data.Contracts.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ namespace Data.Models
     {
         public Gallery()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().GenerateShortId();
         }
 
         [Required]

@@ -14,7 +14,7 @@
 @if (isEditorUser)
 {
     <div class="d-flex">
-        <form class="mx-5" method="get" asp-controller="Team" asp-action="Create">
+        <form class="mx-5" method="get" asp-controller="Gallery" asp-action="Create">
             <input class="btn btn-primary" value="Добавяне" type="submit" />
         </form>
     </div>
@@ -30,16 +30,16 @@
             <div class="d-flex justify-content-center">
                 <h2 class="text-center">@gallery.Title</h2>
             </div>
-            <p class="mt-3 mb-4 text-center">@gallery.PreDescription</p>
-            <div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
+            <p class="mt-1 mb-3 text-center">@gallery.PreDescription</p>
+            <div id="carouselExampleControls" class="carousel slide mb-3" data-ride="carousel" style="background-color:burlywood;">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="@gallery.ImagesUrls[0]" alt="Slide 1 - ППМГ ТВ Сливен - @gallery.Title">
+                        <img class="d-block mx-auto" style="max-height:85vh;" src="@gallery.ImagesUrls[0]" alt="Slide 1 - ППМГ ТВ Сливен - @gallery.Title">
                     </div>
                     @for (int i = 1; i < gallery.ImagesUrls.Count; i++)
                     {
                         <div class="carousel-item">
-                            <img class="d-block w-100" src="@gallery.ImagesUrls[i]" alt="Slide @(i+1) - ППМГ ТВ Сливен - @gallery.Title">
+                            <img class="d-block mx-auto" style="max-height:85vh;" src="@gallery.ImagesUrls[i]" alt="Slide @(i+1) - ППМГ ТВ Сливен - @gallery.Title">
                         </div>
                     }
                 </div>
@@ -52,20 +52,15 @@
                     <span class="sr-only">Следващ</span>
                 </a>
             </div>
-            <div>
+            <div class="m-0">
                 @Html.Raw(gallery.Description)
             </div>
-            <div>
-                <a>
-                    Преглед на всички снимки
-                </a>
+            <div class="m-0">
+                    <a asp-controller="Gallery" asp-action="Watch" asp-route-id="@gallery.Id" asp-route-slug="@gallery.Slug"
+                       class="content-heading clearfix media box-hover text-decoration-none">
+                        Преглед на всички снимки
+                    </a>
             </div>
-            @if (isEditorUser)
-            {
-                <a asp-action="Edit" asp-controller="Gallery" asp-route-id="@gallery.Id">
-                    Редактирай
-                </a>
-            }
         </div>
     </li>
     }

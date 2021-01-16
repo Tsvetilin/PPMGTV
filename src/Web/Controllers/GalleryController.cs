@@ -27,6 +27,11 @@ namespace Web.Controllers
         public async Task<IActionResult> Index()
         {
             var galleries = await this.galleryService.GetAllAsync<GalleryViewModel>();
+            foreach (var gallery in galleries)
+            {
+                gallery.Slug = gallery.Title.GenerateSlug();
+            }
+
             var viewModel = new GalleryIndexViewModel
             {
                 Galleries=galleries.ToList(),
@@ -49,6 +54,16 @@ namespace Web.Controllers
             if (!ModelState.IsValid)
             {
                 return this.View(inputModel);
+            }
+
+            if(string.IsNullOrWhiteSpace(inputModel.ImagesDescription))
+            {
+                inputModel.ImagesDescription = inputModel.Title;
+            }
+
+            if (string.IsNullOrWhiteSpace(inputModel.ImagesNote))
+            {
+                inputModel.ImagesNote = inputModel.Title;
             }
 
             var images = await this.imageService.CreateImageListAsync(

@@ -1,4 +1,5 @@
-﻿using Data.Contracts.Repositories;
+﻿using Common.Helpers;
+using Data.Contracts.Repositories;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
@@ -41,7 +42,7 @@ namespace Services.Data
                 Title=title,
                 Images= images,
                 PreDescription = preDesc,
-                Description = desc,
+                Description = desc.SanitizeHtml(),
             };
 
             await this.repository.AddAsync(gallery);
@@ -58,7 +59,7 @@ namespace Services.Data
                 Title = title,
                 Images = images,
                 PreDescription = preDesc,
-                Description = desc,
+                Description = desc.SanitizeHtml(),
             };
 
             this.repository.Update(gallery);

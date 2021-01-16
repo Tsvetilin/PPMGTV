@@ -1,0 +1,27 @@
+﻿@model ImageInputModel
+
+<div class="m-auto text-center">
+    <h1 class="font-weight-bold">
+        Качи снимка
+    </h1>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form id="Form" enctype="multipart/form-data" asp-action="Upload" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.PhotoUpload"></label>
+                <input asp-for="@Model.PhotoUpload" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавяне" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

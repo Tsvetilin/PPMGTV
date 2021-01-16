@@ -94,19 +94,35 @@ namespace Services.Data
 
         public async Task<IEnumerable<Image>> CreateImageListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc)
         {
+            var images = await this.repository.AllAsNoTracking().ToListAsync();
             var result = new List<Image>();
 
             foreach (var imageUrl in imagesUrls)
             {
-                var image = new Image
+                var current = images.FirstOrDefault(x => x.Url == imageUrl);
+                if (current == null)
                 {
-                    Url = imageUrl,
-                    Category = category,
-                    Note = note,
-                    Description = desc,
-                };
-                await this.repository.AddAsync(image);
-                result.Add(image);
+                    var image = new Image
+                    {
+                        Url = imageUrl,
+                        Category = category,
+                        Note = note,
+                        Description = desc,
+                    };
+                    await this.repository.AddAsync(image);
+                    result.Add(image);
+                }
+                else
+                {
+                    if (current.Category == ImageType.Unknow)
+                    {
+                        current.Category = ImageType.GalleryImage;
+                        current.Note = note;
+                        current.Description = desc;
+                        this.repository.Update(current);
+                    }
+                    result.Add(current);
+                }
             }
 
             await this.repository.SaveChangesAsync();
@@ -114,7 +130,7 @@ namespace Services.Data
             return result;
         }
 
-        public async Task<IEnumerable<Image>> UpdateImagesListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc)
+        public async Task<IEnumerable<Image>> UpdateImagesListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc, bool overrideImageData = false)
         {
             var images = await this.repository.AllAsNoTracking().ToListAsync();
             var result = new List<Image>();
@@ -137,7 +153,7 @@ namespace Services.Data
                 }
                 else
                 {
-                    if(current.Note!=note || current.Description!=desc)
+                    if ((current.Note != note || current.Description != desc) && overrideImageData)
                     {
                         current.Note = note;
                         current.Description = desc;

@@ -1,0 +1,97 @@
+﻿@model GalleryInputModel
+
+@{
+    ViewData[TitleViewDataParam] = "Създай галерия";
+}
+
+<div class="m-auto text-center">
+    <h1 class="font-weight-bold">
+        Редактирай
+    </h1>
+    <h4>Галерия</h4>
+</div>
+<p>За да добавяте нови снимки, трябва всички да са качени в уеб пространствто и да предоставите линк към тях. Най-сигурният вариант е да ги качите на нашият сървър от тук: <a asp-action="Upload" asp-controller="Image" class="font-weight-bold" target="_blank" and rel="noopener noreferrer"> КАЧИ</a></p>
+<hr />
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div id="wrapper" class="mt-5">
+                <div id="inputFields" class="form-group">
+                    <label asp-for="ImagesUrls[0]" class="control-label">Линк за снимка[0]</label>
+                    <input asp-for="ImagesUrls[0]" class="form-control" />
+                    <span asp-validation-for="ImagesUrls[0]" class="text-danger"></span>
+                </div>
+                @for (int i = 1; i < Model.ImagesUrls.Count; i++)
+                {
+                    <div id="inputFields" class="form-group">
+                        <label asp-for="ImagesUrls[i]" class="control-label">Линк за снимка[@i]</label>
+                        <input asp-for="ImagesUrls[i]" class="form-control" />
+                        <span asp-validation-for="ImagesUrls[i]" class="text-danger"></span>
+                        <a id="delBut" class="text-danger">Изтрий линк</a><hr />
+                    </div>
+                }
+            </div>
+            <button type="button" id="addBut" class="btn btn-primary mb-5">Добави друг линк</button>
+            <div class="form-group">
+                <label asp-for="PreDescription" class="control-label"></label>
+                <input asp-for="PreDescription" class="form-control" />
+                <span asp-validation-for="PreDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control edit-with-tinymce"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <small><span class="font-weight-bold">Забележка: </span>Ако следващите полета останат празни, същите няма да бъдат радктирани (<span class="font-weight-bold">ПРЕПОРЪЧИТЕЛНО</span>).</small>
+            <div class="form-group">
+                <label asp-for="ImagesNote" class="control-label"></label>
+                <input asp-for="ImagesNote" class="form-control" />
+                <span asp-validation-for="ImagesNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagesDescription" class="control-label"></label>
+                <input asp-for="ImagesDescription" class="form-control" />
+                <span asp-validation-for="ImagesDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Редактиране" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад към всички галерии</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_EditorPartial"); }
+
+    <script>
+        $(document).ready(function () {
+            var addButton = $("#addBut");
+            var inputFields = $("#inputFields");
+            var wrapper = $("#wrapper");
+            var totalFieldsAppended = @Model.ImagesUrls.Count;
+
+            $(addButton).click(function (e) {
+                e.preventDefault();
+                totalFieldsAppended++;
+                $(wrapper).append(`<div id="input${totalFieldsAppended}">` + inputFields.html().replace(/[[0]]/g, `${totalFieldsAppended}]`) +
+                    '<a id="delBut" class="text-danger" >Изтрий линк</a><hr /></div>');
+            });
+
+            $(wrapper).on("click", "#delBut", function (e) {
+                $(this).parent('div').remove();
+                totalFieldsAppended--;
+            });
+        });
+    </script>
+}
