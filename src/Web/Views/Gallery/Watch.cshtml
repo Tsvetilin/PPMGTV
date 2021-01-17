@@ -33,7 +33,7 @@
     @for (int i = 0; i < Model.ImagesUrls.Count; i++)
     {
         <li>
-            <div class="col-md-3 mr-1">
+            <div class="col-md-4 mr-1">
                 <a asp-action="Show" asp-controller="Image" asp-route-refer="@Model.ImagesUrls[i]" target="_blank" and rel="noopener noreferrer">
                 <img class="d-block mx-auto" style="max-width:25vw; max-height:25vh;" src="@Model.ImagesUrls[i]" alt="Slide @(i+1) - ППМГ ТВ Сливен - @Model.Title">
                 </a>

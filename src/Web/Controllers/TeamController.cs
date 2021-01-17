@@ -48,7 +48,7 @@ namespace Web.Controllers
             return this.View(viewModel);
         }
 
-        [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+        [EditorAuthorization]
         public IActionResult Create()
         {
             ViewData[DataParams.AuthenticationCookieViewDataParam] = this.HttpContext.Request.Cookies[DetailsConstants.AuthenticationCookieHeaderName];
@@ -57,7 +57,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = ApplicationRolesNames.AdminRole)]
+        [EditorAuthorization]
         public async Task<IActionResult> Create(TeamInputModel inputModel)
         {
             if (Guid.TryParse(inputModel.PhotoUrl, out _))

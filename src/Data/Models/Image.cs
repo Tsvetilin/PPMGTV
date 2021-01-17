@@ -1,6 +1,8 @@
 ﻿using Common.Enums;
 using Data.Contracts.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models
@@ -20,5 +22,7 @@ namespace Data.Models
 
         [Required]
         public string Url { get; set; }
+
+        public string GalleryId { get; set; }
     }
 }

@@ -13,10 +13,12 @@ namespace Services.Data
     public class GalleryService : IGalleryService
     {
         private readonly IDeletableEntityRepository<Gallery> repository;
+        private readonly IDeletableEntityRepository<Image> imageRepository;
 
-        public GalleryService(IDeletableEntityRepository<Gallery> repository)
+        public GalleryService(IDeletableEntityRepository<Gallery> repository, IDeletableEntityRepository<Image> imageRepository)
         {
             this.repository = repository;
+            this.imageRepository = imageRepository;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
@@ -62,7 +64,19 @@ namespace Services.Data
                 Description = desc.SanitizeHtml(),
             };
 
+            foreach (var image in images)
+            {
+                if(string.IsNullOrWhiteSpace(image.GalleryId))
+                {
+                    image.GalleryId = id;
+                    image.Description = title;
+                    image.Note = title;
+                    this.imageRepository.Update(image);
+                }
+            }
+
             this.repository.Update(gallery);
+            await this.imageRepository.SaveChangesAsync();
             await this.repository.SaveChangesAsync();
         }
 

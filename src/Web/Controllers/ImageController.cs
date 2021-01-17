@@ -1,13 +1,11 @@
 ﻿using Common.Enums;
 using Common.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
 using Services.Contracts.External;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Web.Models.Image;
 

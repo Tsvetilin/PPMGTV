@@ -9,8 +9,19 @@
 <hr />
 <div class="row">
     <div class="mx-auto">
-        <input type="text" class="disabled w-75" readonly id="url" value="@Model.Url" data-toggle="popover" title="Копирано" data-content="Копирано"/>
-        <button class="btn btn-outline-primary" onclick="copy()">Копирай</button>
+        <div class="mb-3">
+            <input type="text" class="disabled w-75" readonly id="url" value="@Model.Url" />
+            <a class="btn btn-outline-primary" onclick="copy()" data-toggle="popover" data-content="Копирано">Копирай</a>
+            <style>
+                .popover {
+                    background-color: #eefdec;
+                }
+
+                    .popover.right .arrow:after {
+                        border-right-color: #eefdec;
+                    }
+            </style>
+        </div>
         <img src="@Model.Url" />
         <p>Категория: @Model.Category.ToString()</p>
         <p>Бележка: @Model.Note</p>
@@ -20,17 +31,19 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script>
-    function copy() {
-        var copyText = document.getElementById("url");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        //alert("Copied the text: " + copyText.value);
-    }
+    <script>
+        function copy() {
+            var copyText = document.getElementById("url");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            setTimeout(() => {
+                $('[data-toggle="popover"]').popover('hide')
+            }, 2000)
+        }
 
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
-</script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({ delay: { "hide": 2000 } })
+        })
+    </script>
 }

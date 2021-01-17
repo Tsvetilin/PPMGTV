@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel;
+using Common.Helpers;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -53,16 +54,25 @@ namespace Web.Areas.Identity.Pages.Account
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
+                /*var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
                     values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
-
+                    protocol: Request.Scheme);*/
+                var callbackUrl = UrlGenerator.GenerateUrl(
+                        "account",
+                        "resetpassword",
+                        null, null,
+                        "identity",
+                        new Dictionary<string, string>
+                        {
+                            { "code",code }
+                        }
+                     );
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Промяна на паролата",
+                    $"Моля, промене паролата си като натиснете <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>ТУК</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

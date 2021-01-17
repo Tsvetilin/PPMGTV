@@ -138,5 +138,10 @@ namespace Web.Controllers
             return this.RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Categories()
+        {
+            return this.View();
+        }
+
     }
 }

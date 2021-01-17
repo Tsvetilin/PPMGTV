@@ -130,7 +130,12 @@ namespace Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, FullName = Input.FullName };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.FullName.Replace(" ", "").ConvertCyrillicToLatinLetters(),
+                    Email = Input.Email,
+                    FullName = Input.FullName
+                };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

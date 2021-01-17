@@ -29,7 +29,7 @@
                 </div>
                 @for (int i = 1; i < Model.ImagesUrls.Count; i++)
                 {
-                    <div id="inputFields" class="form-group">
+                    <div id="@("input"+i)"class="form-group">
                         <label asp-for="ImagesUrls[i]" class="control-label">Линк за снимка[@i]</label>
                         <input asp-for="ImagesUrls[i]" class="form-control" />
                         <span asp-validation-for="ImagesUrls[i]" class="text-danger"></span>
@@ -79,7 +79,7 @@
             var addButton = $("#addBut");
             var inputFields = $("#inputFields");
             var wrapper = $("#wrapper");
-            var totalFieldsAppended = @Model.ImagesUrls.Count;
+            var totalFieldsAppended = @(Model.ImagesUrls.Count-1);
 
             $(addButton).click(function (e) {
                 e.preventDefault();

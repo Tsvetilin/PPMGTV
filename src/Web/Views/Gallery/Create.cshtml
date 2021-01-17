@@ -29,6 +29,17 @@
                     <input asp-for="ImagesUrls[0]" class="form-control" />
                     <span asp-validation-for="ImagesUrls[0]" class="text-danger"></span>
                 </div>
+                @if (Model?.ImagesUrls != null)
+                {
+                    @for (int i = 1; i < (Model.ImagesUrls.Count); i++)
+                    {
+                        <div id="@("input" + i)" class="form-group">
+                            <label asp-for="ImagesUrls[i]" class="control-label">Линк за снимка[@i]</label>
+                            <input asp-for="ImagesUrls[i]" class="form-control" />
+                            <span asp-validation-for="ImagesUrls[i]" class="text-danger"></span>
+                        </div>
+                    }
+                }
             </div>
             <button type="button" id="addBut" class="btn btn-primary mb-5">Добави друг линк</button>
             <div class="form-group">
@@ -72,7 +83,7 @@
             var addButton = $("#addBut");
             var inputFields = $("#inputFields");
             var wrapper = $("#wrapper");
-            var totalFieldsAppended = 0;
+            var totalFieldsAppended = @(Model?.ImagesUrls?.Count ?? 0);
 
             $(addButton).click(function (e) {
                 e.preventDefault();

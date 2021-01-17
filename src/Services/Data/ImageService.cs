@@ -153,6 +153,14 @@ namespace Services.Data
                 }
                 else
                 {
+                    if(current.Category == ImageType.Unknow)
+                    {
+                        current.Category = ImageType.GalleryImage;
+                        current.Note = note;
+                        current.Description = desc;
+                        this.repository.Update(current);
+                    }
+
                     if ((current.Note != note || current.Description != desc) && overrideImageData)
                     {
                         current.Note = note;
@@ -167,6 +175,26 @@ namespace Services.Data
             await this.repository.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task<IEnumerable<string>> CheckOcupationAsync(IEnumerable<string> urls)
+        {
+            var occupiedUrls = await this.repository.AllAsNoTracking().
+                                          Where(x => !string.IsNullOrWhiteSpace(x.GalleryId)).
+                                          Select(x=>x.Url).
+                                          ToListAsync();
+
+            var occupied = new List<string>();
+
+            foreach (var url in urls)
+            {
+                if(occupiedUrls.Contains(url))
+                {
+                    occupied.Add(url);
+                }
+            }
+
+            return occupied;
         }
     }
 }

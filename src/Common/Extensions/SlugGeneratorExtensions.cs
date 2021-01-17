@@ -21,7 +21,7 @@ namespace Common.Helpers
             return str.Substring(0, Math.Min(100, str.Length)).Trim('-');
         }
 
-        private static string ConvertCyrillicToLatinLetters(string input)
+        public static string ConvertCyrillicToLatinLetters(this string input)
         {
             var cyrilicLetters = new[]
                                    {

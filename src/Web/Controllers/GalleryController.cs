@@ -120,10 +120,17 @@ namespace Web.Controllers
                 return this.View(inputModel);
             }
 
-            var video = await galleryService.GetByIdAsync<GalleryViewModel>(id);
-            if (video == null)
+            var gallery = await galleryService.GetByIdAsync<GalleryViewModel>(id);
+            if (gallery == null)
             {
                 return this.NotFound();
+            }
+
+            var occupiedImages = await imageService.CheckOcupationAsync(gallery.ImagesUrls);
+            if((occupiedImages.ToList()?.Count ?? 0) > 0)
+            {
+                ModelState.AddModelError("Линкове", $"Следните линкове вече присъстват: {Environment.NewLine}{string.Join(Environment.NewLine, occupiedImages.ToList())}");
+                return this.View(inputModel);
             }
 
             var images = await this.imageService.UpdateImagesListAsync(
