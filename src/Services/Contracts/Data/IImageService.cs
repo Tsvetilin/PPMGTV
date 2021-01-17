@@ -16,6 +16,6 @@ namespace Services.Contracts.Data
 
         public Task<IEnumerable<Image>> CreateImageListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc);
         public Task<IEnumerable<Image>> UpdateImagesListAsync(IEnumerable<string> imagesUrls, ImageType category, string note, string desc, bool overrideImageData = false);
-        public Task<IEnumerable<string>> CheckOcupationAsync(IEnumerable<string> urls);
+        public Task<IEnumerable<string>> CheckOcupationAsync(IEnumerable<string> urls, string galleryId);
     }
 }

@@ -126,7 +126,7 @@ namespace Web.Controllers
                 return this.NotFound();
             }
 
-            var occupiedImages = await imageService.CheckOcupationAsync(gallery.ImagesUrls);
+            var occupiedImages = await imageService.CheckOcupationAsync(gallery.ImagesUrls, gallery.Id);
             if((occupiedImages.ToList()?.Count ?? 0) > 0)
             {
                 ModelState.AddModelError("Линкове", $"Следните линкове вече присъстват: {Environment.NewLine}{string.Join(Environment.NewLine, occupiedImages.ToList())}");

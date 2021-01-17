@@ -4,6 +4,7 @@ using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
 using Services.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -153,7 +154,7 @@ namespace Services.Data
                 }
                 else
                 {
-                    if(current.Category == ImageType.Unknow)
+                    if (current.Category == ImageType.Unknow)
                     {
                         current.Category = ImageType.GalleryImage;
                         current.Note = note;
@@ -177,23 +178,31 @@ namespace Services.Data
             return result;
         }
 
-        public async Task<IEnumerable<string>> CheckOcupationAsync(IEnumerable<string> urls)
+        public async Task<IEnumerable<string>> CheckOcupationAsync(IEnumerable<string> urls, string galleryId)
         {
             var occupiedUrls = await this.repository.AllAsNoTracking().
                                           Where(x => !string.IsNullOrWhiteSpace(x.GalleryId)).
-                                          Select(x=>x.Url).
+                                          Select(x => new List<string> { x.Url, x.GalleryId }).
                                           ToListAsync();
 
             var occupied = new List<string>();
 
+            foreach (var occupiedUrl in occupiedUrls)
+            {
+                if (occupiedUrl[1] != galleryId && urls.Contains(occupiedUrl[0]))
+                {
+                    occupied.Add(occupiedUrl[0]);
+                }
+            }
+            /*
             foreach (var url in urls)
             {
-                if(occupiedUrls.Contains(url))
+                if (occupiedUrls.Select(x => x.First()).Contains(url) && oc)
                 {
                     occupied.Add(url);
                 }
             }
-
+            */
             return occupied;
         }
     }

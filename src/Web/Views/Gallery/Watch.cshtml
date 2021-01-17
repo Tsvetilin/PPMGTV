@@ -29,16 +29,17 @@
 <div class="m-3">
     @Html.Raw(Model.Description)
 </div>
-<ul class="list-unstyled d-flex justify-content-around">
+<ul class="list-unstyled d-flex justify-content-around flex-wrap">
     @for (int i = 0; i < Model.ImagesUrls.Count; i++)
     {
-        <li>
-            <div class="col-md-4 mr-1">
-                <a asp-action="Show" asp-controller="Image" asp-route-refer="@Model.ImagesUrls[i]" target="_blank" and rel="noopener noreferrer">
-                <img class="d-block mx-auto" style="max-width:25vw; max-height:25vh;" src="@Model.ImagesUrls[i]" alt="Slide @(i+1) - ППМГ ТВ Сливен - @Model.Title">
-                </a>
-            </div>
-        </li>
+    <li class="col-md-4 align-self-center">
+        <div class="w-100">
+            <a class="w-100" asp-action="Show" asp-controller="Image" asp-route-refer="@Model.ImagesUrls[i]" target="_blank" and rel="noopener noreferrer">
+                <img class="img-responsive w-100" style="/*max-width:25vw; max-height:25vh;*/" src="@Model.ImagesUrls[i]" alt="Slide @(i+1) - ППМГ ТВ Сливен - @Model.Title">
+            </a>
+        </div>
+    </li>
+    @*d-block mx-auto img-fluid w-100*@
     }
 </ul>
 

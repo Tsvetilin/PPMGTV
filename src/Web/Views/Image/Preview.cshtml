@@ -22,7 +22,10 @@
                     }
             </style>
         </div>
-        <img src="@Model.Url" />
+        <div class="my-3">
+            <a asp-action="Upload" asp-controller="Image" class="btn btn-primary">Качи друга снимка</a>
+        </div>
+        <img src="@Model.Url" style="max-width:75vw;"/>
         <p>Категория: @Model.Category.ToString()</p>
         <p>Бележка: @Model.Note</p>
         <p>Описание: @Model.Description</p>
