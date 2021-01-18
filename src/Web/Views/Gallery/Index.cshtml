@@ -41,6 +41,7 @@
                             @for (int i = 1; i < gallery.ImagesUrls.Count; i++)
                             {
                                 <div class="carousel-item">
+                                    @*img-fluid*@
                                     <img class="d-block mx-auto" style="max-height:85vh;" src="@gallery.ImagesUrls[i]" alt="Slide @(i + 1) - ППМГ ТВ Сливен - @gallery.Title">
                                 </div>
                             }
@@ -72,3 +73,25 @@
         }
     }
 </ul>
+
+@section Scripts {
+
+    <script>
+        function normalizeSlideHeights() {
+            var maxH = 0.85 * document.documentElement.clientHeight;
+            if (document.documentElement.clientWidth < document.documentElement.clientHeight) {
+                maxH = 10 * document.documentElement.clientWidth / 16;
+            }
+            console.log(maxH);
+            $('.carousel').each(function () {
+                var items = $('img', this);
+                items.css('max-height', maxH + 'px');
+                items.css('min-height', maxH + 'px');
+            });
+        }
+
+        $(window).on(
+            'load resize orientationchange',
+            normalizeSlideHeights);
+    </script>
+}
