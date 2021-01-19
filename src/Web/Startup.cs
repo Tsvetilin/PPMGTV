@@ -187,8 +187,10 @@ namespace Web
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var videosService = serviceScope.ServiceProvider.GetRequiredService<IVideosService>();
+                var galleryService = serviceScope.ServiceProvider.GetRequiredService<IGalleryService>();
                 SitemapFactory.Create(env);
                 videosService.AddVideosToSitemapAsync().GetAwaiter().GetResult();
+                galleryService.AddGaleriesToSitemapAsync().GetAwaiter().GetResult();
                 SitemapFactory.UpdateSitemap();
             }
 

@@ -1,6 +1,5 @@
 ﻿using Common.Constants;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Common.Helpers
@@ -45,7 +44,7 @@ namespace Common.Helpers
                 queryBuilder.Remove(queryBuilder.Length - 1, 1);
             }
 
-            return queryBuilder.ToString();
+            return queryBuilder.ToString().TrimEnd('/');
         }
 
         public static string GenerateVideoUrl(string id, string slug)

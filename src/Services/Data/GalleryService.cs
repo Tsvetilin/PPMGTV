@@ -92,5 +92,17 @@ namespace Services.Data
             await repository.SaveChangesAsync();
             return true;
         }
+
+        public async Task AddGaleriesToSitemapAsync()
+        {
+            var galleries = await this.repository.AllAsNoTracking().ToListAsync();
+            foreach (var gallery in galleries)
+            {
+                SitemapFactory.AppendSitemapNode(
+                    UrlGenerator.GenerateGalleryUrl(gallery.Id, gallery.Title.GenerateSlug()),
+                    gallery.ModifiedOn ?? gallery.CreatedOn
+                    );
+            }
+        }
     }
 }
