@@ -110,7 +110,8 @@ body {
     border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
     background: #ffffff;
     position: relative;
-    font-family: 'Just Another Hand', cursive;
+    font-family: 'Balsamiq Sans', cursive;
+    /*font-family: 'Just Another Hand', cursive;*/
 }
 
     .sketchy::before {
