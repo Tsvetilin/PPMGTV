@@ -1,21 +1,28 @@
 ﻿@{
     var consentFeature = this.Context.Features.Get<ITrackingConsentFeature>();
     var showBanner = !consentFeature?.CanTrack ?? false;
-    var cookieString = consentFeature?.CreateConsentCookie();//.Replace("httponly", "");
+    var cookieString = consentFeature?.CreateConsentCookie().Replace("httponly", "");
 }
 
 @if (showBanner)
 {
-<div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-    Използваме бисквитки за да разберем как използваш сайта и да подобрим преживяването. <a asp-area="" asp-controller="Home" asp-action="Privacy">Научи повече</a>.
-    <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-        <span aria-hidden="true">Приемам</span>
-    </button>
-</div>
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show mr-1 pr-0" role="alert">
+        <div class="d-flex w-100 row align-items-center">
+            <div class="col-9 col-sm-10 col-md-11">
+                Използваме бисквитки за да разберем как използваш сайта и да подобрим преживяването.
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Научи повече</a>.
+            </div>
+            <div class="col-3 col-sm-2 col-md-1">
+                <button type="button" class="accept-policy close p-1 position-relative" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+                    <span aria-hidden="true">Приемам</span>
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-        button.addEventListener("click", function (event) {
-            document.cookie = "@cookieString"
-            }, false);
+                var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            button.addEventListener("click", function (event) {
+                document.cookie = "@cookieString"
+                }, false);
     </script>
 }
