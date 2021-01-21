@@ -8,5 +8,6 @@
         public const string MetaDescriptionViewDataParam = "MetaDescription";
         public const string AuthenticationCookieViewDataParam = "AuthCookie";
         public const string SendNewsLetterSuccessTempDataParam = "NewsLetter";
+        public const string MetaKeywordsViewDataParam = "MetaKeywords";
     }
 }

@@ -7,14 +7,21 @@
     <meta lang="bg" />
     @if (ViewData[MetaDescriptionViewDataParam] != null && !ViewData[MetaDescriptionViewDataParam].Equals(""))
     {
-        <meta name="description" content="@ViewData[MetaDescriptionViewDataParam]" />
+        <meta name="description" content="@ViewData[MetaDescriptionViewDataParam] | @MetaDefaultDescription" />
     }
     else
     {
         <meta name="description" content="Училищна телевизия към ППМГ &quot;Добри Чинтулов&quot; Сливен">
     }
-    <meta name="keywords" content="Училищна телевизия, ППМГТВ, ППМГ ТВ, PPMGTV, PPMG TV, SchoolTV, ППМГ Сливен, ПМГ Сливен">
-    <meta name="author" content="ППМГ Сливен">
+    @if (ViewData[MetaKeywordsViewDataParam] != null && !ViewData[MetaKeywordsViewDataParam].Equals(""))
+    {
+        <meta name="keywords" content="ППМГТВ, ППМГ ТВ, PPMG TV, PPMGTV, @MetaDefaultKeywords, @ViewData[MetaKeywordsViewDataParam]">
+    }
+    else
+    {
+        <meta name="keywords" content="@MetaDefaultKeywords">
+    }
+    <meta name="author" content="@MetaAuthor">
 
     @if (ViewData[TitleViewDataParam] != null && !ViewData[TitleViewDataParam].Equals(""))
     {

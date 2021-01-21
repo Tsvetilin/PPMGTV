@@ -2,6 +2,8 @@
 
 @{
     ViewData[TitleViewDataParam] = $"Галерия - {Model.Title}";
+    ViewData[MetaDescriptionViewDataParam] = $"Галерия на най-интересните фотографии, свързани с {Model.Title}.";
+    ViewData[MetaKeywordsViewDataParam] = $"снимки, галерия, picture, gallery, {Model.Title}";
     var isEditorUser = User.IsEditor();
 }
 

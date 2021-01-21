@@ -2,6 +2,8 @@
 
 @{
     ViewData[TitleViewDataParam] = "Гледай видео";
+    ViewData[MetaDescriptionViewDataParam] = $"Видеа. Гледай нашите предавания. {Model.Title}";
+    ViewData[MetaKeywordsViewDataParam] = $"видео, клип, емисия, video, телевизия, рубрика, {Model.Title}";
 }
 
 @if (User.IsEditor())
