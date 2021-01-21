@@ -46,12 +46,12 @@ namespace Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(AllowEmptyStrings =false,ErrorMessage ="Полето за имейл е задължително.")]
+            [EmailAddress(ErrorMessage ="Невалиден имейл адрес.")]
             [DisplayName("Имейл")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(AllowEmptyStrings =false,ErrorMessage ="Полето за парола е задължително.")]
             [DataType(DataType.Password)]
             [DisplayName("Парола")]
             public string Password { get; set; }

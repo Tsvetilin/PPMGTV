@@ -48,31 +48,31 @@ namespace Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "Полето за имейл е задължително.")]
+            [EmailAddress(ErrorMessage = "Невалиден имейл адрес.")]
             [Display(Name = "Имейл")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "Полето за парола е задължително.")]
+            [StringLength(100, ErrorMessage = "Паролата трябда да е минимум {2} символа и максимум {1} символа дълга.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Парола")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Потвърди паролата")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Паролите не съвпадат.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            [MaxLength(50)]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "Името е задължително.")]
+            [StringLength(50,ErrorMessage = "Името трябда да е минимум {2} символа и максимум {1} символа дълга.", MinimumLength = 2)]
             [DisplayName("Име")]
             public string FullName { get; set; }
 
-            [Required]
+            /*[Required(AllowEmptyStrings = false, ErrorMessage = "Потребителското име е задължително.")]
             [MaxLength(50)]
             [DisplayName("Потребителско име")]
-            public string UserName { get; set; }
+            public string UserName { get; set; }*/
 
             [Required]
             [DisplayName("Искам да получавам известия с актуалната информация по имейл (може да се промени по-късно)")]
@@ -98,7 +98,7 @@ namespace Web.Areas.Identity.Pages.Account
                 {
                     Email = Input.Email,
                     FullName = Input.FullName,
-                    UserName = Input.UserName,
+                    UserName = Input.FullName.Trim().Replace(" ","").ConvertCyrillicToLatinLetters(),
                     IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed,
                     LockoutEnabled = true
                 };

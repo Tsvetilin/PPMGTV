@@ -16,7 +16,7 @@ namespace Common.Helpers
             if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
             {
                 return new ValidationResult(
-                    "Google reCAPTCHA validation failed. Value is null or empty.",
+                    "Google reCAPTCHA валидацията се провали. Няма указана стойност. Моля, презаредете страницата и опитайте отново.",
                     new[] { validationContext.MemberName });
             }
 
@@ -24,7 +24,7 @@ namespace Common.Helpers
             if (configuration == null || string.IsNullOrWhiteSpace(configuration["GoogleReCaptcha:Secret"]))
             {
                 return new ValidationResult(
-                    "Google reCAPTCHA validation failed. Secret key not found.",
+                    "Google reCAPTCHA валидацията се провали. Няма намерен таен ключ. Моля, презаредете страницата и опитайте отново.",
                     new[] { validationContext.MemberName });
             }
 
@@ -40,7 +40,7 @@ namespace Common.Helpers
             if (httpResponse.StatusCode != HttpStatusCode.OK)
             {
                 return new ValidationResult(
-                    $"Google reCAPTCHA validation failed. Status code: {httpResponse.StatusCode}.",
+                    $"Google reCAPTCHA валидацията се провали. Код на грешката: {httpResponse.StatusCode}. Моля, презаредете страницата и опитайте отново.",
                     new[] { validationContext.MemberName });
             }
 
@@ -49,7 +49,7 @@ namespace Common.Helpers
             return siteVerifyResponse.Success
                        ? ValidationResult.Success
                        : new ValidationResult(
-                           "Google reCAPTCHA validation failed.",
+                           "Google reCAPTCHA валидацията се провали. Моля, презаредете страницата и опитайте отново.",
                            new[] { validationContext.MemberName });
         }
 

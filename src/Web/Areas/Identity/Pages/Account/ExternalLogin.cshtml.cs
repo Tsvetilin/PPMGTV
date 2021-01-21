@@ -51,13 +51,13 @@ namespace Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            [DisplayName("Имейл")]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "Полето за имейл е задължително.")]
+            [EmailAddress(ErrorMessage = "Невалиден имейл адрес.")]
+            [Display(Name = "Имейл")]
             public string Email { get; set; }
 
-            [Required]
-            [MaxLength(50)]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "Името е задължително.")]
+            [StringLength(50, ErrorMessage = "Името трябда да е минимум {2} символа и максимум {1} символа дълга.", MinimumLength = 2)]
             [DisplayName("Име")]
             public string FullName { get; set; }
         }
