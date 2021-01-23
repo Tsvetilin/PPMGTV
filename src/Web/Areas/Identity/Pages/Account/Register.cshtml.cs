@@ -94,11 +94,17 @@ namespace Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                var userName = Input.FullName.Trim().Replace(" ", "").ConvertCyrillicToLatinLetters();
+                if( (await _userManager.FindByNameAsync(userName)) != null)
+                {
+                    userName = Input.Email;
+                }
+
                 var user = new ApplicationUser
                 {
                     Email = Input.Email,
                     FullName = Input.FullName,
-                    UserName = Input.FullName.Trim().Replace(" ","").ConvertCyrillicToLatinLetters(),
+                    UserName = userName,
                     IsNewsLetterSubscriber = Input.IsNewsLetterSubscribed,
                     LockoutEnabled = true
                 };

@@ -130,9 +130,15 @@ namespace Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var userName = Input.FullName.Replace(" ", "").ConvertCyrillicToLatinLetters();
+                if ((await _userManager.FindByNameAsync(userName)) != null)
+                {
+                    userName = Input.Email;
+                }
+
                 var user = new ApplicationUser
                 {
-                    UserName = Input.FullName.Replace(" ", "").ConvertCyrillicToLatinLetters(),
+                    UserName = userName,
                     Email = Input.Email,
                     FullName = Input.FullName
                 };
