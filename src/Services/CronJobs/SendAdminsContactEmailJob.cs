@@ -33,7 +33,7 @@ namespace Services.CronJobs
         public async Task Work(ContactLetter letter, PerformContext context)
         {
             var roles = roleManager.Roles.Where(x => x.Name == ApplicationRolesNames.AdminRole || x.Name == ApplicationRolesNames.EditorRole).Select(x => x.Id).ToList();
-            var admins = repository.All().Where(x => x.Roles.Select(x => x.RoleId).Any(y => roles.Contains(y)));
+            var admins = repository.All().Where(x => x.Roles.Select(x => x.RoleId).Any(y => roles.Contains(y))).ToList();
             foreach (var user in admins)
             {
                 await emailSender.SendEmailAsync(
