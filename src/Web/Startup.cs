@@ -96,7 +96,7 @@ namespace Web
                     options.HttpOnly = HttpOnlyPolicy.Always;
                     options.Secure = CookieSecurePolicy.Always;
                     options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                    options.MinimumSameSitePolicy = SameSiteMode.Lax;
                 });
 
             services.AddResponseCaching();
