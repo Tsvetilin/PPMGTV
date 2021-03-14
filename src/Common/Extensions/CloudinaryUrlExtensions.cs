@@ -2,7 +2,7 @@
 {
     public static class CloudinaryUrlExtensions
     {
-        public const string OptimizationParams = "q_auto,f_auto";
+        public const string OptimizationParams = "f_auto,q_auto";
         public const string CloudinaryDefaultUrl = "https://res.cloudinary.com/";
         public const string UploadUrlParam = "upload";
 
