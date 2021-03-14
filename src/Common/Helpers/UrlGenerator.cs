@@ -56,5 +56,10 @@ namespace Common.Helpers
         {
             return GenerateUrl(DetailsConstants.GalleryControllerName, DetailsConstants.GalleryWatchActionName, id, slug);
         }
+
+        public static string GenerateStaticFileUrl(string path)
+        {
+            return $"{SystemNames.BaseUrl}/{path.Trim('/')}";
+        }
     }
 }

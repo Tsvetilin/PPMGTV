@@ -9,5 +9,7 @@
         public const string AuthenticationCookieViewDataParam = "AuthCookie";
         public const string SendNewsLetterSuccessTempDataParam = "NewsLetter";
         public const string MetaKeywordsViewDataParam = "MetaKeywords";
+        public const string MetaOgImageUrlDataParam = "MetaOgImage";
+        public const string MetaOgVideoUrlDataParam = "MetaOgVideo";
     }
 }

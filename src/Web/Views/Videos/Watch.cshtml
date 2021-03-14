@@ -2,8 +2,10 @@
 
 @{
     ViewData[TitleViewDataParam] = "Гледай видео";
-    ViewData[MetaDescriptionViewDataParam] = $"Видеа. Гледай нашите предавания. {Model.Title}";
+    ViewData[MetaDescriptionViewDataParam] = $"Видеа. Гледай нашите предавания. {Model.Title} | Сигурни сме, че ще се забавлявате!";
     ViewData[MetaKeywordsViewDataParam] = $"видео, клип, емисия, video, телевизия, рубрика, {Model.Title}";
+    ViewData[MetaOgImageUrlDataParam] = Model.ThumbnailUrl;
+    ViewData[MetaOgVideoUrlDataParam] = Model.VideoUrl;
 }
 
 @if (User.IsEditor())
