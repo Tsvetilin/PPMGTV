@@ -1,11 +1,13 @@
 ﻿@model VideoViewModel
 
 @{
-    ViewData[TitleViewDataParam] = "Гледай видео";
+    ViewData[TitleViewDataParam] = $"Гледай видео | {Model.Title}";
     ViewData[MetaDescriptionViewDataParam] = $"Видеа. Гледай нашите предавания. {Model.Title} | Сигурни сме, че ще се забавлявате!";
     ViewData[MetaKeywordsViewDataParam] = $"видео, клип, емисия, video, телевизия, рубрика, {Model.Title}";
     ViewData[MetaOgImageUrlDataParam] = Model.ThumbnailUrl;
     ViewData[MetaOgVideoUrlDataParam] = Model.VideoUrl;
+    ViewData[MetaOgTitleViewDataParam] = Model.Title;
+    ViewData[MetaOgDescriptionViewDataParam] = $"Гледайте {Model.Title} | {Model.Description.AddElipsisAtLength(65)}";
 }
 
 @if (User.IsEditor())

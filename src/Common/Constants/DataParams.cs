@@ -11,5 +11,7 @@
         public const string MetaKeywordsViewDataParam = "MetaKeywords";
         public const string MetaOgImageUrlDataParam = "MetaOgImage";
         public const string MetaOgVideoUrlDataParam = "MetaOgVideo";
+        public const string MetaOgTitleViewDataParam = "MetaOgTitle";
+        public const string MetaOgDescriptionViewDataParam = "MetaOgDesc";
     }
 }

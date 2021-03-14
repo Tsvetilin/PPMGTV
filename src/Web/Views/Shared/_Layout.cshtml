@@ -24,22 +24,22 @@
     <meta name="author" content="@MetaAuthor">
 
     @{
-        string image = GenerateStaticFileUrl("logo.png");
+        string image = GenerateStaticFileUrl("logo_v2.png");
         string url = $"https://{@Context.Request.Host}{@Context.Request.Path}";
         string title = SystemName;
-        string description = "Училищна телевизия към ППМГ &quot;Добри Чинтулов&quot; Сливен";
-        var titleExists = ViewData[TitleViewDataParam] != null && !ViewData[TitleViewDataParam].Equals("");
-        if (titleExists)
+        string description = "Училищна телевизия към ППМГ \"Добри Чинтулов\" Сливен";
+        
+        if (ViewData[MetaOgTitleViewDataParam] != null && !ViewData[MetaOgTitleViewDataParam].Equals(""))
         {
-            title = $"{SystemName} | {ViewData[TitleViewDataParam]}";
+            title = $"{SystemName} | {ViewData[MetaOgTitleViewDataParam]}";
         }
         if (ViewData[MetaOgImageUrlDataParam] != null && !ViewData[MetaOgImageUrlDataParam].Equals(""))
         {
             image = ViewData[MetaOgImageUrlDataParam].ToString();
         }
-        if (ViewData[MetaDescriptionViewDataParam] != null && !ViewData[MetaDescriptionViewDataParam].Equals(""))
+        if (ViewData[MetaOgDescriptionViewDataParam] != null && !ViewData[MetaOgDescriptionViewDataParam].Equals(""))
         {
-            description += $" | {ViewData[MetaDescriptionViewDataParam]}";
+            description += $" | {ViewData[MetaOgDescriptionViewDataParam]}";
         }
 
     }
@@ -55,7 +55,7 @@
         <meta property="og:video:url" content="@ViewData[MetaOgVideoUrlDataParam]">
     }
 
-    @if (titleExists)
+    @if (ViewData[TitleViewDataParam] != null && !ViewData[TitleViewDataParam].Equals(""))
     {
         <title>@ViewData[TitleViewDataParam] - @SystemName</title>
     }
