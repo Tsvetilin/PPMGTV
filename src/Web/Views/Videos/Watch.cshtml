@@ -38,7 +38,7 @@
 </div>
 
 <div class="ml-4 py-5">
-    <p class="lead">@Model.Description</p>
+    <p class="lead">@Html.Raw(Model.Description)</p>
     <p>Излъчено на: @Model.PremiredOn.ConvertToLocal()</p>
 </div>
 

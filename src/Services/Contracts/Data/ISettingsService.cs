@@ -1,0 +1,12 @@
+﻿
+using Data.Models;
+using System.Threading.Tasks;
+
+namespace Services.Contracts.Data
+{
+    public interface ISettingsService
+    {
+        public Task UpdateAsync(string id, bool homePageVisible, bool homePageGalleryVisible, string homePageTitle, string homePageContent);
+        public Task<T> GetSettingAsync<T>();
+    }
+}

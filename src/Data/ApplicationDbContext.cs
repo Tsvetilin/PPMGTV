@@ -30,6 +30,7 @@ namespace Data
         public virtual DbSet<ContactLetter> ContactLetters { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Gallery> Galleries { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

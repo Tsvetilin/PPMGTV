@@ -4,6 +4,7 @@ using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
 using Services.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Services.Data
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             return await this.repository.AllAsNoTracking().
-               OrderBy(x => x.CreatedOn).
+               OrderByDescending(x => x.CreatedOn).
                ThenBy(x => x.Title).
                To<T>().
                ToListAsync();
@@ -37,10 +38,21 @@ namespace Services.Data
                To<T>().
                FirstOrDefaultAsync();
         }
+
+        public async Task<T> GetLastGalleryAsync<T>()
+        {
+            return await this.repository.AllAsNoTracking().
+                OrderByDescending(x => x.CreatedOn).
+                ThenBy(x => x.Title).
+                To<T>().
+                FirstOrDefaultAsync();
+        }
+
         public async Task<Gallery> CreateAsync(string title, IEnumerable<Image> images, string preDesc, string desc)
         {
             var gallery = new Gallery
             {
+                CreatedOn = DateTime.UtcNow,
                 Title=title,
                 Images= images,
                 PreDescription = preDesc,

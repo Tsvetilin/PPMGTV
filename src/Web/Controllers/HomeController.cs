@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
 using Web.Models;
+using Web.Models.Gallery;
+using Web.Models.Home;
 using Web.Models.Index;
 
 namespace Web.Controllers
@@ -13,15 +15,21 @@ namespace Web.Controllers
     public class HomeController : Controller
     {
         private readonly IVideosService videosService;
+        private readonly ISettingsService settingsService;
+        private readonly IGalleryService galleryService;
 
-        public HomeController(IVideosService videosService)
+        public HomeController(IVideosService videosService, ISettingsService settingsService, IGalleryService galleryService)
         {
             this.videosService = videosService;
+            this.settingsService = settingsService;
+            this.galleryService = galleryService;
         }
 
         public async Task<IActionResult> Index()
         {
             var viewModel = await videosService.GetLatestVideoAsync<HomeIndexViewModel>();
+            viewModel.Settings = await settingsService.GetSettingAsync<SettingsViewModel>();
+            viewModel.Gallery = await galleryService.GetLastGalleryAsync<GalleryViewModel>();
             return this.View(viewModel);
         }
 

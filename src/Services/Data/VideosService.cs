@@ -64,7 +64,7 @@ namespace Services.Data
                 IsVisible = isVisible,
                 Title = title,
                 PremiredOn = premiredOn,
-                Description = desc,
+                Description = desc.SanitizeHtml(),
             };
 
             await this.repository.AddAsync(video);
@@ -122,7 +122,7 @@ namespace Services.Data
                 IsVisible = isVisible,
                 Title = title,
                 PremiredOn = premiredOn,
-                Description = desc,
+                Description = desc.SanitizeHtml(),
             };
 
             this.repository.Update(video);

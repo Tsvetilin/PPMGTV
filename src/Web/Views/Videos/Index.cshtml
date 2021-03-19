@@ -34,7 +34,7 @@
                 <img class="rounded float-left h-25 w-25 ml-auto" src="@videoCard.ThumbnailUrl" alt="ППМГ ТВ Сливен - Видео - @videoCard.Title">
                 <div class="col-md-6 ml-4">
                     <h3>@videoCard.Title</h3>
-                    <p>@videoCard.Description</p>
+                    <p>@Html.Raw(videoCard.Description)</p>
                     <p>Излъчено на: @videoCard.PremiredOn.ConvertToLocal()</p>
                 </div>
             </a>

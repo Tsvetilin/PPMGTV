@@ -19,7 +19,7 @@
         <form class="mx-5" method="get" asp-controller="Gallery" asp-action="Edit" asp-route-id="@Model.Id">
             <input class="btn btn-primary" value="Редактирай" type="submit" />
         </form>
-        <form class="mx-5" method="post" asp-controller="Gallery" asp-action="Delete">
+        <form class="mx-5" method="post" asp-controller="Gallery" asp-action="Delete" asp-route-id="@Model.Id">
             <input class="btn btn-danger" value="Изтрий" type="submit" onclick="return confirm('Сигурен ли си, че искаш да изтриеш тази галерия?');" />
         </form>
     </div>

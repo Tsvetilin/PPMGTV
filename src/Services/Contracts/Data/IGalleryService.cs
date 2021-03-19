@@ -12,6 +12,7 @@ namespace Services.Contracts.Data
         public Task UpdateAsync(string id, string title, IEnumerable<Image> images, string preDesc, string desc);
         public Task<bool> DeleteAsync(string id);
 
+        public Task<T> GetLastGalleryAsync<T>();
         public Task AddGaleriesToSitemapAsync();
     }
 }

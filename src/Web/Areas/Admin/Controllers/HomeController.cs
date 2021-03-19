@@ -1,8 +1,11 @@
 ﻿using Common.Constants;
 using Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Services.Contracts.Data;
 using Services.CronJobs;
+using System.Threading.Tasks;
 using Web.Areas.Admin.Models.Letters;
+using Web.Areas.Admin.Models.Settings;
 
 namespace Web.Areas.Admin.Controllers
 {
@@ -10,8 +13,14 @@ namespace Web.Areas.Admin.Controllers
     [EditorAuthorization]
     public class HomeController : Controller
     {
-        [Route("Admin/[controller]/[action]")]
+        private readonly ISettingsService settingsService;
 
+        public HomeController(ISettingsService settingsService)
+        {
+            this.settingsService = settingsService;
+        }
+
+        [Route("Admin/[controller]/[action]")]
         public IActionResult Index()
         {
             return this.View();
@@ -35,6 +44,26 @@ namespace Web.Areas.Admin.Controllers
             JobManager.StartSubscriptionEmailJob(inputModel.Text);
             this.TempData[DataParams.SendNewsLetterSuccessTempDataParam] = true;
             return this.RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> UpdateHomePage()
+        {
+            var inputModel = await this.settingsService.GetSettingAsync<SettingInputModel>();
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateHomePage(SettingInputModel inputModel)
+        {
+            await this.settingsService.UpdateAsync(
+                inputModel.Id,
+                inputModel.IsHomePageNewsVisible,
+                inputModel.IsHomePageLastGalleryVisible,
+                inputModel.HomePageNewsSectionTitle,
+                inputModel.HomePageNewsContent
+                );
+
+            return this.RedirectToAction(nameof(Index), "Home", new { area = "" });
         }
     }
 }
