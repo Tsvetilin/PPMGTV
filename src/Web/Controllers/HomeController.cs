@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts.Data;
@@ -30,6 +31,7 @@ namespace Web.Controllers
             var viewModel = await videosService.GetLatestVideoAsync<HomeIndexViewModel>();
             viewModel.Settings = await settingsService.GetSettingAsync<SettingsViewModel>();
             viewModel.Gallery = await galleryService.GetLastGalleryAsync<GalleryViewModel>();
+            viewModel.Gallery.Slug=viewModel.Gallery.Title.GenerateSlug();
             return this.View(viewModel);
         }
 
