@@ -14,7 +14,13 @@ namespace Data.Models
 
         public bool IsHomePageLastGalleryVisible { get; set; }
 
+        public bool IsHomePageGalleryPreTextVisible { get; set; }
+
+        public bool IsHomePageGalleryPostTextVisible { get; set; }
+
         public string HomePageNewsSectionTitle { get; set; }
+
+        public string HomePageNewsPreContent { get; set; }
 
         public string HomePageNewsContent { get; set; }
     }

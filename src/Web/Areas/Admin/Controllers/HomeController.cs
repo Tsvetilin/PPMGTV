@@ -60,7 +60,10 @@ namespace Web.Areas.Admin.Controllers
                 inputModel.IsHomePageNewsVisible,
                 inputModel.IsHomePageLastGalleryVisible,
                 inputModel.HomePageNewsSectionTitle,
-                inputModel.HomePageNewsContent
+                inputModel.HomePageNewsContent,
+                inputModel.HomePageNewsPreContent,
+                inputModel.IsHomePageGalleryPreTextVisible,
+                inputModel.IsHomePageGalleryPostTextVisible
                 );
 
             return this.RedirectToAction(nameof(Index), "Home", new { area = "" });

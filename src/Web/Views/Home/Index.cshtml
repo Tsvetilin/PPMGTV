@@ -21,23 +21,32 @@
             allowfullscreen
             alt="ППМГ ТВ Сливен - най-ново видео"></iframe>
     <p class="m-3 lead">@Model.Title</p>
+    <div class="w-100 ml-5">@Html.Raw(Model.Description)</div>
+</div>
+<div class="my-5">
+    <hr />
 </div>
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsSectionTitle))
 {
-    <div class="my-5">
-        <hr />
-    </div>
     <h5 class="display-4 my-3 text-center">@Model.Settings.HomePageNewsSectionTitle</h5>
+}
+@if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsPreContent))
+{
+    <div class="m-3">@Html.Raw(Model.Settings.HomePageNewsPreContent)</div>
+    <hr/>
 }
 @if (Model.Settings.IsHomePageLastGalleryVisible && Model.Gallery != null)
 {
     <div class="my-5">
         <div class="w-100 mb-5 d-flex justify-content-center">
             <div class="col-md-10 col-sm-12">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center my-2">
                     <h2 class="text-center">@Model.Gallery.Title</h2>
                 </div>
-                <p class="mt-1 mb-3 text-center lead">@Model.Gallery.PreDescription</p>
+                @if (Model.Settings.IsHomePageGalleryPreTextVisible)
+                {
+                    <p class="mt-0 mb-3 text-center lead">@Model.Gallery.PreDescription</p>
+                }
                 <div id="carouselControls" class="carousel slide mb-3" data-ride="carousel" style="background-color:burlywood;">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -60,9 +69,12 @@
                         <span class="sr-only">Следващ</span>
                     </a>
                 </div>
-                <div class="m-0">
-                    @Html.Raw(Model.Gallery.Description)
-                </div>
+                @if (Model.Settings.IsHomePageGalleryPostTextVisible)
+                {
+                    <div class="m-0">
+                        @Html.Raw(Model.Gallery.Description)
+                    </div>
+                }
                 <div class="m-0">
                     <a asp-controller="Gallery" asp-action="Watch" asp-route-id="@Model.Gallery.Id" asp-route-slug="@Model.Gallery.Slug"
                        class="content-heading clearfix media text-decoration-none">
@@ -77,9 +89,9 @@
 
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
 {
-<div class="mx-5">
-    @Html.Raw(Model.Settings.HomePageNewsContent)
-</div>
+    <div class="mx-5">
+        @Html.Raw(Model.Settings.HomePageNewsContent)
+    </div>
     <div class="my-5">
         <hr />
     </div>
@@ -102,18 +114,19 @@
         </div>
     </div>
 </div>
-@*
-    <div class="d-flex justify-content-center">
-        <div class="my-5 col-md-8">
-            <h6>ППМГ ТВ &darr;</h6>
-            <iframe id="video-studio"
-                    src="https://www.youtube.com/embed/SaR-yGpJhew"
-                    frameborder="0"
-                    allowfullscreen
-                    alt="ППМГ ТВ Сливен - студио"></iframe>
-        </div>
+
+<div class="d-flex justify-content-center">
+    <div align="center" class="mb-5 col-md-8">
+        <h6 align="center">Студиото на ППМГ ТВ &darr;</h6>
+        <iframe id="video-studio"
+                src="https://www.youtube.com/embed/SaR-yGpJhew"
+                frameborder="0"
+                allowfullscreen
+                alt="ППМГ ТВ Сливен - студио"
+                class="w-100"></iframe>
     </div>
-*@
+</div>
+
 
 <p class="my-3">Официален YouTube канал на телевизията: <a href="https://www.youtube.com/channel/UCMb5RWFF9pdl5VzSpuc7bqw">youtube.com/c/ppmgtv</a></p>
 <p class="my-3">Официален сайт на гимназията: <a href="http://pmg-sliven.com/">pmg-sliven.com</a></p>
@@ -128,7 +141,7 @@
     {
         <script>
             function normalizeSlideHeights() {
-                var maxH = 0.85 * document.documentElement.clientHeight;
+                var maxH = 0.80 * document.documentElement.clientHeight;
                 if (document.documentElement.clientWidth < document.documentElement.clientHeight) {
                     maxH = 10 * document.documentElement.clientWidth / 16;
                 }
@@ -145,4 +158,16 @@
                 normalizeSlideHeights);
         </script>
     }
+
+    <script>
+        var frame = document.getElementById("video-studio");
+
+        recalculateFrame();
+
+        window.onresize = recalculateFrame;
+
+        function recalculateFrame() {
+            frame.setAttribute("height", `${frame.clientWidth * 9 / 16}px`);
+        }
+    </script>
 }

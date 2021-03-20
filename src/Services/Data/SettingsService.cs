@@ -59,16 +59,19 @@ namespace Services.Data
                 FirstOrDefaultAsync();
         }
 
-        public async Task UpdateAsync(string id, bool homePageVisible, bool homePageGalleryVisible, string homePageTitle, string homePageContent)
+        public async Task UpdateAsync(string id, bool homePageVisible, bool homePageGalleryVisible, string homePageTitle, string homePageContent, string homePreContent, bool homeGalleryPreTextVisible,bool homeGalleryPostTextVisible)
         {
             var setting = new Setting
             {
                 Id = id,
-                IsHomePageNewsVisible=homePageVisible,
-                IsHomePageLastGalleryVisible=homePageGalleryVisible,
-                HomePageNewsSectionTitle=homePageTitle,
-                HomePageNewsContent=homePageContent.SanitizeHtml(),
-            };
+                IsHomePageNewsVisible = homePageVisible,
+                IsHomePageLastGalleryVisible = homePageGalleryVisible,
+                HomePageNewsSectionTitle = homePageTitle,
+                HomePageNewsContent = homePageContent.SanitizeHtml(),
+                HomePageNewsPreContent = homePreContent.SanitizeHtml(),
+                IsHomePageGalleryPreTextVisible = homeGalleryPreTextVisible,
+                IsHomePageGalleryPostTextVisible =homeGalleryPostTextVisible,
+    };
 
             this.repository.Update(setting);
             await this.repository.SaveChangesAsync();

@@ -12,5 +12,11 @@ namespace Web.Models.Home
         public string HomePageNewsSectionTitle { get; set; }
 
         public string HomePageNewsContent { get; set; }
+
+        public bool IsHomePageGalleryPreTextVisible { get; set; }
+
+        public string HomePageNewsPreContent { get; set; }
+
+        public bool IsHomePageGalleryPostTextVisible { get; set; }
     }
 }

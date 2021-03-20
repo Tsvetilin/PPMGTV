@@ -27,9 +27,23 @@
                     <input class="form-check-input" asp-for="IsHomePageLastGalleryVisible" /> @Html.DisplayNameFor(model => model.IsHomePageLastGalleryVisible)
                 </label>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsHomePageGalleryPreTextVisible" /> @Html.DisplayNameFor(model => model.IsHomePageGalleryPreTextVisible)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsHomePageGalleryPostTextVisible" /> @Html.DisplayNameFor(model => model.IsHomePageGalleryPostTextVisible)
+                </label>
+            </div>
             <div class="form-group">
                 <label asp-for="HomePageNewsSectionTitle" class="control-label"></label>
-                <input asp-for="HomePageNewsSectionTitle" class="form-control"/>
+                <input asp-for="HomePageNewsSectionTitle" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="HomePageNewsPreContent" class="control-label"></label>
+                <textarea asp-for="HomePageNewsPreContent" class="form-control edit-with-tinymce"></textarea>
             </div>
             <div class="form-group">
                 <label asp-for="HomePageNewsContent" class="control-label"></label>

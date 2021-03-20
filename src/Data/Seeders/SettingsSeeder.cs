@@ -1,5 +1,6 @@
 ﻿using Data.Contracts.Seeders;
 using Data.Models;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,11 @@ namespace Data.Seeders
                 IsHomePageNewsVisible = false,
                 IsHomePageLastGalleryVisible = false,
                 HomePageNewsSectionTitle = "",
-                HomePageNewsContent="",
+                HomePageNewsContent = "",
+                IsHomePageGalleryPreTextVisible = false,
+                HomePageNewsPreContent = "",
+                IsHomePageGalleryPostTextVisible = false,
+                CreatedOn = DateTime.UtcNow,
             };
 
             await dbContext.Settings.AddAsync(settings);

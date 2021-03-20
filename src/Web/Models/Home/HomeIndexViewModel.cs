@@ -10,6 +10,7 @@ namespace Web.Models.Index
         public SettingsViewModel Settings { get; set; }
         public string VideoUrl { get; set; }
         public string Title { get; set; }
+        public string Description { get; set; }
         public GalleryViewModel Gallery { get; set; }
     }
 }
