@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Data;
 using System.Threading.Tasks;
 using Services.Mapping;
-using System.Linq;
-using Common.Helpers;
+using Common.Extensions;
 
 namespace Services.Data
 {
@@ -71,14 +70,14 @@ namespace Services.Data
                 HomePageNewsPreContent = homePreContent.SanitizeHtml(),
                 IsHomePageGalleryPreTextVisible = homeGalleryPreTextVisible,
                 IsHomePageGalleryPostTextVisible =homeGalleryPostTextVisible,
-    };
+            };
 
             this.repository.Update(setting);
             await this.repository.SaveChangesAsync();
         }
 
-        /*
-        public async Task<bool> DeleteAsync(string id)
+        
+        public async Task<bool> DeleteSettingAsync(string id)
         {
             var setting = await this.repository.GetByIdWithDeletedAsync(id);
             if (setting == null)
@@ -88,7 +87,11 @@ namespace Services.Data
 
             this.repository.Delete(setting);
             await repository.SaveChangesAsync();
+            
+            await this.repository.AddAsync(new Setting());
+            await repository.SaveChangesAsync();
+
             return true;
-        }*/
+        }
     }
 }

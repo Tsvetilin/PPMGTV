@@ -1,6 +1,20 @@
-﻿@model HomeIndexViewModel
+﻿@model HomeLatestViewModel
 @{
-    ViewData[TitleViewDataParam] = "Начало";
+    var title = $"{Model.Title} | Ново в ППМГТВ";
+    if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsSectionTitle))
+    {
+        title = Model.Settings.HomePageNewsSectionTitle;
+    }
+    var desc = "Гледайте любимото си развлечение, заедно с нас!";
+    if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsPreContent))
+    {
+        desc = Model.Settings.HomePageNewsPreContent.RemoveAllHtmlTags();
+    }
+
+    ViewData[MetaOgTitleViewDataParam] = ViewData[TitleViewDataParam] = title;
+    ViewData[MetaKeywordsViewDataParam] = $"видео, video, телевизия, {Model.Title}";
+    ViewData[MetaOgImageUrlDataParam] = Model.ThumbnailUrl;
+    ViewData[MetaOgDescriptionViewDataParam] = ViewData[MetaDescriptionViewDataParam] = $"{desc.AddElipsisAtLength(65)}";
 }
 
 <div id="fb-root"></div>
@@ -10,6 +24,7 @@
         src="https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v10.0&appId=388825975488844&autoLogAppEvents=1"
         nonce="L8YnyYSb">
 </script>
+
 
 <div class="m-auto text-center">
     <img src="~/logo.png" alt="ППМГ ТВ Лого" />
@@ -138,14 +153,13 @@
 
 <p class="my-3">Официален YouTube канал на телевизията: <a href="https://www.youtube.com/channel/UCMb5RWFF9pdl5VzSpuc7bqw">youtube.com/c/ppmgtv</a></p>
 <p class="my-3">Официален сайт на гимназията: <a href="http://pmg-sliven.com/">pmg-sliven.com</a></p>
-
 <p class="my-3"><a asp-area="Identity" asp-page="/Account/Register">Регистрирайте се</a>, за да получавате известия при наличието на ново излъчване.</p>
 
 <p class="mt-5 pt-4"><small> Училищна телевизия към ППМГ Сливен <span class="d-none">ППМГТВ / ППМГ ТВ</span></small></p>
 <p class="d-none">School TV at PPMG Sliven - PPMGTV / PPMG TV</p>
 
 <div class="col-md-6 col-12 d-flex flex-column flex-md-row justify-content-around">
-    <div class="fb-share-button mt-3" data-href="https://ppmgtv.com/home/latest" data-layout="button" data-size="large">
+    <div class="fb-share-button mt-3" data-href="https://ppmgtv.com/home/latest" data-layout="button" data-size="small">
         <a target="_blank"
            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fppmgtv.com%2Fhome%2Flatest&amp;src=sdkpreparse"
            class="fb-xfbml-parse-ignore">
@@ -159,25 +173,23 @@
 </div>
 
 @section Scripts {
+<script>
+    function CopyLink() {
+        var copyText = document.getElementById("link-copy");
+        copyText.parentElement.classList.remove("d-none")
 
-    <script>
-        function CopyLink() {
-            var copyText = document.getElementById("link-copy");
-            copyText.parentElement.classList.remove("d-none")
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); 
 
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
 
-            document.execCommand("copy");
-
-            document.getElementById("markcheck").classList.remove("d-none");
-            setTimeout(() => {
-                document.getElementById("markcheck").classList.add("d-none");
-                copyText.parentElement.classList.add("d-none");
-            }, 5000);
-        }
-
-    </script>
+        document.getElementById("markcheck").classList.remove("d-none");
+        setTimeout(() => {
+            document.getElementById("markcheck").classList.add("d-none");
+            copyText.parentElement.classList.add("d-none");
+        }, 5000);
+    }
+</script>
 
     @{await Html.RenderPartialAsync("_FrameResizeScriptsParial");}
     @if (Model.Settings.IsHomePageLastGalleryVisible)

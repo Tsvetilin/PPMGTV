@@ -7,7 +7,7 @@
     ViewData[MetaOgImageUrlDataParam] = Model.ThumbnailUrl;
     ViewData[MetaOgVideoUrlDataParam] = Model.VideoUrl;
     ViewData[MetaOgTitleViewDataParam] = Model.Title;
-    ViewData[MetaOgDescriptionViewDataParam] = $"Гледайте {Model.Title} | {Model.Description.AddElipsisAtLength(65)}";
+    ViewData[MetaOgDescriptionViewDataParam] = $"Гледайте {Model.Title} | {Model.Description.RemoveAllHtmlTags().AddElipsisAtLength(65)}";
 }
 
 @if (User.IsEditor())

@@ -14,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-10 mx-auto">
-        <form method="post">
+        <form method="post" asp-action="UpdateHomePage">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group form-check">
@@ -52,6 +52,9 @@
             <div class="form-group">
                 <input type="submit" value="Запази" class="btn btn-primary" onclick="return confirm('Сигурен ли си, че искаш да запишете направените промени?');" />
             </div>
+        </form>
+        <form asp-action="New" asp-controller="Home" method="get">
+            <input type="submit" value="Изтриване/Нов" class="btn btn-danger" onclick="return confirm('Сигурен ли си, че искаш да изтриеш текущото допълнително съдържание на началната страница и да създадеш ново?');"/>
         </form>
     </div>
 </div>

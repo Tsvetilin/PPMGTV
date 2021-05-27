@@ -68,5 +68,18 @@ namespace Web.Areas.Admin.Controllers
 
             return this.RedirectToAction(nameof(Index), "Home", new { area = "" });
         }
+
+        public async Task<IActionResult> New()
+        {
+            var model = await this.settingsService.GetSettingAsync<SettingInputModel>();
+            var delete = await this.settingsService.DeleteSettingAsync(model.Id);
+            if (!delete)
+            {
+                return this.RedirectToAction(nameof(Index));
+            }
+
+            var inputModel = await this.settingsService.GetSettingAsync<SettingInputModel>();
+            return this.View(nameof(UpdateHomePage),inputModel);
+        }
     }
 }

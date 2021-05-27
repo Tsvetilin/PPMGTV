@@ -28,7 +28,7 @@
         string url = $"https://{@Context.Request.Host}{@Context.Request.Path}";
         string title = SystemName;
         string description = "Училищна телевизия към ППМГ \"Добри Чинтулов\" Сливен";
-        
+
         if (ViewData[MetaOgTitleViewDataParam] != null && !ViewData[MetaOgTitleViewDataParam].Equals(""))
         {
             title = $"{SystemName} | {ViewData[MetaOgTitleViewDataParam]}";
@@ -39,7 +39,7 @@
         }
         if (ViewData[MetaOgDescriptionViewDataParam] != null && !ViewData[MetaOgDescriptionViewDataParam].Equals(""))
         {
-            description += $" | {ViewData[MetaOgDescriptionViewDataParam]}";
+            description = $"{ViewData[MetaOgDescriptionViewDataParam]}";
         }
 
     }
@@ -53,6 +53,10 @@
     {
         <meta property="og:type" content="video.other">
         <meta property="og:video:url" content="@ViewData[MetaOgVideoUrlDataParam]">
+    }
+    else
+    {
+        <meta property="og:type" content="website" />
     }
 
     @if (ViewData[TitleViewDataParam] != null && !ViewData[TitleViewDataParam].Equals(""))

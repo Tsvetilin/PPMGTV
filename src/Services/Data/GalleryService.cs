@@ -1,4 +1,5 @@
-﻿using Common.Helpers;
+﻿using Common.Extensions;
+using Common.Helpers;
 using Data.Contracts.Repositories;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;

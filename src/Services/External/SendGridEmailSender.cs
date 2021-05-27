@@ -1,9 +1,8 @@
 ﻿using Common.Constants;
-using Common.Helpers;
+using Common.Extensions;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Services.Contracts.External;
-using System;
 using System.Threading.Tasks;
 
 namespace Services.External

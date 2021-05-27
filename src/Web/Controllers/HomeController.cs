@@ -35,6 +35,16 @@ namespace Web.Controllers
             return this.View(viewModel);
         }
 
+        public async Task<IActionResult> Latest()
+        {
+            var viewModel = await videosService.GetLatestVideoAsync<HomeLatestViewModel>();
+            viewModel.Settings = await settingsService.GetSettingAsync<SettingsViewModel>();
+            viewModel.Gallery = await galleryService.GetLastGalleryAsync<GalleryViewModel>();
+            viewModel.Gallery.Slug = viewModel.Gallery.Title.GenerateSlug();
+            return this.View(viewModel);
+        }
+
+
         public IActionResult Privacy()
         {
             return this.View();
