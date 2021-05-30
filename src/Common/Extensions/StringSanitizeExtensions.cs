@@ -12,6 +12,8 @@ namespace Common.Extensions
             sanitizer.AllowedAttributes.Add("class");
             if (!avoidIframe)
             {
+                sanitizer.AllowedAttributes.Add("frameborder");
+                sanitizer.AllowedAttributes.Add("allowfullscreen");
                 sanitizer.AllowedTags.Add("iframe");
             }
 
