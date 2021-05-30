@@ -15,6 +15,10 @@
     {
         desc = $"{desc} | {Model.Settings.HomePageNewsPreContent.RemoveAllHtmlTags()}";
     }
+    else if(Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
+    {
+        desc = $"{desc} | {Model.Settings.HomePageNewsContent.RemoveAllHtmlTags()}";
+    }
 
     ViewData[MetaOgTitleViewDataParam] = ViewData[TitleViewDataParam] = title;
     ViewData[MetaKeywordsViewDataParam] = $"видео, video, телевизия, {Model.Title}";
@@ -56,73 +60,73 @@
 </div>
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsSectionTitle))
 {
-    <h5 class="display-4 my-3 text-center">@Model.Settings.HomePageNewsSectionTitle</h5>
+<h5 class="display-4 my-3 text-center">@Model.Settings.HomePageNewsSectionTitle</h5>
 }
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsPreContent))
 {
-    <div class="m-3">@Html.Raw(Model.Settings.HomePageNewsPreContent)</div>
-    <hr />
+<div class="m-3">@Html.Raw(Model.Settings.HomePageNewsPreContent)</div>
+<hr />
 }
 @if (Model.Settings.IsHomePageLastGalleryVisible && Model.Gallery != null)
 {
-    <div class="my-5">
-        <div class="w-100 mb-5 d-flex justify-content-center">
-            <div class="col-md-10 col-sm-12">
-                <div class="d-flex justify-content-center my-2">
-                    <h2 class="text-center">@Model.Gallery.Title</h2>
-                </div>
-                @if (Model.Settings.IsHomePageGalleryPreTextVisible)
+<div class="my-5">
+    <div class="w-100 mb-5 d-flex justify-content-center">
+        <div class="col-md-10 col-sm-12">
+            <div class="d-flex justify-content-center my-2">
+                <h2 class="text-center">@Model.Gallery.Title</h2>
+            </div>
+            @if (Model.Settings.IsHomePageGalleryPreTextVisible)
                 {
-                    <p class="mt-0 mb-3 text-center lead">@Model.Gallery.PreDescription</p>
+            <p class="mt-0 mb-3 text-center lead">@Model.Gallery.PreDescription</p>
                 }
-                <div id="carouselControls" class="carousel slide mb-3" data-ride="carousel" style="background-color:burlywood;">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[0].TryGetOptimizedImageUrl()" alt="Slide 1 - ППМГ ТВ Сливен - @Model.Gallery.Title">
-                        </div>
-                        @for (int i = 1; i < Model.Gallery.ImagesUrls.Count; i++)
+            <div id="carouselControls" class="carousel slide mb-3" data-ride="carousel" style="background-color:burlywood;">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[0].TryGetOptimizedImageUrl()" alt="Slide 1 - ППМГ ТВ Сливен - @Model.Gallery.Title">
+                    </div>
+                    @for (int i = 1; i < Model.Gallery.ImagesUrls.Count; i++)
                         {
-                            <div class="carousel-item">
-                                @*img-fluid*@
-                                <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[i].TryGetOptimizedImageUrl()" alt="Slide @(i + 1) - ППМГ ТВ Сливен - @Model.Gallery.Title">
-                            </div>
+                    <div class="carousel-item">
+                        @*img-fluid*@
+                        <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[i].TryGetOptimizedImageUrl()" alt="Slide @(i + 1) - ППМГ ТВ Сливен - @Model.Gallery.Title">
+                    </div>
                         }
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Предишен</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Следващ</span>
-                    </a>
                 </div>
-                @if (Model.Settings.IsHomePageGalleryPostTextVisible)
+                <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Предишен</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Следващ</span>
+                </a>
+            </div>
+            @if (Model.Settings.IsHomePageGalleryPostTextVisible)
                 {
-                    <div class="m-0">
-                        @Html.Raw(Model.Gallery.Description)
-                    </div>
+            <div class="m-0">
+                @Html.Raw(Model.Gallery.Description)
+            </div>
                 }
-                <div class="m-0">
-                    <a asp-controller="Gallery" asp-action="Watch" asp-route-id="@Model.Gallery.Id" asp-route-slug="@Model.Gallery.Slug"
-                       class="content-heading clearfix media text-decoration-none">
-                        Преглед на всички снимки
-                    </a>
-                </div>
+            <div class="m-0">
+                <a asp-controller="Gallery" asp-action="Watch" asp-route-id="@Model.Gallery.Id" asp-route-slug="@Model.Gallery.Slug"
+                   class="content-heading clearfix media text-decoration-none">
+                    Преглед на всички снимки
+                </a>
             </div>
         </div>
-        <hr />
     </div>
+    <hr />
+</div>
 }
 
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
 {
-    <div class="mx-5">
-        @Html.Raw(Model.Settings.HomePageNewsContent)
-    </div>
-    <div class="my-5">
-        <hr />
-    </div>
+<div class="mx-5">
+    @Html.Raw(Model.Settings.HomePageNewsContent)
+</div>
+<div class="my-5">
+    <hr />
+</div>
 }
 
 
@@ -199,24 +203,24 @@
     @{await Html.RenderPartialAsync("_FrameResizeScriptsParial");}
     @if (Model.Settings.IsHomePageLastGalleryVisible)
     {
-        <script>
-            function normalizeSlideHeights() {
-                var maxH = 0.80 * document.documentElement.clientHeight;
-                if (document.documentElement.clientWidth < document.documentElement.clientHeight) {
-                    maxH = 10 * document.documentElement.clientWidth / 16;
-                }
-                console.log(maxH);
-                $('.carousel').each(function () {
-                    var items = $('img', this);
-                    items.css('max-height', maxH + 'px');
-                    items.css('min-height', maxH + 'px');
-                });
+    <script>
+        function normalizeSlideHeights() {
+            var maxH = 0.80 * document.documentElement.clientHeight;
+            if (document.documentElement.clientWidth < document.documentElement.clientHeight) {
+                maxH = 10 * document.documentElement.clientWidth / 16;
             }
+            console.log(maxH);
+            $('.carousel').each(function () {
+                var items = $('img', this);
+                items.css('max-height', maxH + 'px');
+                items.css('min-height', maxH + 'px');
+            });
+        }
 
-            $(window).on(
-                'load resize orientationchange',
-                normalizeSlideHeights);
-        </script>
+        $(window).on(
+            'load resize orientationchange',
+            normalizeSlideHeights);
+    </script>
     }
     @*
         <script>
