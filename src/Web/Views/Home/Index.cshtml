@@ -23,7 +23,7 @@
 
 <div class="row mb-5">
     <iframe id="video-frame"
-            class="m-auto"
+            class="m-auto video-frame-responsive"
             src="@Model.VideoUrl"
             frameborder="0"
             allowfullscreen
@@ -131,7 +131,7 @@
                 frameborder="0"
                 allowfullscreen
                 alt="ППМГ ТВ Сливен - студио"
-                class="w-100"></iframe>
+                class="w-100 video-frame-responsive"></iframe>
     </div>
 </div>
 
@@ -176,7 +176,6 @@
                 copyText.parentElement.classList.add("d-none");
             }, 5000);
         }
-
     </script>
 
     @{await Html.RenderPartialAsync("_FrameResizeScriptsParial");}
@@ -201,16 +200,31 @@
                 normalizeSlideHeights);
         </script>
     }
+    @*
+        <script>
+            var frame = document.getElementById("video-studio");
 
+            recalculateFrame();
+
+            window.onresize = recalculateFrame;
+
+            function recalculateFrame() {
+                frame.setAttribute("height", `${frame.clientWidth * 9 / 16}px`);
+            }
+        </script>
+    *@
     <script>
-        var frame = document.getElementById("video-studio");
+        var frames = document.getElementsByClassName("video-frame-responsive");
 
         recalculateFrame();
 
         window.onresize = recalculateFrame;
 
         function recalculateFrame() {
-            frame.setAttribute("height", `${frame.clientWidth * 9 / 16}px`);
+            for (const frame of frames) {
+                frame.setAttribute("height", `${frame.clientWidth * 9 / 16}px`);
+            }
+           
         }
     </script>
 }

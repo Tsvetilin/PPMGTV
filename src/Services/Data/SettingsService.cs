@@ -58,25 +58,42 @@ namespace Services.Data
                 FirstOrDefaultAsync();
         }
 
-        public async Task UpdateAsync(string id, bool homePageVisible, bool homePageGalleryVisible, string homePageTitle, string homePageContent, string homePreContent, bool homeGalleryPreTextVisible,bool homeGalleryPostTextVisible)
+        public async Task UpdateAsync(string id,
+                                      bool homePageVisible,
+                                      bool homePageGalleryVisible,
+                                      string homePageTitle,
+                                      string homePageContent,
+                                      string homePreContent,
+                                      bool homeGalleryPreTextVisible,
+                                      bool homeGalleryPostTextVisible)
         {
+            string mainContent;
+            if (homePageContent.Contains("video-frame-responsive"))
+            {
+                mainContent = homePageContent.SanitizeHtml(false);
+            }
+            else
+            {
+                mainContent = homePageContent.SanitizeHtml();
+            }
+
             var setting = new Setting
             {
                 Id = id,
                 IsHomePageNewsVisible = homePageVisible,
                 IsHomePageLastGalleryVisible = homePageGalleryVisible,
                 HomePageNewsSectionTitle = homePageTitle,
-                HomePageNewsContent = homePageContent.SanitizeHtml(),
+                HomePageNewsContent = mainContent,
                 HomePageNewsPreContent = homePreContent.SanitizeHtml(),
                 IsHomePageGalleryPreTextVisible = homeGalleryPreTextVisible,
-                IsHomePageGalleryPostTextVisible =homeGalleryPostTextVisible,
+                IsHomePageGalleryPostTextVisible = homeGalleryPostTextVisible,
             };
 
             this.repository.Update(setting);
             await this.repository.SaveChangesAsync();
         }
 
-        
+
         public async Task<bool> DeleteSettingAsync(string id)
         {
             var setting = await this.repository.GetByIdWithDeletedAsync(id);
@@ -87,7 +104,7 @@ namespace Services.Data
 
             this.repository.Delete(setting);
             await repository.SaveChangesAsync();
-            
+
             await this.repository.AddAsync(new Setting());
             await repository.SaveChangesAsync();
 
