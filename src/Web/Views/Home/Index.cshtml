@@ -97,7 +97,7 @@
 
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
 {
-    <div class="mx-5">
+    <div class="mx-md-5 mx-0">
         @Html.Raw(Model.Settings.HomePageNewsContent)
     </div>
     <div class="my-5">
