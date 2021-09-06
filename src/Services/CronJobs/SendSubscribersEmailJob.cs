@@ -28,6 +28,8 @@ namespace Services.CronJobs
             foreach (var user in users)
             {
                 await emailSender.SendEmailAsync(
+                    "admin@ppmgtv.com",
+                    "PPMGTV NewsLetter",
                     user.Email,
                     "Вижте най-новото от PPMGTV.com",
                     text
@@ -45,6 +47,8 @@ namespace Services.CronJobs
             foreach (var user in users)
             {
                 await emailSender.SendEmailAsync(
+                    "noreply@ppmgtv.com",
+                    "PPMGTV NewsLetter",
                     user.Email,
                     "Вижте най-новото от PPMGTV.com",
                     string.Format(EmailTemplates.SubscriptionLetterEmail,video.Title)

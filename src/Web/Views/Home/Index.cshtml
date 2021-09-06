@@ -1,6 +1,6 @@
 ﻿@model HomeIndexViewModel
 @{
-    ViewData[TitleViewDataParam] = "Начало";
+    ViewData[TitleViewDataParam] = "Училищна телевизия";
 }
 
 <div id="fb-root"></div>
@@ -29,7 +29,7 @@
             allowfullscreen
             alt="ППМГ ТВ Сливен - най-ново видео"></iframe>
     <p class="m-3 lead">@Model.Title</p>
-    <div class="w-100 ml-5">@Html.Raw(Model.Description)</div>
+    <div class="w-100 ml-md-5 ml-3">@Html.Raw(Model.Description)</div>
 </div>
 <div class="my-5">
     <hr />

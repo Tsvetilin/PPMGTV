@@ -5,6 +5,7 @@ using Services.Contracts.Data;
 using System.Threading.Tasks;
 using Services.Mapping;
 using Common.Extensions;
+using System;
 
 namespace Services.Data
 {
@@ -17,40 +18,6 @@ namespace Services.Data
             this.repository = repository;
         }
 
-        /*
-        public async Task<IEnumerable<T>> GetAllAsync<T>()
-        {
-            return await this.repository.AllAsNoTracking().
-               OrderBy(x => x.CreatedOn).
-               To<T>().
-               ToListAsync();
-        }
-
-        public async Task<T> GetByIdAsync<T>(string Id)
-        {
-            return await this.repository.AllAsNoTracking().
-               Where(x => x.Id == Id).
-               To<T>().
-               FirstOrDefaultAsync();
-        }
-        
-        public async Task<Setting> CreateAsync(bool homePageVisible, bool homePageGalleryVisible, string homePageTitle, string homePageContent)
-        {
-            var setting = new Setting
-            {
-                Id = id,
-                IsHomePageNewsVisible=homePageVisible,
-                IsHomePageLastGalleryVisible=homePageGalleryVisible,
-                HomePageNewsSectionTitle=homePageTitle,
-                HomePageNewsContent=homePageContent,
-            };
-
-            await this.repository.AddAsync(setting);
-            await this.repository.SaveChangesAsync();
-
-            return setting;
-        }
-        */
         public async Task<T> GetSettingAsync<T>()
         {
             return await this.repository.AllAsNoTracking().
@@ -67,15 +34,7 @@ namespace Services.Data
                                       bool homeGalleryPreTextVisible,
                                       bool homeGalleryPostTextVisible)
         {
-            string mainContent;
-            if (homePageContent.Contains("video-frame-responsive"))
-            {
-                mainContent = homePageContent.SanitizeHtml(false);
-            }
-            else
-            {
-                mainContent = homePageContent.SanitizeHtml();
-            }
+            string mainContent = homePageContent.SanitizeHtml(!homePageContent.Contains("video-frame-responsive"));
 
             var setting = new Setting
             {
@@ -105,7 +64,11 @@ namespace Services.Data
             this.repository.Delete(setting);
             await repository.SaveChangesAsync();
 
-            await this.repository.AddAsync(new Setting());
+            await this.repository.AddAsync(
+                new Setting()
+                {
+                    CreatedOn = DateTime.UtcNow
+                });
             await repository.SaveChangesAsync();
 
             return true;

@@ -28,11 +28,13 @@
 <ul class="list-inline text-dark">
     @foreach (var videoCard in Model?.Videos)
     {
-        <li class="pb-3 text-decoration-none">
+        <li class="pb-3 text-decoration-none mb-3 mb-md-0">
             <a asp-controller="Videos" asp-action="Watch" asp-route-id="@videoCard.Id" asp-route-slug="@videoCard.Slug"
-               class="content-heading clearfix media box-hover text-decoration-none">
-                <img class="rounded float-left h-25 w-25 ml-auto" src="@videoCard.ThumbnailUrl" alt="ППМГ ТВ Сливен - Видео - @videoCard.Title">
-                <div class="col-md-6 ml-4">
+               class="content-heading clearfix media box-hover text-decoration-none d-flex flex-column flex-md-row justify-content-center">
+                <div class="col-12 col-md-4 align-self-center">
+                    <img class="rounded w-100 ml-md-auto ml-0" src="@videoCard.ThumbnailUrl" alt="ППМГ ТВ Сливен - Видео - @videoCard.Title">
+                </div>
+                <div class="col-md-6 ml-md-4 ml-1 mt-2 mt-md-0">
                     <h3>@videoCard.Title</h3>
                     <p>@Html.Raw(videoCard.Description)</p>
                     <p>Излъчено на: @videoCard.PremiredOn.ConvertToLocal()</p>
