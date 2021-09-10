@@ -7,7 +7,7 @@
     }
 
     var desc = "Гледайте любимото си развлечение, заедно с нас!";
-    if(!string.IsNullOrWhiteSpace(Model.Title))
+    if (!string.IsNullOrWhiteSpace(Model.Title))
     {
         desc = $"Гледайте { Model.Title}";
     }
@@ -15,7 +15,7 @@
     {
         desc = $"{desc} | {Model.Settings.HomePageNewsPreContent.RemoveAllHtmlTags()}";
     }
-    else if(Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
+    else if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
     {
         desc = $"{desc} | {Model.Settings.HomePageNewsContent.RemoveAllHtmlTags()}";
     }
@@ -33,7 +33,6 @@
         src="https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v10.0&appId=388825975488844&autoLogAppEvents=1"
         nonce="L8YnyYSb">
 </script>
-
 
 <div class="m-auto text-center">
     <img src="~/logo.png" alt="ППМГ ТВ Лого" />
@@ -53,99 +52,145 @@
             allowfullscreen
             alt="ППМГ ТВ Сливен - най-ново видео"></iframe>
     <p class="m-3 lead">@Model.Title</p>
-    <div class="w-100 ml-5">@Html.Raw(Model.Description)</div>
+    <div class="w-100 ml-md-5 ml-3">@Html.Raw(Model.Description)</div>
 </div>
 <div class="my-5">
     <hr />
 </div>
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsSectionTitle))
 {
-<h5 class="display-4 my-3 text-center">@Model.Settings.HomePageNewsSectionTitle</h5>
+    <h5 class="display-4 my-3 text-center">@Model.Settings.HomePageNewsSectionTitle</h5>
 }
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsPreContent))
 {
-<div class="m-3">@Html.Raw(Model.Settings.HomePageNewsPreContent)</div>
-<hr />
+    <div class="m-3">@Html.Raw(Model.Settings.HomePageNewsPreContent)</div>
+    <hr />
 }
 @if (Model.Settings.IsHomePageLastGalleryVisible && Model.Gallery != null)
 {
-<div class="my-5">
-    <div class="w-100 mb-5 d-flex justify-content-center">
-        <div class="col-md-10 col-sm-12">
-            <div class="d-flex justify-content-center my-2">
-                <h2 class="text-center">@Model.Gallery.Title</h2>
-            </div>
-            @if (Model.Settings.IsHomePageGalleryPreTextVisible)
-                {
-            <p class="mt-0 mb-3 text-center lead">@Model.Gallery.PreDescription</p>
-                }
-            <div id="carouselControls" class="carousel slide mb-3" data-ride="carousel" style="background-color:burlywood;">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[0].TryGetOptimizedImageUrl()" alt="Slide 1 - ППМГ ТВ Сливен - @Model.Gallery.Title">
-                    </div>
-                    @for (int i = 1; i < Model.Gallery.ImagesUrls.Count; i++)
-                        {
-                    <div class="carousel-item">
-                        @*img-fluid*@
-                        <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[i].TryGetOptimizedImageUrl()" alt="Slide @(i + 1) - ППМГ ТВ Сливен - @Model.Gallery.Title">
-                    </div>
-                        }
+    <div class="my-5">
+        <div class="w-100 mb-5 d-flex justify-content-center">
+            <div class="col-md-10 col-sm-12">
+                <div class="d-flex justify-content-center my-2">
+                    <h2 class="text-center">@Model.Gallery.Title</h2>
                 </div>
-                <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Предишен</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Следващ</span>
-                </a>
-            </div>
-            @if (Model.Settings.IsHomePageGalleryPostTextVisible)
+                @if (Model.Settings.IsHomePageGalleryPreTextVisible)
                 {
-            <div class="m-0">
-                @Html.Raw(Model.Gallery.Description)
-            </div>
+                    <p class="mt-0 mb-3 text-center lead">@Model.Gallery.PreDescription</p>
                 }
-            <div class="m-0">
-                <a asp-controller="Gallery" asp-action="Watch" asp-route-id="@Model.Gallery.Id" asp-route-slug="@Model.Gallery.Slug"
-                   class="content-heading clearfix media text-decoration-none">
-                    Преглед на всички снимки
-                </a>
+                <div id="carouselControls" class="carousel slide mb-3" data-ride="carousel" style="background-color:burlywood;">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[0].TryGetOptimizedImageUrl()" alt="Slide 1 - ППМГ ТВ Сливен - @Model.Gallery.Title">
+                        </div>
+                        @for (int i = 1; i < Model.Gallery.ImagesUrls.Count; i++)
+                        {
+                            <div class="carousel-item">
+                                @*img-fluid*@
+                                <img class="d-block mx-auto" style="max-height:85vh;" src="@Model.Gallery.ImagesUrls[i].TryGetOptimizedImageUrl()" alt="Slide @(i + 1) - ППМГ ТВ Сливен - @Model.Gallery.Title">
+                            </div>
+                        }
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Предишен</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Следващ</span>
+                    </a>
+                </div>
+                @if (Model.Settings.IsHomePageGalleryPostTextVisible)
+                {
+                    <div class="m-0">
+                        @Html.Raw(Model.Gallery.Description)
+                    </div>
+                }
+                <div class="m-0">
+                    <a asp-controller="Gallery" asp-action="Watch" asp-route-id="@Model.Gallery.Id" asp-route-slug="@Model.Gallery.Slug"
+                       class="content-heading clearfix media text-decoration-none">
+                        Преглед на всички снимки
+                    </a>
+                </div>
             </div>
         </div>
+        <hr />
     </div>
-    <hr />
-</div>
 }
 
 @if (Model.Settings.IsHomePageNewsVisible && !string.IsNullOrWhiteSpace(Model.Settings.HomePageNewsContent))
 {
-<div class="mx-md-5 mx-0">
-    @Html.Raw(Model.Settings.HomePageNewsContent)
-</div>
+    <div class="mx-md-5 mx-0">
+        @Html.Raw(Model.Settings.HomePageNewsContent)
+    </div>
+    <div class="my-5">
+        <hr />
+    </div>
+}
 <div class="my-5">
+    <h3 class="my-5 text-center">Последни видеа</h3>
+
+    <div class="card-deck">
+        @{ var itmCount = 0;
+            var dnone = "";}
+        @foreach (var video in Model.RecentVideos)
+        {
+            itmCount++;
+            dnone = itmCount > 2 ? "d-none" : "";
+            <a asp-controller="Videos" asp-action="Watch" asp-route-id="@video.Id" asp-route-slug="@video.Slug" class="link-dark card text-decoration-none @dnone d-md-flex">
+                <img src="@video.ThumbnailUrl" class="card-img-top" alt="@video.Title Thumbnail">
+                <div class="card-body">
+                    <h5 class="card-title">@video.Title</h5>
+                    <p class="card-text">@Html.Raw(video.ShortDescription)</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Излъчено на @video.PremiredOn</small>
+                </div>
+            </a>
+        }
+
+    </div>
     <hr />
 </div>
-}
+<h3 class="text-center">За ППМГ ТВ</h3>
+<div class="my-5">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <div type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="h5 mb-0">
+                            Мисия на ППМГ ТВ
+                        </p>
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                </div>
 
+            </div>
 
-<h3>За ППМГ ТВ</h3>
-<div class="d-flex justify-content-center">
-    <div class="my-5 col-md-8 col-12 sketchy">
-        <h5 class="text-center">Мисия на ППМГ ТВ</h5>
-        <div class="">
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Ние сме млада и прохождаща, все още, училищна телевизия.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Дейността на ППМГ ТВ – Сливен, която положи своите плахи първи стъпки през октомври 2019 г., е съвременна, атрактивна и забавна форма за изява на участниците, които трупат опит в правенето на телевизия.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Мисията на ППМГ ТВ  е да направи живота в гимназията по-публичен, по-привлекателен и да го поддържа постоянно в крак с времето и събитията.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;ППМГ ТВ си поставя като основна задача да популяризира проекти, събития и инициативи, отличени учители и ученици, да се вглежда в злободневните теми и в такива, които предизвикват интерес у подрастващите и не на последно място да забавлява.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Вместо само да споменаваме младите хора с добро или лошо, ние ще им помагаме да заснемат темите, които ги вълнуват от ежедневието им, от прочетеното от тях в книгите, списанията, сайтовете,  да споделят  проблемите, които ги вълнуват, като ще  насочим усилията си  към възпитание в дух на толерантност и морални ценности.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;На уебсайта на телевизията ще можете да намерите информация за важни моменти от дейността на телевизията, да се запознаете с екипа, да ни пишете и да участвате в нейния живот.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Съвременните комуникации в училищното ежедневие вече са част от обучението и ние ще дадем възможност на всеки ученик да се изяви като репортер и оператор.</div>
-            <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Ще се радваме да ни подкрепите и да бъдете част от нас.</div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="my-5 col-md-8 col-12 sketchy">
+                            <h5 class="text-center">Мисия на ППМГ ТВ</h5>
+                            <div class="">
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Ние сме млада и прохождаща, все още, училищна телевизия.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Дейността на ППМГ ТВ – Сливен, която положи своите плахи първи стъпки през октомври 2019 г., е съвременна, атрактивна и забавна форма за изява на участниците, които трупат опит в правенето на телевизия.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Мисията на ППМГ ТВ  е да направи живота в гимназията по-публичен, по-привлекателен и да го поддържа постоянно в крак с времето и събитията.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;ППМГ ТВ си поставя като основна задача да популяризира проекти, събития и инициативи, отличени учители и ученици, да се вглежда в злободневните теми и в такива, които предизвикват интерес у подрастващите и не на последно място да забавлява.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Вместо само да споменаваме младите хора с добро или лошо, ние ще им помагаме да заснемат темите, които ги вълнуват от ежедневието им, от прочетеното от тях в книгите, списанията, сайтовете,  да споделят  проблемите, които ги вълнуват, като ще  насочим усилията си  към възпитание в дух на толерантност и морални ценности.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;На уебсайта на телевизията ще можете да намерите информация за важни моменти от дейността на телевизията, да се запознаете с екипа, да ни пишете и да участвате в нейния живот.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Съвременните комуникации в училищното ежедневие вече са част от обучението и ние ще дадем възможност на всеки ученик да се изяви като репортер и оператор.</div>
+                                <div style="text-align: justify">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Ще се радваме да ни подкрепите и да бъдете част от нас.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <div class="d-flex justify-content-center">
     <div align="center" class="mb-5 col-md-8">
@@ -161,14 +206,16 @@
 
 
 <p class="my-3">Официален YouTube канал на телевизията: <a href="https://www.youtube.com/channel/UCMb5RWFF9pdl5VzSpuc7bqw">youtube.com/c/ppmgtv</a></p>
+<p class="my-3">Официална Facebook страница на телевизията: <a href="https://www.facebook.com/%D0%9F%D0%9F%D0%9C%D0%93-%D0%A2%D0%92-238047838127675">facebook.com/ppmgtv</a></p>
 <p class="my-3">Официален сайт на гимназията: <a href="http://pmg-sliven.com/">pmg-sliven.com</a></p>
+
 <p class="my-3"><a asp-area="Identity" asp-page="/Account/Register">Регистрирайте се</a>, за да получавате известия при наличието на ново излъчване.</p>
 
 <p class="mt-5 pt-4"><small> Училищна телевизия към ППМГ Сливен <span class="d-none">ППМГТВ / ППМГ ТВ</span></small></p>
 <p class="d-none">School TV at PPMG Sliven - PPMGTV / PPMG TV</p>
 
 <div class="col-md-6 col-12 d-flex flex-column flex-md-row justify-content-around">
-    <div class="fb-share-button mt-3" data-href="https://ppmgtv.com/home/latest" data-layout="button" data-size="small">
+    <div class="fb-share-button mt-3" data-href="https://ppmgtv.com/home/latest" data-layout="button" data-size="large">
         <a target="_blank"
            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fppmgtv.com%2Fhome%2Flatest&amp;src=sdkpreparse"
            class="fb-xfbml-parse-ignore">
@@ -182,6 +229,7 @@
 </div>
 
 @section Scripts {
+
     <script>
         function CopyLink() {
             var copyText = document.getElementById("link-copy");
@@ -203,24 +251,24 @@
     @{await Html.RenderPartialAsync("_FrameResizeScriptsParial");}
     @if (Model.Settings.IsHomePageLastGalleryVisible)
     {
-    <script>
-        function normalizeSlideHeights() {
-            var maxH = 0.80 * document.documentElement.clientHeight;
-            if (document.documentElement.clientWidth < document.documentElement.clientHeight) {
-                maxH = 10 * document.documentElement.clientWidth / 16;
+        <script>
+            function normalizeSlideHeights() {
+                var maxH = 0.80 * document.documentElement.clientHeight;
+                if (document.documentElement.clientWidth < document.documentElement.clientHeight) {
+                    maxH = 10 * document.documentElement.clientWidth / 16;
+                }
+                console.log(maxH);
+                $('.carousel').each(function () {
+                    var items = $('img', this);
+                    items.css('max-height', maxH + 'px');
+                    items.css('min-height', maxH + 'px');
+                });
             }
-            console.log(maxH);
-            $('.carousel').each(function () {
-                var items = $('img', this);
-                items.css('max-height', maxH + 'px');
-                items.css('min-height', maxH + 'px');
-            });
-        }
 
-        $(window).on(
-            'load resize orientationchange',
-            normalizeSlideHeights);
-    </script>
+            $(window).on(
+                'load resize orientationchange',
+                normalizeSlideHeights);
+        </script>
     }
     @*
         <script>
@@ -235,7 +283,6 @@
             }
         </script>
     *@
-
     <script>
         var frames = document.getElementsByClassName("video-frame-responsive");
 

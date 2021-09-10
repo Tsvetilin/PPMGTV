@@ -32,6 +32,7 @@ namespace Web.Controllers
             viewModel.Settings = await settingsService.GetSettingAsync<SettingsViewModel>();
             viewModel.Gallery = await galleryService.GetLastGalleryAsync<GalleryViewModel>();
             viewModel.Gallery.Slug=viewModel.Gallery.Title.GenerateSlug();
+            viewModel.RecentVideos = await videosService.GetRecentVideosAsync<RecentVideoModel>();
             return this.View(viewModel);
         }
 
@@ -41,6 +42,7 @@ namespace Web.Controllers
             viewModel.Settings = await settingsService.GetSettingAsync<SettingsViewModel>();
             viewModel.Gallery = await galleryService.GetLastGalleryAsync<GalleryViewModel>();
             viewModel.Gallery.Slug = viewModel.Gallery.Title.GenerateSlug();
+            viewModel.RecentVideos = await videosService.GetRecentVideosAsync<RecentVideoModel>();
             return this.View(viewModel);
         }
 

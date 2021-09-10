@@ -32,6 +32,16 @@ namespace Services.Data
                 FirstAsync();
         }
 
+        public async Task<IEnumerable<T>> GetRecentVideosAsync<T>()
+        {
+            return await this.repository.AllAsNoTracking().
+                Where(x => x.IsVisible).
+                OrderByDescending(x => x.PremiredOn).
+                To<T>().
+                Take(3).
+                ToListAsync();
+        }
+
         public double CountAllFilms()
         {
             return this.repository.AllAsNoTracking().Count();

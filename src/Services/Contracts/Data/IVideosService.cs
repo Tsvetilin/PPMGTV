@@ -9,6 +9,8 @@ namespace Services.Contracts.Data
     {
         public Task<T> GetLatestVideoAsync<T>();
 
+        public Task<IEnumerable<T>> GetRecentVideosAsync<T>();
+
         public double CountAllFilms();
 
         public Task<IEnumerable<T>> GetVideosOnPageAsync<T>(int currentPage, int videosOnPage);
