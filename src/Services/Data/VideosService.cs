@@ -38,6 +38,7 @@ namespace Services.Data
                 Where(x => x.IsVisible).
                 OrderByDescending(x => x.PremiredOn).
                 To<T>().
+                Skip(1).
                 Take(3).
                 ToListAsync();
         }
